@@ -1,0 +1,301 @@
+import type { ToolDefinition } from "./types";
+import { buildLiveTool, faq } from "./registry-live-helpers";
+
+export const marketingLiveTools: ToolDefinition[] = [
+  buildLiveTool({
+    id: "meta-tag-generator",
+    slug: "meta-tag-generator",
+    title: "Meta Tag Generator",
+    category: "marketing-tools",
+    subcategory: "seo-utilities",
+    shortDescription: "Generate title, description, and Open Graph meta tags for web pages.",
+    metaTitle: "Meta Tag Generator - SEO Title & Description Tags",
+    metaDescription:
+      "Generate HTML meta tags, title tags, and Open Graph tags for SEO and social sharing. Free on-page metadata generator for marketers and developers.",
+    keywords: ["meta tag generator", "seo meta tags", "og tags generator"],
+    relatedTools: ["slug-generator", "utm-builder", "utm-parser"],
+    componentKey: "GenericMarketingTool",
+    explanation:
+      "Create standard SEO and social sharing tags from a page title, description, and optional canonical URL. Copy the HTML into your site head section.",
+    howToUse: [
+      "Enter the page title and meta description.",
+      "Add an optional canonical URL for og:url and link rel=canonical.",
+      "Copy the generated HTML into your page head.",
+    ],
+    examples: [
+      {
+        title: "Tool landing page",
+        input: "Title: Free JSON to CSV Converter, Description: Convert JSON to CSV online...",
+        output: "<title>Free JSON to CSV Converter</title>\n<meta name=\"description\" content=\"Convert JSON to CSV online...\" />",
+        explanation: "Generates title, description, and matching Open Graph tags.",
+      },
+    ],
+    faqs: [
+      faq("Does this include Open Graph tags?", "Yes. og:title, og:description, and og:url are included when a URL is provided."),
+      faq("Should meta descriptions match on-page copy?", "They can differ, but aligned messaging usually improves click-through rates."),
+      faq("Is my content uploaded?", "No. Tag generation runs locally in your browser."),
+    ],
+    commonUseCases: [
+      "Draft SEO tags for new landing pages",
+      "Prepare social share metadata for campaigns",
+      "Prototype head tags before CMS implementation",
+    ],
+    assumptions: [
+      "Output uses standard HTML meta and Open Graph property names.",
+      "Special characters in titles and descriptions should be reviewed before publishing.",
+      "Does not generate Twitter card tags or JSON-LD in this version.",
+    ],
+  }),
+  buildLiveTool({
+    id: "slug-generator",
+    slug: "slug-generator",
+    title: "Slug Generator",
+    category: "marketing-tools",
+    subcategory: "seo-utilities",
+    shortDescription: "Convert titles and phrases into clean URL slugs.",
+    metaTitle: "Slug Generator - Create SEO-Friendly URL Slugs",
+    metaDescription:
+      "Generate URL slugs from titles and phrases. Convert text into lowercase, hyphenated slugs for blogs, landing pages, and campaign URLs.",
+    keywords: ["slug generator", "url slug generator", "seo slug"],
+    relatedTools: ["meta-tag-generator", "utm-builder", "hashtag-generator"],
+    componentKey: "GenericMarketingTool",
+    explanation:
+      "Transform page titles and phrases into lowercase, hyphenated URL slugs suitable for blogs, docs, and landing page paths.",
+    howToUse: [
+      "Paste a page title or marketing phrase.",
+      "Review the generated slug output.",
+      "Copy the slug into your CMS, router, or campaign docs.",
+    ],
+    examples: [
+      {
+        title: "Blog post title",
+        input: "JSON to CSV Converter Online",
+        output: "json-to-csv-converter-online",
+        explanation: "Spaces become hyphens and punctuation is removed.",
+      },
+    ],
+    faqs: [
+      faq("Are uppercase letters kept?", "No. Slugs are lowercased for consistent URLs."),
+      faq("What happens to special characters?", "Non-alphanumeric characters are removed before hyphenation."),
+      faq("Can I use this for non-English text?", "Accented characters may be stripped. Review output for your locale."),
+    ],
+    commonUseCases: [
+      "Create blog post URL paths",
+      "Standardize landing page slugs across teams",
+      "Draft tool and docs URLs before publishing",
+    ],
+    assumptions: [
+      "Slugs use lowercase letters, numbers, and single hyphens.",
+      "Leading and trailing hyphens are trimmed from the result.",
+      "Uniqueness and redirect rules should be confirmed in your CMS.",
+    ],
+  }),
+  buildLiveTool({
+    id: "utm-parser",
+    slug: "utm-parser",
+    title: "UTM Parameter Parser",
+    category: "marketing-tools",
+    subcategory: "campaign-urls",
+    shortDescription: "Parse UTM parameters from campaign URLs for review and QA.",
+    metaTitle: "UTM Parser - Read Campaign URL Parameters",
+    metaDescription:
+      "Parse UTM parameters from campaign URLs. Inspect utm_source, utm_medium, utm_campaign, utm_term, and utm_content values instantly.",
+    keywords: ["utm parser", "parse utm parameters", "utm checker"],
+    relatedTools: ["utm-builder", "meta-tag-generator", "slug-generator"],
+    componentKey: "GenericMarketingTool",
+    explanation:
+      "Paste a campaign URL and inspect its UTM parameters in a readable list. Useful for QA, analytics debugging, and link audits.",
+    howToUse: [
+      "Paste a full campaign URL with UTM query parameters.",
+      "Review each UTM field and whether it is set.",
+      "Fix missing values using the UTM Builder tool if needed.",
+    ],
+    examples: [
+      {
+        title: "Email newsletter link",
+        input: "https://example.com/?utm_source=newsletter&utm_medium=email&utm_campaign=spring-sale",
+        output: "utm_source: newsletter\nutm_medium: email\nutm_campaign: spring-sale\nutm_term: (not set)\nutm_content: (not set)",
+        explanation: "Standard UTM keys are extracted from the query string.",
+      },
+    ],
+    faqs: [
+      faq("Do I need https:// in the URL?", "The parser adds https:// automatically if the scheme is missing."),
+      faq("Which UTM fields are checked?", "source, medium, campaign, term, and content."),
+      faq("Can I rebuild the link afterward?", "Yes. Use the UTM Builder to create a corrected campaign URL."),
+    ],
+    commonUseCases: [
+      "QA campaign links before launch",
+      "Debug analytics reporting mismatches",
+      "Audit partner or affiliate tracking URLs",
+    ],
+    assumptions: [
+      "URLs follow standard query-string UTM naming conventions.",
+      "Parameters not present are shown as (not set).",
+      "Does not validate naming standards against your analytics playbook.",
+    ],
+  }),
+  buildLiveTool({
+    id: "hashtag-generator",
+    slug: "hashtag-generator",
+    title: "Hashtag Generator",
+    category: "marketing-tools",
+    subcategory: "social-formatting",
+    shortDescription: "Turn keywords and phrases into formatted social media hashtags.",
+    metaTitle: "Hashtag Generator - Social Media Hashtags",
+    metaDescription:
+      "Generate hashtags from keywords and phrases for social posts. Free hashtag formatter for Instagram, LinkedIn, and X campaigns.",
+    keywords: ["hashtag generator", "social media hashtags", "instagram hashtags"],
+    relatedTools: ["meta-tag-generator", "slug-generator", "utm-builder"],
+    componentKey: "GenericMarketingTool",
+    explanation:
+      "Convert a list of keywords or a short phrase into formatted hashtags for social posts. Helpful for drafting captions and campaign copy.",
+    howToUse: [
+      "Enter keywords separated by spaces or commas.",
+      "Review the generated hashtag list.",
+      "Copy hashtags into your social post or scheduling tool.",
+    ],
+    examples: [
+      {
+        title: "Real estate keywords",
+        input: "real estate investing rental property",
+        output: "#Real #Estate #Investing #Rental #Property",
+        explanation: "Each word becomes a capitalized hashtag, up to 15 tags.",
+      },
+    ],
+    faqs: [
+      faq("How many hashtags are generated?", "Up to 15 hashtags per run to keep posts readable."),
+      faq("Are platform limits enforced?", "No. Check each platform's recommended hashtag count before posting."),
+      faq("Can I edit the output?", "Yes. Copy the result and adjust tags for brand or campaign guidelines."),
+    ],
+    commonUseCases: [
+      "Draft Instagram and LinkedIn captions",
+      "Prepare campaign hashtag sets",
+      "Speed up social copy for product launches",
+    ],
+    assumptions: [
+      "Input is split on spaces and commas.",
+      "Non-alphanumeric characters are removed from each token.",
+      "Hashtag relevance and volume should be validated separately.",
+    ],
+  }),
+  buildLiveTool({
+    id: "qr-code-generator",
+    slug: "qr-code-generator",
+    title: "QR Code Generator",
+    category: "marketing-tools",
+    subcategory: "qr-tools",
+    shortDescription: "Generate QR codes for URLs and campaign content.",
+    metaTitle: "QR Code Generator - Create QR Codes Online",
+    metaDescription: "Generate QR codes for URLs and text in your browser. Free QR code generator with PNG download.",
+    keywords: ["qr code generator", "create qr code", "qr code maker"],
+    relatedTools: ["utm-builder", "utm-parser", "slug-generator"],
+    componentKey: "QrCodeGeneratorTool",
+    explanation: "Enter a URL or text string and generate a downloadable QR code image.",
+    howToUse: [
+      "Enter the URL or text to encode.",
+      "Click Generate QR code.",
+      "Download the PNG or copy the original content.",
+    ],
+    examples: [
+      {
+        title: "Campaign landing page",
+        input: "https://example.com/?utm_source=print&utm_medium=qr",
+        output: "256×256 QR code PNG",
+        explanation: "Encodes the full campaign URL into a scannable QR image.",
+      },
+    ],
+    faqs: [
+      faq("Can I use QR codes for UTM links?", "Yes. Encode full UTM campaign URLs for offline tracking."),
+      faq("What format is downloaded?", "A PNG image suitable for print and digital use."),
+      faq("Is generation local?", "Yes. QR codes are generated in your browser."),
+    ],
+    commonUseCases: [
+      "Add QR codes to print campaigns",
+      "Create event check-in codes",
+      "Share tracked landing page links offline",
+    ],
+  }),
+  buildLiveTool({
+    id: "open-graph-preview",
+    slug: "open-graph-preview",
+    title: "Open Graph Preview Tool",
+    category: "marketing-tools",
+    subcategory: "seo-utilities",
+    shortDescription: "Preview Open Graph fields for social link sharing.",
+    metaTitle: "Open Graph Preview Tool - Social Share Preview",
+    metaDescription: "Preview Open Graph title, description, URL, and image fields for social sharing. Free OG preview helper.",
+    keywords: ["open graph preview", "og preview tool", "social share preview"],
+    relatedTools: ["meta-tag-generator", "utm-builder", "slug-generator"],
+    componentKey: "GenericMarketingTool",
+    explanation: "Draft Open Graph fields and review a simple share card summary before publishing.",
+    howToUse: [
+      "Enter page title and description.",
+      "Add optional URL and image URL fields.",
+      "Copy the Open Graph field summary for QA.",
+    ],
+    examples: [
+      {
+        title: "Blog post share",
+        input: "Title: Spring Sale, Description: Save 20% this week",
+        output: "og:title — Spring Sale\nog:description — Save 20% this week",
+        explanation: "Lists the core Open Graph fields used by social platforms.",
+      },
+    ],
+    faqs: [
+      faq("Does this render platform-specific cards?", "It summarizes OG fields; final rendering varies by platform."),
+      faq("Should og:image be included?", "Include og:image when you want rich image previews on social networks."),
+      faq("Can I also generate HTML tags?", "Yes. Use the Meta Tag Generator for full HTML output."),
+    ],
+    commonUseCases: [
+      "QA social share metadata before launch",
+      "Draft OG copy for landing pages",
+      "Review campaign link previews with teams",
+    ],
+  }),
+  buildLiveTool({
+    id: "twitter-card-generator",
+    slug: "twitter-card-generator",
+    title: "Twitter Card Generator",
+    category: "marketing-tools",
+    subcategory: "seo-utilities",
+    shortDescription: "Generate Twitter Card meta tags for social sharing.",
+    metaTitle: "Twitter Card Generator - Twitter Meta Tags",
+    metaDescription:
+      "Generate Twitter Card meta tags for title, description, and image. Free Twitter/X share card HTML generator.",
+    keywords: ["twitter card generator", "twitter meta tags", "x card generator", "twitter card markup"],
+    relatedTools: ["meta-tag-generator", "open-graph-preview", "slug-generator"],
+    componentKey: "GenericMarketingTool",
+    explanation: "Create Twitter Card meta tags for summary and summary_large_image share previews on X (Twitter).",
+    howToUse: ["Enter page title and description.", "Add image URL for large image cards.", "Copy the generated meta tags into your page head."],
+    examples: [{ title: "Blog post card", input: "Title: Spring Sale, Description: Save 20%", output: "twitter:card, twitter:title, twitter:description tags", explanation: "Standard Twitter Card markup." }],
+    faqs: [
+      faq("What card types are supported?", "summary and summary_large_image (default). Enter card type to override."),
+      faq("Do I also need Open Graph tags?", "Many platforms read OG tags too. Use the Meta Tag Generator for both."),
+      faq("Will this guarantee rich previews?", "Platforms cache cards. Use their debuggers to refresh after publishing."),
+    ],
+    commonUseCases: ["Add Twitter cards to blog posts", "Prepare campaign landing page markup", "QA social metadata before launch"],
+  }),
+  buildLiveTool({
+    id: "robots-txt-generator",
+    slug: "robots-txt-generator",
+    title: "Robots.txt Generator",
+    category: "marketing-tools",
+    subcategory: "seo-utilities",
+    shortDescription: "Generate robots.txt files for search engine crawlers.",
+    metaTitle: "Robots.txt Generator - Create robots.txt Online",
+    metaDescription:
+      "Generate robots.txt files with Allow, Disallow, and Sitemap directives. Free robots.txt generator for SEO and site management.",
+    keywords: ["robots txt generator", "create robots.txt", "robots.txt maker", "seo robots file"],
+    relatedTools: ["meta-tag-generator", "slug-generator", "sitemap tools"],
+    componentKey: "GenericMarketingTool",
+    explanation: "Build a robots.txt file to guide search engine crawlers on which paths to index or ignore.",
+    howToUse: ["Set user-agent (default *).", "Configure Allow and optional Disallow paths.", "Add sitemap URL and copy the file."],
+    examples: [{ title: "Standard site", input: "Allow: /, Disallow: /admin/, Sitemap: https://example.com/sitemap.xml", output: "Valid robots.txt file", explanation: "Common pattern for public sites with admin areas blocked." }],
+    faqs: [
+      faq("Does robots.txt guarantee pages won't be indexed?", "No. It guides crawlers but pages with external links may still appear."),
+      faq("Where do I put robots.txt?", "Upload to your site root: https://yoursite.com/robots.txt"),
+      faq("Can I block specific bots?", "Set User-agent to the bot name instead of * for bot-specific rules."),
+    ],
+    commonUseCases: ["Launch a new website", "Block staging or admin paths", "Add sitemap reference for crawlers"],
+  }),
+];

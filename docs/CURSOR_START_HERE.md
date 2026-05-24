@@ -44,7 +44,8 @@ Read in this order:
 4. `docs/03-public-tool-page-spec.md`
 5. `docs/06-auth-and-premium-boundaries.md`
 6. `docs/09-first-build-scope.md`
-7. Remaining docs as needed
+7. `docs/11-flagship-traffic-tools/` — Phase A–D flagship specs and traffic baseline
+8. Remaining docs as needed
 
 ## Hard Rules
 
