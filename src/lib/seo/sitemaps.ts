@@ -32,6 +32,18 @@ const buildStaticEntries = (): MetadataRoute.Sitemap => {
       changeFrequency: "weekly",
       priority: 0.85,
     },
+    {
+      url: toAbsoluteUrl("/privacy/"),
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: toAbsoluteUrl("/terms/"),
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 };
 

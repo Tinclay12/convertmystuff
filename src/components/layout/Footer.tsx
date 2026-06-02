@@ -112,13 +112,29 @@ export const Footer = () => {
                   Home
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/privacy/"
+                  className="text-muted transition-colors hover:text-foreground"
+                >
+                  Privacy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms/" className="text-muted transition-colors hover:text-foreground">
+                  Terms
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8 text-xs text-muted">
           <p>
-            © {new Date().getFullYear()} ConvertMyStuff. Estimates and conversions are for
-            informational use only.
+            © {new Date().getFullYear()} ConvertMyStuff.{" "}
+            <Link href="/terms/" className="hover:text-foreground">
+              Estimates and conversions are for informational use only
+            </Link>
+            .
           </p>
           <p className="text-muted/70">
             Built with care · {process.env.NEXT_PUBLIC_ANALYTICS_ID ? "Privacy-friendly analytics" : "No tracking"} · No login required
