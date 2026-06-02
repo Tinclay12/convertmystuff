@@ -203,20 +203,31 @@ export const financeLiveTools: ToolDefinition[] = [
     formula: "A = P(1 + r/n)^(nt)",
     explanation: "Estimate future value and interest earned with compound growth assumptions.",
     howToUse: ["Enter principal, annual rate, years, and compounding periods per year.", "View future value and total interest."],
-    examples: [{
-      title: "$10,000 at 5% for 10 years, compounded monthly",
-      input: "P=10000, r=5, t=10, n=12",
-      output: "≈ $16,470 future value",
-      explanation: "Monthly compounding grows faster than annual.",
-      prefillQuery: "principal=10000&annualRate=5&years=10&compoundsPerYear=12",
-    }],
+    examples: [
+      {
+        title: "$10,000 at 5% for 10 years, compounded monthly",
+        input: "P=10000, r=5, t=10, n=12",
+        output: "≈ $16,470 future value",
+        explanation: "Monthly compounding grows faster than annual.",
+        prefillQuery: "principal=10000&annualRate=5&years=10&compoundsPerYear=12",
+      },
+      {
+        title: "Compare quarterly vs annual",
+        input: "P=5000, r=6, t=5, n=4 vs n=1",
+        output: "Quarterly compounding yields a higher ending balance than annual at the same rate.",
+        explanation: "More compounding periods per year increase effective growth.",
+      },
+    ],
     faqs: [
       faq("Is this investment advice?", "No. This is an estimate using fixed inputs."),
       faq("What compounding frequency should I use?", "12 for monthly, 4 for quarterly, 1 for annual."),
+      faq("Can I download the schedule?", "Yes. Export the year-by-year schedule as CSV from the tool."),
       faq("Does it account for contributions?", "No. Only initial principal compounds in this version."),
     ],
     commonUseCases: ["Estimate savings growth", "Compare compound vs simple interest", "Plan long-term investment scenarios"],
     assumptions: ["Fixed rate for entire period.", "No withdrawals or additional deposits.", "Estimate only—not financial advice."],
+    sourceNotes: ["Standard compound interest formula A = P(1 + r/n)^(nt).", "See linked resources for simple vs compound comparisons."],
+    lastReviewed: "2026-06-02",
   }),
   buildLiveTool({
     id: "loan-payment-calculator",

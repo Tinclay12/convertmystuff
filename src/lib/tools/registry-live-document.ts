@@ -108,13 +108,18 @@ export const documentLiveTools: ToolDefinition[] = [
     componentKey: "PdfMergeTool",
     explanation: "Select two or more PDF files and download a merged PDF in page order.",
     howToUse: ["Select multiple PDF files.", "Click merge.", "Download the combined PDF."],
-    examples: [{ title: "Merge two reports", input: "report-a.pdf + report-b.pdf", output: "combined.pdf", explanation: "Pages from file A followed by pages from file B." }],
+    examples: [
+      { title: "Merge two reports", input: "report-a.pdf + report-b.pdf", output: "combined.pdf", explanation: "Pages from file A followed by pages from file B." },
+      { title: "Reorder before merge", input: "appendix.pdf, cover.pdf, body.pdf", output: "combined.pdf", explanation: "Drag files into order in the list, then merge." },
+    ],
     faqs: [
       faq("Is there a file size limit?", "Large files depend on browser memory; keep batches reasonable."),
-      faq("Can I reorder pages?", "Files merge in selection order; reorder files before merging."),
+      faq("Can I reorder files?", "Yes. Reorder the file list before merging; page order follows file order."),
       faq("Are PDFs uploaded to a server?", "No. Merging runs locally in your browser."),
+      faq("How many PDFs can I merge?", "Up to 20 files per batch in the browser UI."),
     ],
     commonUseCases: ["Combine scanned documents", "Merge contract appendices", "Join report sections"],
+    lastReviewed: "2026-06-02",
   }),
   buildLiveTool({
     id: "pdf-split",
@@ -130,12 +135,17 @@ export const documentLiveTools: ToolDefinition[] = [
     componentKey: "PdfSplitTool",
     explanation: "Upload a PDF and download each page as its own PDF file.",
     howToUse: ["Upload a PDF file.", "Click split.", "Download individual page PDFs."],
-    examples: [{ title: "10-page PDF", input: "document.pdf (10 pages)", output: "10 separate single-page PDFs", explanation: "Each page exported as page-1.pdf, page-2.pdf, etc." }],
+    examples: [
+      { title: "All pages", input: "document.pdf, range: all", output: "One PDF per page", explanation: "Each page downloads as its own file." },
+      { title: "Page range", input: "document.pdf, range: 1-3, 5", output: "Pages 1–3 and 5 only", explanation: "Use comma-separated ranges; omit pages you do not need." },
+    ],
     faqs: [
-      faq("Can I split a page range?", "This version splits all pages individually."),
+      faq("Can I split a page range?", "Yes. Enter all for every page, or ranges like 1-3, 5 for specific pages."),
       faq("Will quality decrease?", "No recompression; pages are extracted as-is."),
       faq("Does it work with encrypted PDFs?", "Password-protected PDFs may not split without unlocking first."),
+      faq("Can I merge extracted pages again?", "Yes. Use PDF merge after splitting to combine selected outputs."),
     ],
     commonUseCases: ["Extract single pages from scans", "Separate multi-page invoices", "Share one page from a report"],
+    lastReviewed: "2026-06-02",
   }),
 ];

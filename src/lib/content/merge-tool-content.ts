@@ -4,6 +4,7 @@ import { getDeveloperWorkflowGroups } from "@/lib/content/linking/developer-work
 import { getDocumentWorkflowGroups } from "@/lib/content/linking/document-workflows";
 import { getFinanceWorkflowGroups } from "@/lib/content/linking/finance-workflows";
 import { getHealthWorkflowGroups } from "@/lib/content/linking/health-workflows";
+import { getImageWorkflowGroups } from "@/lib/content/linking/image-workflows";
 import { getRealEstateWorkflowGroups } from "@/lib/content/linking/real-estate-workflows";
 import { getToolContentEnrichment } from "@/lib/content/tools";
 import type { ToolDefinition, ToolLinkGroup } from "@/lib/tools/types";
@@ -16,6 +17,7 @@ const categoryLinkResolvers: Record<string, (toolId: string) => ToolLinkGroup[]>
   "document-tools": getDocumentWorkflowGroups,
   "unit-converters": getConverterWorkflowGroups,
   "construction-calculators": getConstructionWorkflowGroups,
+  "image-tools": getImageWorkflowGroups,
 };
 
 const resolveLinkGroups = (tool: ToolDefinition): ToolLinkGroup[] => {

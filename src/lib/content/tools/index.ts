@@ -19,13 +19,14 @@ import {
   rentalDealAnalyzerContent,
 } from "./flagship-snippets";
 import { jsonToCsvContent } from "./json-to-csv";
-import {
-  concreteCalculatorContent,
-  noiCalculatorContent,
-  pngToIcoContent,
-  utmParserContent,
-} from "./resource-links";
+import { noiCalculatorContent, pngToIcoContent, utmParserContent } from "./resource-links";
 import { wave2ToolEnrichment } from "./wave2-tool-enrichment";
+import {
+  compoundInterestCalculatorContent,
+  concreteCalculatorEnrichment,
+  imageCompressorContent,
+  imageResizerContent,
+} from "./flagship-sprint-enrichment";
 
 const dedicatedContent: Record<string, ToolContentEnrichment> = {
   "acres-to-square-feet": acresToSquareFeetContent,
@@ -43,8 +44,11 @@ const dedicatedContent: Record<string, ToolContentEnrichment> = {
   "csv-to-html-table": csvToHtmlTableContent,
   "png-to-ico": pngToIcoContent,
   "utm-parser": utmParserContent,
-  "concrete-calculator": concreteCalculatorContent,
   "noi-calculator": noiCalculatorContent,
+  "compound-interest-calculator": compoundInterestCalculatorContent,
+  "image-resizer": imageResizerContent,
+  "image-compressor": imageCompressorContent,
+  "concrete-calculator": concreteCalculatorEnrichment,
 };
 
 const mergeEnrichment = (

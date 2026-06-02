@@ -37,7 +37,10 @@ const coreLiveTools: ToolDefinition[] = [
     schemaType: "SoftwareApplication",
     status: "published",
     priority: 10,
-    lastReviewed: "2026-05-23",
+    lastReviewed: "2026-06-02",
+    explanation:
+      "Convert JSON arrays or NDJSON lines into CSV with optional flattening, column reorder, and Excel-friendly UTF-8 BOM—all in your browser.",
+    formula: "Each object becomes one row; keys become column headers (dot notation when flattening nested objects).",
     howToUse: [
       "Drop a .json file or paste a JSON array of objects (or NDJSON, one object per line).",
       "Choose delimiter, flatten nested objects, or enable Excel UTF-8 BOM as needed.",
@@ -113,9 +116,10 @@ const coreLiveTools: ToolDefinition[] = [
     schemaType: "SoftwareApplication",
     status: "published",
     priority: 10,
-    lastReviewed: "2026-05-23",
+    lastReviewed: "2026-06-02",
     explanation:
       "Paste CSV text and convert each row into a JSON object using the header row as keys.",
+    formula: "Each CSV row maps to one JSON object; header cells become property names.",
     howToUse: [
       "Drop a .csv file or paste CSV text.",
       "Toggle first row is header if your file has no header row.",
@@ -128,6 +132,12 @@ const coreLiveTools: ToolDefinition[] = [
         output: '[{"id":"1","name":"Ada"},{"id":"2","name":"Grace"}]',
         explanation: "Header values become JSON keys for each row.",
       },
+      {
+        title: "Typed columns",
+        input: "sku,qty,active\nA1,10,true",
+        output: '[{"sku":"A1","qty":10,"active":true}]',
+        explanation: "With type inference enabled, numeric and boolean cells parse as JSON types.",
+      },
     ],
     faqs: [
       {
@@ -135,9 +145,21 @@ const coreLiveTools: ToolDefinition[] = [
         answer: "Yes. Uncheck first row is header and columns will be named column_1, column_2, etc.",
       },
       {
-        question: "Can I use custom delimiters?",
-        answer: "This first version expects comma-separated values with a header row.",
+        question: "Can I drop a CSV file?",
+        answer: "Yes. Use file drop or paste text; processing stays in your browser.",
       },
+      {
+        question: "Does type inference change strings?",
+        answer: "When enabled, numeric and boolean-looking cells become JSON numbers and booleans.",
+      },
+      {
+        question: "How do I round-trip with Excel?",
+        answer: "Edit CSV in Excel, then convert back here. Use JSON to CSV for the export step.",
+      },
+    ],
+    sourceNotes: [
+      "RFC 4180-style CSV parsing with quoted fields.",
+      "Use JSON to CSV when exporting API data for spreadsheets.",
     ],
     commonUseCases: [
       "Convert spreadsheet exports for APIs",

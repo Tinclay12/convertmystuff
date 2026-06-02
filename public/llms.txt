@@ -1,0 +1,51 @@
+# ConvertMyStuff
+
+> Free online converters, calculators, and utility tools. Most tools run in your browser; basic use requires no account.
+
+Canonical site: https://convertmystuff.com
+
+## Primary entry points
+
+- Home: https://convertmystuff.com/
+- All tools: https://convertmystuff.com/tools/
+- Guides (in-depth explainers): https://convertmystuff.com/guides/
+- Resources (topic articles linked to tools): https://convertmystuff.com/resources/
+
+## Category hubs
+
+- Developer tools: https://convertmystuff.com/developer-tools/
+- Unit converters: https://convertmystuff.com/unit-converters/
+- Finance calculators: https://convertmystuff.com/finance-calculators/
+- Real estate calculators: https://convertmystuff.com/real-estate-calculators/
+- Health & fitness calculators: https://convertmystuff.com/health-fitness-calculators/
+- Construction calculators: https://convertmystuff.com/construction-calculators/
+- Document tools: https://convertmystuff.com/document-tools/
+- Image tools: https://convertmystuff.com/image-tools/
+- Text tools: https://convertmystuff.com/text-tools/
+- Marketing tools: https://convertmystuff.com/marketing-tools/
+
+## Flagship tools (high-utility starting points)
+
+- JSON to CSV: https://convertmystuff.com/developer-tools/json-to-csv/
+- CSV to JSON: https://convertmystuff.com/developer-tools/csv-to-json/
+- PDF merge: https://convertmystuff.com/document-tools/pdf-merge/
+- PDF split: https://convertmystuff.com/document-tools/pdf-split/
+- Compound interest calculator: https://convertmystuff.com/finance-calculators/compound-interest-calculator/
+- Mortgage calculator pro: https://convertmystuff.com/finance-calculators/mortgage-calculator-pro/
+- BMI calculator: https://convertmystuff.com/health-fitness-calculators/bmi-calculator/
+- Rental deal analyzer: https://convertmystuff.com/real-estate-calculators/rental-deal-analyzer/
+- Concrete calculator: https://convertmystuff.com/construction-calculators/concrete-calculator/
+- Image resizer: https://convertmystuff.com/image-tools/image-resizer/
+
+## Editorial policy
+
+- One canonical URL per conversion or calculator (no numeric variation pages such as /5-acres-to-square-feet/).
+- Tool interface appears above supporting content.
+- Calculator results are informational estimates, not professional advice.
+- Privacy: https://convertmystuff.com/privacy/
+- Terms: https://convertmystuff.com/terms/
+- About: https://convertmystuff.com/about/
+
+## Sitemap
+
+https://convertmystuff.com/sitemap.xml

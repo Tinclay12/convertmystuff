@@ -162,6 +162,9 @@ export const imageLiveTools: ToolDefinition[] = [
       faq("Will quality decrease?", "Downscaling generally looks fine; upscaling may appear soft or pixelated."),
     ],
     commonUseCases: ["Create thumbnails", "Resize photos for web forms", "Prepare images for social media specs"],
+    formula: "Output dimensions = entered width × height (pixels); aspect lock scales height from width.",
+    sourceNotes: ["Processing uses browser canvas APIs; files are not uploaded."],
+    lastReviewed: "2026-06-02",
   }),
   buildLiveTool({
     id: "image-compressor",
@@ -192,6 +195,8 @@ export const imageLiveTools: ToolDefinition[] = [
       faq("Does it support HEIC from iPhone?", "Yes. HEIC/HEIF files are converted locally before compression."),
     ],
     commonUseCases: ["Reduce email attachment size", "Optimize images before upload", "Shrink hero images for faster pages"],
+    assumptions: ["Output is JPEG; transparency from PNG is flattened.", "HEIC/HEIF from iOS is decoded locally before compression."],
+    lastReviewed: "2026-06-02",
   }),
   buildLiveTool({
     id: "favicon-generator",

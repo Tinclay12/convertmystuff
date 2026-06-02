@@ -44,6 +44,12 @@ const buildStaticEntries = (): MetadataRoute.Sitemap => {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: toAbsoluteUrl("/about/"),
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.35,
+    },
   ];
 };
 

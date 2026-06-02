@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { CategoryDefinition, ToolDefinition } from "@/lib/tools/types";
 import type { GuideDefinition, ResourceCategoryDefinition, ResourceDefinition } from "@/lib/content/types";
 import type { LegalPageDefinition } from "@/lib/content/legal";
+import { aboutPage } from "@/lib/content/about";
 import { getResourceCategoryBySlug } from "@/lib/content/resources/categories";
 import { SITE_NAME, toAbsoluteUrl } from "./site";
 
@@ -306,6 +307,25 @@ export const buildResourcesIndexMetadata = (): Metadata => {
       ogDescription:
         "Structured explainers on conversions, formats, formulas, and workflows.",
       ogEyebrow: "Resources",
+    }),
+  };
+};
+
+export const buildAboutMetadata = (): Metadata => {
+  return {
+    title: aboutPage.metaTitle,
+    description: aboutPage.metaDescription,
+    alternates: buildCanonicalAlternates(aboutPage.path),
+    robots: INDEXABLE_ROBOTS,
+    ...buildSocialMetadata({
+      title: aboutPage.metaTitle,
+      description: aboutPage.metaDescription,
+      url: toAbsoluteUrl(aboutPage.path),
+      type: "article",
+      modifiedTime: aboutPage.lastUpdated,
+      ogTitle: aboutPage.title,
+      ogDescription: aboutPage.summary,
+      ogEyebrow: "About",
     }),
   };
 };

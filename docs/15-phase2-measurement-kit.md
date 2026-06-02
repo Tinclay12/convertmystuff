@@ -6,6 +6,8 @@ Use this alongside [14-gsc-bespoke-upgrade-queue.md](./14-gsc-bespoke-upgrade-qu
 
 ## Week 1 checklist
 
+Use the step-by-step lists in [gsc-indexing-baseline-checklist.md](./gsc-indexing-baseline-checklist.md) and [gsc-monthly-ritual-checklist.md](./gsc-monthly-ritual-checklist.md). Print indexing URLs with `npm run gsc:urls`.
+
 - [ ] Export GSC **Performance → Pages** (last 28 days) → `baseline-pages-28d.csv` (store outside git)
 - [ ] Export GSC **Performance → Queries** (last 28 days) → `baseline-queries-28d.csv`
 - [ ] Export GSC **Indexing → Pages** screenshot or CSV

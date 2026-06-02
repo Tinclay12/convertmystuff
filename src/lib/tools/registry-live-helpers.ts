@@ -23,6 +23,7 @@ export type LiveToolSeed = {
   assumptions?: string[];
   sourceNotes?: string[];
   pathOverride?: string;
+  lastReviewed?: string;
 };
 
 export const buildLiveTool = (seed: LiveToolSeed): ToolDefinition => {
@@ -52,7 +53,7 @@ export const buildLiveTool = (seed: LiveToolSeed): ToolDefinition => {
     schemaType: seed.schemaType ?? "SoftwareApplication",
     status: "published",
     priority: seed.priority ?? 20,
-    lastReviewed: "2026-05-23",
+    lastReviewed: seed.lastReviewed ?? "2026-05-23",
     explanation: seed.explanation,
     howToUse: seed.howToUse,
     examples: seed.examples,

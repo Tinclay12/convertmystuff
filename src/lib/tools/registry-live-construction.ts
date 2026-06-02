@@ -137,6 +137,12 @@ const baseConstructionTools: ToolDefinition[] = [
       "Depth is entered in inches and converted to feet before volume calculation.",
       "1 cubic yard = 27 cubic feet.",
     ],
+    formula: "Cubic yards = (length ft × width ft × depth in ÷ 12) ÷ 27",
+    sourceNotes: [
+      "Standard ready-mix ordering unit in the US is cubic yards.",
+      "Add 5–10% waste when placing your order.",
+    ],
+    lastReviewed: "2026-06-02",
   }),
   buildLiveTool({
     id: "cement-calculator",

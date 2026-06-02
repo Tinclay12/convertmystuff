@@ -50,4 +50,20 @@ describe("content enrichment", () => {
     expect(hasContentEnrichment(getEnrichedTool("bmi-calculator")!)).toBe(true);
     expect(getToolContentEnrichment("hectares-to-acres")?.contentTier).toBe("A");
   });
+
+  it("enriches flagship sprint tools with workflow links", () => {
+    const concrete = getEnrichedTool("concrete-calculator");
+    const groups = getResolvedToolLinkGroups(concrete!);
+    expect(groups.some((g) => g.tools.some((t) => t.id === "cement-calculator"))).toBe(true);
+
+    const resizer = getEnrichedTool("image-resizer");
+    const imageGroups = getResolvedToolLinkGroups(resizer!);
+    expect(imageGroups.some((g) => g.tools.some((t) => t.id === "image-compressor"))).toBe(true);
+  });
+
+  it("enriches compound interest with guide and resources", () => {
+    const tool = getEnrichedTool("compound-interest-calculator");
+    expect(tool?.guideSlug).toBe("compound-interest-formula-explained");
+    expect(tool?.resourceSlugs?.length).toBeGreaterThanOrEqual(2);
+  });
 });

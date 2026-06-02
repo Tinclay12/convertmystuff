@@ -19,6 +19,10 @@ const constructionWorkflows: Record<string, ConstructionWorkflowEntry> = {
   "mulch-tons-to-cubic-yards": pair("mulch-cubic-yards-to-tons", ["mulch-calculator"], ["mulch-calculator"]),
   "concrete-cubic-yards-to-tons": pair("concrete-tons-to-cubic-yards", ["concrete-calculator", "cement-calculator"], ["concrete-calculator"]),
   "concrete-tons-to-cubic-yards": pair("concrete-cubic-yards-to-tons", ["concrete-calculator"], ["concrete-calculator"]),
+  "concrete-calculator": {
+    related: ["cement-calculator", "gravel-calculator", "mulch-calculator"],
+    workflow: ["cement-calculator", "gravel-calculator"],
+  },
 };
 
 const groupLabels: Record<keyof ConstructionWorkflowEntry, string> = {

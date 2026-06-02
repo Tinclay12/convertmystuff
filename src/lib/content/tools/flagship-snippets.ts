@@ -129,15 +129,25 @@ export const pdfSplitContent: ToolContentEnrichment = {
 
 export const csvToJsonContent: ToolContentEnrichment = {
   contentTier: "B",
+  resourceSlugs: ["developer-tools/csv-encoding-and-excel"],
   contentBlocks: [
     {
       id: "round-trip",
       title: "CSV to JSON round trips",
       variant: "tip",
       paragraphs: [
-        "After editing CSV in Excel, convert back to JSON for APIs and config files. Preview column types before importing large datasets.",
+        "After editing CSV in Excel, convert back to JSON for APIs and config files. Enable type inference so numbers and booleans import correctly.",
       ],
       linkedToolIds: ["json-to-csv", "json-formatter", "csv-to-html-table"],
+    },
+    {
+      id: "excel-encoding",
+      title: "Excel and UTF-8",
+      variant: "info",
+      paragraphs: [
+        "If Excel garbles characters on import, save CSV as UTF-8 or use JSON to CSV with Excel BOM on the export step.",
+      ],
+      linkedToolIds: ["json-to-csv"],
     },
   ],
   guideSlug: "json-to-csv-for-excel",

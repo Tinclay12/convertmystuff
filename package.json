@@ -11,7 +11,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "content:quality": "npx tsx scripts/content-quality-report.ts",
+    "gsc:urls": "npx tsx scripts/gsc-indexing-urls.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
