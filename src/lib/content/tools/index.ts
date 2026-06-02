@@ -4,7 +4,9 @@ import { acresToSquareFeetContent } from "./acres-to-square-feet";
 import { bmiCalculatorContent } from "./bmi-calculator";
 import { calorieCalculatorContent } from "./calorie-calculator";
 import { capRateCalculatorContent } from "./cap-rate-calculator";
+import { categoryOverlays } from "./category-overlays";
 import { converterSnippets } from "./converter-snippets";
+import { unitConverterSnippets } from "./unit-converter-snippets";
 import { faqSupplements } from "./faq-supplements";
 import {
   csvToHtmlTableContent,
@@ -86,6 +88,10 @@ const resolveConverterSnippet = (toolId: string): ToolContentEnrichment | undefi
     return converterSnippets[toolId];
   }
 
+  if (unitConverterSnippets[toolId]) {
+    return unitConverterSnippets[toolId];
+  }
+
   const tool = getToolById(toolId);
   if (tool?.category === "unit-converters") {
     return defaultUnitConverterSnippet(toolId);
@@ -99,6 +105,7 @@ export const getToolContentEnrichment = (toolId: string): ToolContentEnrichment 
     dedicatedContent[toolId],
     wave2ToolEnrichment[toolId],
     resolveConverterSnippet(toolId),
+    categoryOverlays[toolId],
     faqSupplements[toolId],
   );
 };

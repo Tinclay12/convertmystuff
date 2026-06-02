@@ -404,7 +404,7 @@ export const expandedLiveTools: ToolDefinition[] = [
     metaDescription: "Format SQL online. Pretty-print or minify SQL queries for readability, code review, and documentation.",
     keywords: ["sql formatter", "format sql"],
     relatedTools: ["json-formatter", "css-formatter", "csv-to-json"],
-    componentKey: "GenericFormatterTool",
+    componentKey: "SqlFormatterTool",
     explanation: "Format SQL queries with clearer line breaks or compact minified output.",
     howToUse: ["Paste a SQL query.", "Choose Format or Minify.", "Copy the formatted SQL."],
     examples: [{ title: "Select query", input: "SELECT id, name FROM users WHERE active = true", output: "SELECT id, name\nFROM users\nWHERE active = true", explanation: "Major SQL clauses are placed on separate lines." }],

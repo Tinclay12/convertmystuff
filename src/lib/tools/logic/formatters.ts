@@ -1,15 +1,51 @@
 import type { LogicResult } from "./unit-conversions";
 
-const indentSql = (input: string): string => {
-  const keywords = ["SELECT", "FROM", "WHERE", "JOIN", "LEFT JOIN", "RIGHT JOIN", "INNER JOIN", "GROUP BY", "ORDER BY", "HAVING", "LIMIT", "INSERT INTO", "VALUES", "UPDATE", "SET", "DELETE FROM"];
+const SQL_KEYWORDS = [
+  "SELECT",
+  "FROM",
+  "WHERE",
+  "JOIN",
+  "LEFT JOIN",
+  "RIGHT JOIN",
+  "INNER JOIN",
+  "GROUP BY",
+  "ORDER BY",
+  "HAVING",
+  "LIMIT",
+  "INSERT INTO",
+  "VALUES",
+  "UPDATE",
+  "SET",
+  "DELETE FROM",
+  "RETURNING",
+  "WITH",
+];
+
+const applyKeywordCase = (keyword: string, keywordCase: "upper" | "lower" | "preserve"): string => {
+  if (keywordCase === "preserve") {
+    return keyword;
+  }
+  return keywordCase === "lower" ? keyword.toLowerCase() : keyword.toUpperCase();
+};
+
+const indentSql = (
+  input: string,
+  keywordCase: "upper" | "lower" | "preserve" = "upper",
+): string => {
   let formatted = input.replace(/\s+/g, " ").trim();
 
-  keywords.forEach((keyword) => {
+  SQL_KEYWORDS.forEach((keyword) => {
     const regex = new RegExp(`\\b${keyword}\\b`, "gi");
-    formatted = formatted.replace(regex, `\n${keyword.toUpperCase()}`);
+    const replacement = `\n${applyKeywordCase(keyword, keywordCase)}`;
+    formatted = formatted.replace(regex, replacement);
   });
 
   return formatted.trim();
+};
+
+export type SqlFormatOptions = {
+  dialect?: "ansi" | "mysql" | "postgresql";
+  keywordCase?: "upper" | "lower" | "preserve";
 };
 
 const minifyCss = (input: string): string => {
@@ -29,13 +65,24 @@ const formatCss = (input: string): string => {
     .trim();
 };
 
-export const formatSql = (input: string, mode: "pretty" | "minify"): LogicResult => {
+export const formatSql = (
+  input: string,
+  mode: "pretty" | "minify",
+  options: SqlFormatOptions = {},
+): LogicResult => {
   const trimmed = input.trim();
   if (!trimmed) {
     return { ok: false, error: "Paste SQL to format." };
   }
 
-  const output = mode === "pretty" ? indentSql(trimmed) : trimmed.replace(/\s+/g, " ");
+  const keywordCase = options.keywordCase ?? "upper";
+  let output =
+    mode === "pretty" ? indentSql(trimmed, keywordCase) : trimmed.replace(/\s+/g, " ");
+
+  if (options.dialect === "postgresql" && mode === "pretty") {
+    output = output.replace(/\bRETURNING\b/gi, applyKeywordCase("RETURNING", keywordCase));
+  }
+
   return { ok: true, output };
 };
 

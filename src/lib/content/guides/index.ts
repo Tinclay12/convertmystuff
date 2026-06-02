@@ -9,6 +9,7 @@ import {
   understandingCapRateGuide,
   whatIsBmiGuide,
 } from "./definitions";
+import { phase2Guides } from "./phase2-guides";
 
 export const guides = [
   whatIsBmiGuide,
@@ -20,6 +21,7 @@ export const guides = [
   rentalPropertyAnalysisStepByStepGuide,
   mortgageAmortizationGuide,
   clientSidePdfGuide,
+  ...phase2Guides,
 ];
 
 export const getGuideBySlug = (slug: string) => {

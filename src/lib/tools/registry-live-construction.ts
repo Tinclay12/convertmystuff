@@ -15,7 +15,7 @@ const baseConstructionTools: ToolDefinition[] = [
       "Calculate lumber board feet from length, width, thickness, and quantity. Free construction estimate for framing and woodworking projects.",
     keywords: ["lumber calculator", "board feet calculator", "wood calculator"],
     relatedTools: ["drywall-calculator", "flooring-calculator", "roofing-calculator"],
-    componentKey: "GenericConstructionCalculatorTool",
+    componentKey: "LumberCalculatorTool",
     schemaType: "Calculator",
     explanation:
       "Estimate total board feet for lumber pieces using standard dimensional inputs. Useful for framing, decking, and rough material takeoffs.",
@@ -105,7 +105,7 @@ const baseConstructionTools: ToolDefinition[] = [
       "Calculate concrete needed in cubic yards from length, width, and depth. Free slab and footing volume estimator for DIY and contractor planning.",
     keywords: ["concrete calculator", "cubic yards concrete", "slab calculator"],
     relatedTools: ["cement-calculator", "gravel-calculator", "mulch-calculator"],
-    componentKey: "GenericConstructionCalculatorTool",
+    componentKey: "ConcreteCalculatorTool",
     schemaType: "Calculator",
     explanation:
       "Estimate concrete volume for rectangular pours such as slabs, pads, and footings. Output is shown in cubic yards for ready-mix ordering.",
@@ -195,7 +195,7 @@ const baseConstructionTools: ToolDefinition[] = [
       "Calculate roof area from length, width, and pitch rise. Free roofing area estimator for shingle, underlayment, and material planning.",
     keywords: ["roofing calculator", "roof area calculator", "roof pitch calculator"],
     relatedTools: ["shingles-calculator", "lumber-calculator", "drywall-calculator"],
-    componentKey: "GenericConstructionCalculatorTool",
+    componentKey: "RoofingCalculatorTool",
     schemaType: "Calculator",
     explanation:
       "Estimate total roof surface area by applying a pitch factor to the building footprint. Helpful before ordering shingles and underlayment.",
@@ -240,7 +240,7 @@ const baseConstructionTools: ToolDefinition[] = [
       "Calculate shingle bundles needed from roof area. Free roofing material estimator based on standard three-tab bundle coverage.",
     keywords: ["shingles calculator", "roof shingle estimate", "bundle calculator"],
     relatedTools: ["roofing-calculator", "lumber-calculator", "gravel-calculator"],
-    componentKey: "GenericConstructionCalculatorTool",
+    componentKey: "ShinglesCalculatorTool",
     schemaType: "Calculator",
     explanation:
       "Convert roof area into an estimated bundle count using typical three-tab coverage. Pair with the roofing calculator for pitch-adjusted area.",

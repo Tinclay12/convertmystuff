@@ -226,7 +226,7 @@ export const marketingLiveTools: ToolDefinition[] = [
     metaDescription: "Preview Open Graph title, description, URL, and image fields for social sharing. Free OG preview helper.",
     keywords: ["open graph preview", "og preview tool", "social share preview"],
     relatedTools: ["meta-tag-generator", "utm-builder", "slug-generator"],
-    componentKey: "GenericMarketingTool",
+    componentKey: "SerpPreviewTool",
     explanation: "Draft Open Graph fields and review a simple share card summary before publishing.",
     howToUse: [
       "Enter page title and description.",

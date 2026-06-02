@@ -15,7 +15,7 @@ export const imageLiveTools: ToolDefinition[] = [
     metaDescription: "Convert PNG or HEIC images to JPG in your browser. Free converter with before/after file size and local processing.",
     keywords: ["png to jpg", "png to jpeg", "convert png to jpg"],
     relatedTools: ["jpg-to-png", "image-compressor", "image-resizer"],
-    componentKey: "GenericImageTool",
+    componentKey: "PngToJpgTool",
     explanation: "Upload a PNG and download a JPG version using browser canvas image processing. Nothing leaves your device.",
     howToUse: [
       "Drop or select a PNG file.",
@@ -49,7 +49,7 @@ export const imageLiveTools: ToolDefinition[] = [
     metaDescription: "Convert JPG or JPEG images to PNG in your browser. Free JPG to PNG converter with download.",
     keywords: ["jpg to png", "jpeg to png", "convert jpg to png"],
     relatedTools: ["png-to-jpg", "image-resizer", "svg-to-png"],
-    componentKey: "GenericImageTool",
+    componentKey: "JpgToPngTool",
     explanation: "Upload a JPG/JPEG image and download a lossless PNG version.",
     howToUse: ["Upload a JPG or JPEG file.", "Click Process image.", "Download the PNG output."],
     examples: [
@@ -78,7 +78,7 @@ export const imageLiveTools: ToolDefinition[] = [
     metaDescription: "Convert PNG images to real ICO favicon files with 16×16, 32×32, and 48×48 sizes. Free PNG to ICO converter.",
     keywords: ["png to ico", "png to favicon", "favicon from png"],
     relatedTools: ["favicon-generator", "svg-to-png", "png-to-jpg"],
-    componentKey: "GenericImageTool",
+    componentKey: "PngToIcoTool",
     explanation: "Upload a PNG and download a proper ICO file containing 16×16, 32×32, and 48×48 embedded PNG images.",
     howToUse: [
       "Upload a square or high-resolution PNG.",
@@ -111,7 +111,7 @@ export const imageLiveTools: ToolDefinition[] = [
     metaDescription: "Convert SVG files to PNG at custom width and height. Free SVG to PNG converter in your browser.",
     keywords: ["svg to png", "convert svg to png", "rasterize svg"],
     relatedTools: ["png-to-jpg", "image-resizer", "favicon-generator"],
-    componentKey: "GenericImageTool",
+    componentKey: "SvgToPngTool",
     explanation: "Upload an SVG and export a PNG at your chosen dimensions. Works best with self-contained SVGs without external references.",
     howToUse: [
       "Upload an SVG file.",
@@ -145,7 +145,7 @@ export const imageLiveTools: ToolDefinition[] = [
     metaDescription: "Resize images to exact width and height in your browser. Free online image resizer with download.",
     keywords: ["image resizer", "resize image online", "resize photo"],
     relatedTools: ["image-compressor", "png-to-jpg", "dpi-calculator"],
-    componentKey: "GenericImageTool",
+    componentKey: "ImageResizerTool",
     explanation: "Set target width and height, then download the resized image while preserving the original format where possible.",
     howToUse: ["Upload an image.", "Enter width and height.", "Process and download."],
     examples: [
@@ -174,7 +174,7 @@ export const imageLiveTools: ToolDefinition[] = [
     metaDescription: "Compress images by adjusting JPEG quality in your browser. Free image compressor with download.",
     keywords: ["image compressor", "compress image online", "reduce image size"],
     relatedTools: ["image-resizer", "png-to-jpg", "jpg-to-png"],
-    componentKey: "GenericImageTool",
+    componentKey: "ImageCompressorTool",
     explanation: "Upload an image and export a compressed JPEG at your chosen quality level between 0.1 and 1.",
     howToUse: ["Upload an image.", "Set JPEG quality (0.1–1).", "Process and download the compressed JPG."],
     examples: [
@@ -204,7 +204,7 @@ export const imageLiveTools: ToolDefinition[] = [
     metaDescription: "Generate favicon PNG sizes and favicon.ico in a downloadable ZIP bundle. Free favicon generator in your browser.",
     keywords: ["favicon generator", "create favicon", "favicon from image"],
     relatedTools: ["png-to-ico", "svg-to-png", "image-resizer"],
-    componentKey: "GenericImageTool",
+    componentKey: "FaviconGeneratorTool",
     explanation: "Upload a source image and download a ZIP containing favicon PNGs (16–256 px) plus a multi-size favicon.ico file.",
     howToUse: [
       "Upload a square logo or icon.",

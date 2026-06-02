@@ -174,7 +174,7 @@ export const expandedLiveTools: ToolDefinition[] = [
       "Count words online. See word count, character count, line count, and estimated reading time for articles and drafts.",
     keywords: ["word counter", "word count", "count words online"],
     relatedTools: ["character-counter", "line-counter", "case-converter"],
-    componentKey: "GenericTextTool",
+    componentKey: "WordCounterProTool",
     explanation: "Analyze pasted text for word count, character totals, line count, and reading time.",
     howToUse: [
       "Paste or type your text in the input area.",
@@ -331,7 +331,7 @@ export const expandedLiveTools: ToolDefinition[] = [
       "Compare text online. Paste two versions and see added, removed, and unchanged lines in a simple diff view.",
     keywords: ["text diff", "compare text", "text difference checker"],
     relatedTools: ["add-line-numbers", "trim-lines", "remove-duplicate-lines"],
-    componentKey: "GenericTextTool",
+    componentKey: "TextDiffTool",
     explanation: "Compare two text versions line by line with simple minus and plus markers.",
     howToUse: [
       "Paste the original text in the left input.",

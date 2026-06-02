@@ -6,6 +6,7 @@ import { ToolSearch, type SerializableTool } from "@/components/tools/ToolSearch
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildWebPageSchema } from "@/lib/seo/schema";
 import {
+  getConverterReversePairs,
   getConverterToolsGrouped,
   getConverterTools,
   isLiveTool,
@@ -14,6 +15,7 @@ import {
 
 export const ConvertersHubPageClient = () => {
   const groups = getConverterToolsGrouped();
+  const reversePairs = getConverterReversePairs();
   const allConverters: SerializableTool[] = getConverterTools()
     .filter((tool) => isLiveTool(tool) || isPlannedTool(tool))
     .map((tool) => ({
@@ -50,6 +52,25 @@ export const ConvertersHubPageClient = () => {
           gridClassName="lg:grid-cols-3"
         />
       </Section>
+
+      {reversePairs.length > 0 && (
+        <Section
+          title="Popular reverse pairs"
+          description="Jump to the opposite conversion without searching."
+          spacing="default"
+          className="mt-12"
+        >
+          <ul className="flex flex-wrap gap-3 text-sm">
+            {reversePairs.map((pair) => (
+              <li key={pair.toolId}>
+                <Link href={pair.reversePath} className="font-medium text-accent hover:underline">
+                  {pair.reverseLabel} →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
 
       <div className="mt-12 space-y-12">
         {groups.map(({ label, tools }) => (

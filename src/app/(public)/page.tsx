@@ -1,6 +1,9 @@
 import { CategoryGuidesSection } from "@/components/guides/CategoryGuidesSection";
 import { CategoryResourcesSection } from "@/components/resources/CategoryResourcesSection";
 import { CategoryCard } from "@/components/cards/CategoryCard";
+import { FlagshipSpotlight } from "@/components/sections/FlagshipSpotlight";
+import { StartHereCards } from "@/components/sections/StartHereCards";
+import { WorkflowPaths } from "@/components/sections/WorkflowPaths";
 import { ToolGrid } from "@/components/tools/ToolGrid";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/sections/Section";
@@ -9,6 +12,7 @@ import { FeaturePill } from "@/components/ui/FeaturePill";
 import { ToolSearch, type SerializableTool } from "@/components/tools/ToolSearch";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Lightning, Lock, Sparkle } from "@phosphor-icons/react/dist/ssr";
+import { siteWorkflowPaths, startHereIntents } from "@/lib/content/linking/site-workflows";
 import { buildWebPageSchema } from "@/lib/seo/schema";
 import {
   getAllCategories,
@@ -17,6 +21,7 @@ import {
   getAllResources,
   getCategoryStats,
   getFeaturedConverters,
+  getHomepageFlagships,
   getPopularTools,
   getRegistryStats,
   isCategoryVisible,
@@ -26,6 +31,7 @@ export default function HomePage() {
   const categories = getAllCategories().filter((category) =>
     isCategoryVisible(category.slug),
   );
+  const flagshipTools = getHomepageFlagships();
   const popularTools = getPopularTools(6);
   const featuredConverters = getFeaturedConverters(6);
   const registryStats = getRegistryStats();
@@ -93,6 +99,26 @@ export default function HomePage() {
         <CategoryStrip categories={categories} />
       </Section>
 
+      <Section title="Start here" description="Pick your goal, then open the right toolbox." spacing="default">
+        <StartHereCards intents={startHereIntents} />
+      </Section>
+
+      <FlagshipSpotlight
+        tools={flagshipTools}
+        title="Flagship tools"
+        description="High-value calculators and converters — no account required."
+        className="mt-16"
+      />
+
+      <Section
+        title="Workflow paths"
+        description="Common multi-step journeys across related tools."
+        spacing="default"
+        className="mt-16"
+      >
+        <WorkflowPaths paths={siteWorkflowPaths} />
+      </Section>
+
       <Section
         title="Popular converters"
         description="The fast ones people actually use every day."
@@ -128,7 +154,7 @@ export default function HomePage() {
           </div>
         </Section>
 
-        <Section title="Popular" description="Most-used tools this week." spacing="tight">
+        <Section title="More popular tools" description="Curated high-priority tools." spacing="tight">
           <div className="rule-list border border-border bg-card">
             <ToolGrid tools={popularTools} layout="list" />
           </div>

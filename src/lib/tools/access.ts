@@ -13,6 +13,10 @@ import {
   getResourcesForTool,
 } from "@/lib/content/resources";
 import type { GuideDefinition, ResourceDefinition } from "@/lib/content/types";
+import { categoryFlagshipIds, getCategoryFlagships, getHomepageFlagships } from "@/lib/tools/featured-tools";
+import { unitConverterConfigs } from "@/lib/tools/logic/unit-conversions";
+
+export { getHomepageFlagships, getCategoryFlagships } from "@/lib/tools/featured-tools";
 
 const normalizePath = (path: string): string => {
   const withLeadingSlash = path.startsWith("/") ? path : `/${path}`;
@@ -170,14 +174,34 @@ export const getToolsGroupedBySubcategory = (
   const subcategories = getSubcategoriesForCategory(categorySlug);
   const categoryTools = getCategoryListingTools(categorySlug);
 
+  const flagshipOrder = categoryFlagshipIds[categorySlug] ?? [];
+
+  const sortByFlagship = (tools: ToolDefinition[]) => {
+    return [...tools].sort((a, b) => {
+      const aIndex = flagshipOrder.indexOf(a.id);
+      const bIndex = flagshipOrder.indexOf(b.id);
+      if (aIndex === -1 && bIndex === -1) {
+        return a.priority - b.priority;
+      }
+      if (aIndex === -1) {
+        return 1;
+      }
+      if (bIndex === -1) {
+        return -1;
+      }
+      return aIndex - bIndex;
+    });
+  };
+
   return subcategories
     .map((subcategory) => {
       const subcategoryTools = categoryTools.filter(
         (tool) => tool.subcategory === subcategory.id,
       );
+      const liveTools = sortByFlagship(subcategoryTools.filter((tool) => isLiveTool(tool)));
       return {
         subcategory,
-        liveTools: subcategoryTools.filter((tool) => isLiveTool(tool)),
+        liveTools,
         plannedTools: subcategoryTools.filter((tool) => isPlannedTool(tool)),
       };
     })
@@ -193,9 +217,21 @@ export const getRecentTools = (limit = 6): ToolDefinition[] => {
 };
 
 export const getPopularTools = (limit = 6): ToolDefinition[] => {
-  return [...getPublishedTools()]
-    .sort((a, b) => a.priority - b.priority)
+  const flagships = getHomepageFlagships();
+  if (flagships.length >= limit) {
+    return flagships.slice(0, limit);
+  }
+  return [...flagships, ...getPublishedTools()]
+    .filter((tool, index, list) => list.findIndex((item) => item.id === tool.id) === index)
     .slice(0, limit);
+};
+
+export const getFeaturedFlagshipsForCategory = (categorySlug: string, limit = 3): ToolDefinition[] => {
+  const flagships = getCategoryFlagships(categorySlug, limit);
+  if (flagships.length > 0) {
+    return flagships;
+  }
+  return getFeaturedToolsForCategory(categorySlug, limit);
 };
 
 const featuredConverterIds = [
@@ -249,33 +285,93 @@ export type ConverterToolGroup = {
   tools: ToolDefinition[];
 };
 
+const unitConverterSubgroup = (toolId: string): string => {
+  if (toolId.includes("acre") || toolId.includes("hectare") || toolId.includes("square-feet")) {
+    return "Area converters";
+  }
+  if (
+    toolId.includes("meter") ||
+    toolId.includes("feet") ||
+    toolId.includes("inch") ||
+    toolId.includes("mile") ||
+    toolId.includes("km") ||
+    toolId.includes("yard") ||
+    toolId.includes("cm")
+  ) {
+    return "Length converters";
+  }
+  if (
+    toolId.includes("kg") ||
+    toolId.includes("lb") ||
+    toolId.includes("gram") ||
+    toolId.includes("ounce") ||
+    toolId.includes("stone")
+  ) {
+    return "Weight converters";
+  }
+  if (toolId.includes("liter") || toolId.includes("gallon") || toolId.includes("cup") || toolId.includes("ml")) {
+    return "Volume converters";
+  }
+  if (toolId.includes("celsius") || toolId.includes("fahrenheit") || toolId.includes("kelvin")) {
+    return "Temperature converters";
+  }
+  return "Other unit converters";
+};
+
 export const getConverterToolsGrouped = (): ConverterToolGroup[] => {
   const converters = getConverterTools();
-  const groups: Record<string, ToolDefinition[]> = {
-    "Data format converters": [],
-    "Unit converters": [],
-    "Image converters": [],
-    "Document converters": [],
-    "Material converters": [],
+  const groups = new Map<string, ToolDefinition[]>();
+
+  const addToGroup = (label: string, tool: ToolDefinition) => {
+    const existing = groups.get(label) ?? [];
+    existing.push(tool);
+    groups.set(label, existing);
   };
 
   for (const tool of converters) {
     if (tool.category === "developer-tools") {
-      groups["Data format converters"].push(tool);
+      addToGroup("Data format converters", tool);
     } else if (tool.category === "unit-converters") {
-      groups["Unit converters"].push(tool);
+      addToGroup(unitConverterSubgroup(tool.id), tool);
     } else if (tool.category === "image-tools") {
-      groups["Image converters"].push(tool);
+      addToGroup("Image converters", tool);
     } else if (tool.category === "construction-calculators") {
-      groups["Material converters"].push(tool);
+      addToGroup("Material converters", tool);
     } else {
-      groups["Document converters"].push(tool);
+      addToGroup("Document converters", tool);
     }
   }
 
-  return Object.entries(groups)
-    .filter(([, tools]) => tools.length > 0)
-    .map(([label, tools]) => ({ label, tools }));
+  const labelOrder = [
+    "Data format converters",
+    "Area converters",
+    "Length converters",
+    "Weight converters",
+    "Volume converters",
+    "Temperature converters",
+    "Other unit converters",
+    "Image converters",
+    "Document converters",
+    "Material converters",
+  ];
+
+  return labelOrder
+    .filter((label) => (groups.get(label)?.length ?? 0) > 0)
+    .map((label) => ({ label, tools: groups.get(label) ?? [] }));
+};
+
+export const getConverterReversePairs = (): { toolId: string; reverseLabel: string; reversePath: string }[] => {
+  return getConverterTools()
+    .filter((tool) => unitConverterConfigs[tool.id]?.reversePath)
+    .map((tool) => {
+      const config = unitConverterConfigs[tool.id];
+      return {
+        toolId: tool.id,
+        reverseLabel: config.reverseLabel ?? "Reverse conversion",
+        reversePath: config.reversePath ?? tool.path,
+      };
+    })
+    .slice(0, 12);
 };
 
 export const getFeaturedConverters = (limit = 6): ToolDefinition[] => {

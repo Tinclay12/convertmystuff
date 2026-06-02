@@ -3,10 +3,26 @@ import type { ToolContentEnrichment } from "@/lib/content/types";
 /** Resource and guide links for Wave 2–4 content clusters */
 export const wave2ToolEnrichment: Record<string, ToolContentEnrichment> = {
   "compound-interest-calculator": {
+    guideSlug: "compound-interest-formula-explained",
     resourceSlugs: [
       "finance-calculators/what-is-compound-interest",
       "finance-calculators/simple-vs-compound-interest",
     ],
+  },
+  "pdf-merge": {
+    guideSlug: "how-to-merge-pdf-files",
+  },
+  "pdf-split": {
+    guideSlug: "how-to-split-pdf-pages",
+  },
+  "sql-formatter": {
+    guideSlug: "sql-formatting-best-practices",
+  },
+  "concrete-calculator": {
+    guideSlug: "concrete-yardage-calculation",
+  },
+  "text-diff": {
+    guideSlug: "how-to-compare-text-diffs",
   },
   "loan-payment-calculator": {
     resourceSlugs: ["finance-calculators/apr-vs-interest-rate"],
@@ -108,12 +124,14 @@ export const wave2ToolEnrichment: Record<string, ToolContentEnrichment> = {
     resourceSlugs: ["text-tools/when-to-remove-duplicate-lines"],
   },
   "word-counter": {
+    guideSlug: "word-count-for-seo-and-social",
     resourceSlugs: ["text-tools/word-count-vs-character-count"],
   },
   "camel-case-converter": {
     resourceSlugs: ["text-tools/case-conversion-conventions"],
   },
   "open-graph-preview": {
+    guideSlug: "serp-snippet-preview-tips",
     resourceSlugs: ["marketing-tools/open-graph-tags-explained"],
   },
   "meta-tag-generator": {
@@ -147,6 +165,7 @@ export const wave2ToolEnrichment: Record<string, ToolContentEnrichment> = {
     resourceSlugs: ["design-tools/wcag-contrast-basics"],
   },
   "image-resizer": {
+    guideSlug: "resize-images-for-web",
     resourceSlugs: ["design-tools/aspect-ratio-reference"],
   },
 };

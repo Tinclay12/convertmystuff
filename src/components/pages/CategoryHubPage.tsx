@@ -10,10 +10,13 @@ import { buildCategoryBreadcrumbs } from "@/lib/seo/schema";
 import { ToolGrid } from "@/components/tools/ToolGrid";
 import { ToolSearch, type SerializableTool } from "@/components/tools/ToolSearch";
 import { CategoryBadge } from "@/components/ui/CategoryBadge";
+import { FlagshipSpotlight } from "@/components/sections/FlagshipSpotlight";
+import { WorkflowPaths } from "@/components/sections/WorkflowPaths";
+import { siteWorkflowPaths } from "@/lib/content/linking/site-workflows";
 import {
   getAllCategories,
   getCategoryStats,
-  getFeaturedToolsForCategory,
+  getFeaturedFlagshipsForCategory,
   getGuidesForCategory,
   getResourcesForCategory,
   getToolsGroupedBySubcategory,
@@ -49,6 +52,15 @@ export const CategoryHubPage = ({ category }: CategoryHubPageProps) => {
   }));
 
   const breadcrumbs = buildCategoryBreadcrumbs(category);
+  const categoryFlagships = getFeaturedFlagshipsForCategory(category.slug, 3);
+  const categoryWorkflows = siteWorkflowPaths.filter((path) =>
+    path.toolIds.some((toolId) => {
+      const tool = subcategoryGroups
+        .flatMap((group) => group.liveTools)
+        .find((item) => item.id === toolId);
+      return tool?.category === category.slug;
+    }),
+  );
 
   return (
     <>
@@ -74,11 +86,21 @@ export const CategoryHubPage = ({ category }: CategoryHubPageProps) => {
         <ToolSearch tools={serializableTools} placeholder={`Search ${category.title.toLowerCase()}…`} />
       </Section>
 
-      {stats.live > 0 && (
-        <Section title="Featured tools" description="The high-traffic ones in this category.">
-          <div className="rule-list border border-border bg-card">
-            <ToolGrid tools={getFeaturedToolsForCategory(category.slug)} layout="list" columns="2" />
-          </div>
+      <FlagshipSpotlight
+        tools={categoryFlagships}
+        title="Flagship tools"
+        description={`Start with the strongest tools in ${category.title.toLowerCase()}.`}
+        className="mt-10"
+      />
+
+      {categoryWorkflows.length > 0 && (
+        <Section
+          title="Suggested workflows"
+          description="Multi-step paths that pair tools in this category."
+          spacing="tight"
+          className="mt-10"
+        >
+          <WorkflowPaths paths={categoryWorkflows} />
         </Section>
       )}
 
