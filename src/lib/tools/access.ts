@@ -438,6 +438,37 @@ export const buildRouteParams = (): Array<{
   return [...categoryParams, ...subcategoryParams, ...toolParams];
 };
 
+const GENERIC_BROWSER_FAQ_QUESTION = "Does my data leave my browser?";
+
+const hasMeaningfulExamples = (tool: ToolDefinition): boolean => {
+  const examples = tool.examples ?? [];
+  if (examples.length === 0) {
+    return false;
+  }
+
+  return examples.some(
+    (example) =>
+      example.input.trim() !== "See tool fields" &&
+      example.output.trim() !== "Calculated or converted result",
+  );
+};
+
+const hasToolSpecificFaqs = (tool: ToolDefinition): boolean => {
+  const faqs = tool.faqs ?? [];
+  if (faqs.length < 2) {
+    return false;
+  }
+
+  const genericOnly = faqs.every(
+    (entry) =>
+      entry.question === GENERIC_BROWSER_FAQ_QUESTION ||
+      entry.question === "Do I need an account?" ||
+      entry.question === "Can I copy the result?",
+  );
+
+  return !genericOnly;
+};
+
 export const assertPublishedToolSeo = (tool: ToolDefinition): boolean => {
   if (tool.status !== "published") {
     return true;
@@ -445,8 +476,8 @@ export const assertPublishedToolSeo = (tool: ToolDefinition): boolean => {
 
   return (
     tool.relatedTools.length >= 2 &&
-    Boolean(tool.examples?.length) &&
-    Boolean(tool.faqs?.length)
+    hasMeaningfulExamples(tool) &&
+    hasToolSpecificFaqs(tool)
   );
 };
 

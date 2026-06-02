@@ -65,6 +65,11 @@ export const metadata: Metadata = {
     },
   },
   ...(Object.keys(verification).length > 0 ? { verification } : {}),
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
+  },
 };
 
 export const viewport: Viewport = {

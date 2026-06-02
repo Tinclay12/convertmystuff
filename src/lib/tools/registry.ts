@@ -189,6 +189,11 @@ const coreLiveTools: ToolDefinition[] = [
         answer:
           "Arrays are converted to JSON strings in the cell value for basic compatibility.",
       },
+      {
+        question: "What is dot notation in the CSV headers?",
+        answer:
+          "Nested keys become column names like address.city, combining parent and child field names with a dot.",
+      },
     ],
     commonUseCases: [
       "Flatten API payloads for analysis",
@@ -297,6 +302,11 @@ const coreLiveTools: ToolDefinition[] = [
         question: "Does order change?",
         answer: "The first occurrence of each unique line is preserved in original order.",
       },
+      {
+        question: "Can I ignore letter case when deduping?",
+        answer:
+          "Yes. Enable case-insensitive matching to treat Apple and apple as the same line.",
+      },
     ],
     commonUseCases: [
       "Clean email or keyword lists",
@@ -346,6 +356,11 @@ const coreLiveTools: ToolDefinition[] = [
       {
         question: "What is slug case?",
         answer: "Slug case lowercases text and replaces spaces with hyphens for URLs.",
+      },
+      {
+        question: "Does sentence case capitalize every word?",
+        answer:
+          "No. Sentence case capitalizes only the first letter of the text, like a normal sentence.",
       },
     ],
     commonUseCases: [

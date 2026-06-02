@@ -1,19 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { CopyButton } from "@/components/ui/CopyButton";
-import { DownloadButton } from "@/components/ui/DownloadButton";
 import { Textarea } from "@/components/ui/Textarea";
-import { ToolErrorAlert } from "@/components/tools/ToolErrorAlert";
-import { ToolInputPanel } from "@/components/tools/ToolInputPanel";
-import { ToolOutputPanel } from "@/components/tools/ToolOutputPanel";
 import { BrowserPrivacyNote } from "@/components/tools/BrowserPrivacyNote";
+import { ToolActionBar } from "@/components/tools/ToolActionBar";
+import { ToolErrorAlert } from "@/components/tools/ToolErrorAlert";
+import { ToolExampleLoader } from "@/components/tools/ToolExampleLoader";
+import { ToolInputPanel } from "@/components/tools/ToolInputPanel";
+import { ToolOutputActions } from "@/components/tools/ToolOutputActions";
+import { ToolOutputPanel } from "@/components/tools/ToolOutputPanel";
+import { getToolById } from "@/lib/tools/access";
 import { dataConverterConfigs } from "@/lib/tools/logic/data-converters";
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
+import { buildToolShareUrl } from "@/lib/tools/tool-prefill";
 
-type GenericDataConverterToolProps = {
-  toolId: string;
-};
+const COMPONENT_KEY = "GenericDataConverterTool";
 
 const downloadExtensions: Record<string, string> = {
   "yaml-to-json": "json",
@@ -26,9 +29,16 @@ const downloadExtensions: Record<string, string> = {
   "tsv-to-csv": "csv",
 };
 
-export const GenericDataConverterTool = ({ toolId }: GenericDataConverterToolProps) => {
+export const GenericDataConverterTool = ({ toolId, initialPrefill }: GenericToolProps) => {
   const config = dataConverterConfigs[toolId];
-  const [input, setInput] = useState("");
+  const tool = getToolById(toolId);
+  const [input, setInput] = useState(initialPrefill ?? "");
+
+  useEffect(() => {
+    if (initialPrefill !== undefined) {
+      setInput(initialPrefill);
+    }
+  }, [initialPrefill]);
 
   const result = useMemo(() => {
     if (!config) {
@@ -43,33 +53,47 @@ export const GenericDataConverterTool = ({ toolId }: GenericDataConverterToolPro
   }
 
   const extension = downloadExtensions[toolId] ?? "txt";
+  const shareUrl = input.trim() && tool?.path ? buildToolShareUrl(tool.path, { value: input }) : "";
 
   return (
     <div className="space-y-4">
       <BrowserPrivacyNote />
       <ToolInputPanel title="Input">
+        <ToolExampleLoader
+          toolId={toolId}
+          componentKey={COMPONENT_KEY}
+          onLoadValue={setInput}
+          onLoadText={setInput}
+          className="mb-4 flex flex-wrap items-center gap-2"
+        />
         <Textarea
           label={config.inputLabel}
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder={config.inputPlaceholder}
         />
-        <div className="mt-4">
-          <Button type="button" variant="secondary" onClick={() => setInput("")}>
-            Reset
-          </Button>
-        </div>
+        <ToolActionBar
+          secondary={
+            <Button type="button" variant="ghost" onClick={() => setInput("")}>
+              Reset
+            </Button>
+          }
+        />
       </ToolInputPanel>
       {!result.ok && input.trim() && <ToolErrorAlert message={result.error} />}
       <ToolOutputPanel
         actions={
-          <>
-            <CopyButton value={result.ok ? result.output : ""} />
-            <DownloadButton
-              content={result.ok ? result.output : ""}
-              filename={`converted.${extension}`}
-            />
-          </>
+          <ToolOutputActions
+            toolId={toolId}
+            componentKey={COMPONENT_KEY}
+            copyValue={result.ok ? result.output : ""}
+            download={{
+              content: result.ok ? result.output : "",
+              filename: `converted.${extension}`,
+            }}
+            shareUrl={shareUrl}
+            shareDisabled={!input.trim()}
+          />
         }
       >
         <Textarea
@@ -77,7 +101,7 @@ export const GenericDataConverterTool = ({ toolId }: GenericDataConverterToolPro
           value={result.ok ? result.output : ""}
           readOnly
           isOutput
-          placeholder="Converted output will appear here."
+          placeholder={tool?.shortDescription ?? "Converted output will appear here."}
         />
       </ToolOutputPanel>
     </div>

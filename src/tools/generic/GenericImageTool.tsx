@@ -12,11 +12,9 @@ import { formatFileSize } from "@/lib/utils/format-file-size";
 import { BrowserPrivacyNote } from "@/components/tools/BrowserPrivacyNote";
 import { imageToolConfigs } from "@/lib/tools/logic/image-tools";
 
-type GenericImageToolProps = {
-  toolId: string;
-};
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
 
-export const GenericImageTool = ({ toolId }: GenericImageToolProps) => {
+export const GenericImageTool = ({ toolId }: GenericToolProps) => {
   const config = imageToolConfigs[toolId];
   const [files, setFiles] = useState<File[]>([]);
   const [sourcePreviewUrl, setSourcePreviewUrl] = useState("");

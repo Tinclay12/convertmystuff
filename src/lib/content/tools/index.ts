@@ -1,4 +1,5 @@
 import type { ToolContentEnrichment } from "@/lib/content/types";
+import { getToolById } from "@/lib/tools/access";
 import { acresToSquareFeetContent } from "./acres-to-square-feet";
 import { bmiCalculatorContent } from "./bmi-calculator";
 import { calorieCalculatorContent } from "./calorie-calculator";
@@ -65,11 +66,39 @@ const mergeEnrichment = (
   );
 };
 
+const defaultUnitConverterSnippet = (toolId: string): ToolContentEnrichment => ({
+  contentTier: "A",
+  contentBlocks: [
+    {
+      id: "conversion-context",
+      title: "Using this converter",
+      variant: "info",
+      paragraphs: [
+        `This page converts ${toolId.replace(/-/g, " ")} using standard published factors. Enter a value above for an instant result, or use Try examples to load a sample.`,
+        "Results copy locally in your browser—nothing is uploaded to a server.",
+      ],
+    },
+  ],
+});
+
+const resolveConverterSnippet = (toolId: string): ToolContentEnrichment | undefined => {
+  if (converterSnippets[toolId]) {
+    return converterSnippets[toolId];
+  }
+
+  const tool = getToolById(toolId);
+  if (tool?.category === "unit-converters") {
+    return defaultUnitConverterSnippet(toolId);
+  }
+
+  return undefined;
+};
+
 export const getToolContentEnrichment = (toolId: string): ToolContentEnrichment | undefined => {
   return mergeEnrichment(
     dedicatedContent[toolId],
     wave2ToolEnrichment[toolId],
-    converterSnippets[toolId],
+    resolveConverterSnippet(toolId),
     faqSupplements[toolId],
   );
 };

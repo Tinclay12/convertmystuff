@@ -118,6 +118,10 @@ export const calculateNoi = (values: RealEstateInput): LogicResult => {
   return {
     ok: true,
     output: `Net Operating Income (NOI): $${formatNumber(noi, 2)}`,
+    resultLines: [
+      { label: "Vacancy loss", value: `$${formatNumber(vacancyLoss, 2)}` },
+      { label: "Net operating income", value: `$${formatNumber(noi, 2)}` },
+    ],
     meta: { noi, vacancyLoss },
   };
 };

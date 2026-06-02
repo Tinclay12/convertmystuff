@@ -1,21 +1,33 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { CopyButton } from "@/components/ui/CopyButton";
 import { Textarea } from "@/components/ui/Textarea";
+import { ToolActionBar } from "@/components/tools/ToolActionBar";
 import { ToolErrorAlert } from "@/components/tools/ToolErrorAlert";
+import { ToolExampleLoader } from "@/components/tools/ToolExampleLoader";
 import { ToolInputPanel } from "@/components/tools/ToolInputPanel";
+import { ToolOutputActions } from "@/components/tools/ToolOutputActions";
 import { ToolOutputPanel } from "@/components/tools/ToolOutputPanel";
+import { getToolById } from "@/lib/tools/access";
 import { formatterConfigs } from "@/lib/tools/logic/formatters";
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
+import { buildToolShareUrl } from "@/lib/tools/tool-prefill";
 
-type GenericFormatterToolProps = {
-  toolId: string;
-};
+const COMPONENT_KEY = "GenericFormatterTool";
 
-export const GenericFormatterTool = ({ toolId }: GenericFormatterToolProps) => {
+export const GenericFormatterTool = ({ toolId, initialPrefill }: GenericToolProps) => {
   const config = formatterConfigs[toolId];
-  const [input, setInput] = useState("");
+  const tool = getToolById(toolId);
+  const [input, setInput] = useState(initialPrefill ?? "");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (initialPrefill !== undefined) {
+      setInput(initialPrefill);
+    }
+  }, [initialPrefill]);
 
   const prettyResult = useMemo(() => {
     if (!config || !input.trim()) {
@@ -32,9 +44,6 @@ export const GenericFormatterTool = ({ toolId }: GenericFormatterToolProps) => {
 
     return config.transform(input, mode);
   };
-
-  const [output, setOutput] = useState("");
-  const [error, setError] = useState("");
 
   const handleRun = (mode: "pretty" | "minify") => {
     const result = handleFormat(mode);
@@ -56,38 +65,75 @@ export const GenericFormatterTool = ({ toolId }: GenericFormatterToolProps) => {
     return <ToolErrorAlert message="This formatter is not configured yet." />;
   }
 
+  const shareUrl = input.trim() && tool?.path ? buildToolShareUrl(tool.path, { value: input }) : "";
+
   return (
     <div className="space-y-4">
       <ToolInputPanel title="Input">
+        <ToolExampleLoader
+          toolId={toolId}
+          componentKey={COMPONENT_KEY}
+          onLoadValue={setInput}
+          onLoadText={setInput}
+          className="mb-4 flex flex-wrap items-center gap-2"
+        />
         <Textarea
           label={config.inputLabel}
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder={config.inputPlaceholder}
         />
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Button type="button" onClick={() => handleRun("pretty")}>
-            Format
-          </Button>
-          <Button type="button" onClick={() => handleRun("minify")}>
-            Minify
-          </Button>
-          <Button type="button" variant="secondary" onClick={() => { setInput(""); setOutput(""); setError(""); }}>
-            Reset
-          </Button>
-        </div>
+        <ToolActionBar
+          primary={
+            <>
+              <Button type="button" onClick={() => handleRun("pretty")}>
+                Format
+              </Button>
+              <Button type="button" onClick={() => handleRun("minify")}>
+                Minify
+              </Button>
+            </>
+          }
+          secondary={
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                setInput("");
+                setOutput("");
+                setError("");
+              }}
+            >
+              Reset
+            </Button>
+          }
+        />
       </ToolInputPanel>
       {error && <ToolErrorAlert message={error} />}
       {!error && prettyResult && !prettyResult.ok && input.trim() && (
         <ToolErrorAlert message={prettyResult.error} />
       )}
-      <ToolOutputPanel actions={<CopyButton value={output} />}>
+      <ToolOutputPanel
+        actions={
+          <ToolOutputActions
+            toolId={toolId}
+            componentKey={COMPONENT_KEY}
+            copyValue={output}
+            download={{
+              content: output,
+              filename: `${toolId}.txt`,
+            }}
+            shareUrl={shareUrl}
+            shareDisabled={!input.trim()}
+          />
+        }
+      >
         <Textarea
           label={config.outputLabel}
           value={output}
           readOnly
           isOutput
-          placeholder="Formatted output will appear here."
+          placeholder={tool?.shortDescription ?? "Formatted output will appear here."}
         />
       </ToolOutputPanel>
     </div>

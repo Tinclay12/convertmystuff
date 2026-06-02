@@ -1,24 +1,39 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { CopyButton } from "@/components/ui/CopyButton";
 import { Input } from "@/components/ui/Input";
+import { ToolActionBar } from "@/components/tools/ToolActionBar";
 import { ToolErrorAlert } from "@/components/tools/ToolErrorAlert";
+import { ToolExampleLoader } from "@/components/tools/ToolExampleLoader";
 import { ToolInputPanel } from "@/components/tools/ToolInputPanel";
+import { ToolOutputActions } from "@/components/tools/ToolOutputActions";
 import { ToolOutputPanel } from "@/components/tools/ToolOutputPanel";
+import { getToolById } from "@/lib/tools/access";
 import { timeDateToolConfigs } from "@/lib/tools/logic/time-date-tools";
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
+import { buildToolShareSearch, buildToolShareUrl } from "@/lib/tools/tool-prefill";
 
-type GenericTimeDateToolProps = {
-  toolId: string;
+const COMPONENT_KEY = "GenericTimeDateTool";
+
+const defaultTimeDateValues = {
+  mode: "toDate",
+  from: "fahrenheit",
 };
 
-export const GenericTimeDateTool = ({ toolId }: GenericTimeDateToolProps) => {
+export const GenericTimeDateTool = ({ toolId, initialFields }: GenericToolProps) => {
   const config = timeDateToolConfigs[toolId];
+  const tool = getToolById(toolId);
   const [values, setValues] = useState<Record<string, string>>({
-    mode: "toDate",
-    from: "fahrenheit",
+    ...defaultTimeDateValues,
+    ...initialFields,
   });
+
+  useEffect(() => {
+    if (initialFields && Object.keys(initialFields).length > 0) {
+      setValues((current) => ({ ...current, ...initialFields }));
+    }
+  }, [initialFields]);
 
   const result = useMemo(() => {
     if (!config) {
@@ -33,10 +48,22 @@ export const GenericTimeDateTool = ({ toolId }: GenericTimeDateToolProps) => {
   }
 
   const hasInput = config.fields.some((field) => values[field.key]?.trim());
+  const shareUrl =
+    tool?.path && buildToolShareSearch(values)
+      ? buildToolShareUrl(tool.path, values)
+      : "";
 
   return (
     <div className="space-y-4">
       <ToolInputPanel title="Date and time inputs">
+        <ToolExampleLoader
+          toolId={toolId}
+          componentKey={COMPONENT_KEY}
+          fieldKeys={config.fields.map((field) => field.key)}
+          onLoadValue={() => {}}
+          onLoadFields={setValues}
+          className="mb-4 flex flex-wrap items-center gap-2"
+        />
         <div className="grid gap-4 sm:grid-cols-2">
           {config.fields.map((field) =>
             field.type === "select" ? (
@@ -73,17 +100,33 @@ export const GenericTimeDateTool = ({ toolId }: GenericTimeDateToolProps) => {
             ),
           )}
         </div>
-        <div className="mt-4">
-          <Button type="button" variant="secondary" onClick={() => setValues({ mode: "toDate" })}>
-            Reset
-          </Button>
-        </div>
+        <ToolActionBar
+          secondary={
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setValues({ ...defaultTimeDateValues })}
+            >
+              Reset
+            </Button>
+          }
+        />
       </ToolInputPanel>
       {!result.ok && hasInput && <ToolErrorAlert message={result.error} />}
-      <ToolOutputPanel actions={<CopyButton value={result.ok ? result.output : ""} />}>
+      <ToolOutputPanel
+        actions={
+          <ToolOutputActions
+            toolId={toolId}
+            componentKey={COMPONENT_KEY}
+            copyValue={result.ok ? result.output : ""}
+            shareUrl={shareUrl}
+            shareDisabled={!hasInput}
+          />
+        }
+      >
         <p className="text-sm text-muted">Result</p>
         <p className="mt-1 text-2xl font-semibold text-foreground">
-          {result.ok ? result.output : "—"}
+          {result.ok ? result.output : tool?.shortDescription ?? "—"}
         </p>
       </ToolOutputPanel>
     </div>

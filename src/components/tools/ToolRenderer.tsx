@@ -3,6 +3,8 @@
 import type { ComponentType } from "react";
 import { useSearchParams } from "next/navigation";
 import { getToolComponent } from "@/lib/tools/component-map";
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
+import { parseToolSearchParams } from "@/lib/tools/tool-prefill";
 import { GenericConstructionCalculatorTool } from "@/tools/generic/GenericConstructionCalculatorTool";
 import { GenericDataConverterTool } from "@/tools/generic/GenericDataConverterTool";
 import { GenericEncoderTool } from "@/tools/generic/GenericEncoderTool";
@@ -25,7 +27,7 @@ type ToolRendererProps = {
   toolId?: string;
 };
 
-const genericComponentMap: Record<string, ComponentType<{ toolId: string; initialPrefill?: string }>> = {
+const genericComponentMap: Record<string, ComponentType<GenericToolProps>> = {
   GenericUnitConverterTool,
   GenericEncoderTool,
   GenericDataConverterTool,
@@ -46,12 +48,18 @@ const genericComponentMap: Record<string, ComponentType<{ toolId: string; initia
 
 export const ToolRenderer = ({ componentKey, toolId }: ToolRendererProps) => {
   const searchParams = useSearchParams();
-  const initialPrefill = searchParams.get("value") ?? undefined;
+  const { value: initialPrefill, fields: initialFields } = parseToolSearchParams(searchParams);
 
   const GenericComponent = genericComponentMap[componentKey];
 
   if (GenericComponent && toolId) {
-    return <GenericComponent toolId={toolId} initialPrefill={initialPrefill} />;
+    return (
+      <GenericComponent
+        toolId={toolId}
+        initialPrefill={initialPrefill}
+        initialFields={initialFields}
+      />
+    );
   }
 
   const ToolComponent = getToolComponent(componentKey) as ComponentType | undefined;

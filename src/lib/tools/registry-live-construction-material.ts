@@ -128,7 +128,10 @@ export const constructionMaterialConverterTools: ToolDefinition[] = [
     examples: [
       { title: "2.75 tons", input: "2.75", output: "5", explanation: "2.75 ÷ 0.55 = 5 cubic yards." },
     ],
-    faqs: [faq("Is wet mulch heavier?", "Yes. Moisture can increase weight without increasing usable volume much.")],
+    faqs: [
+      faq("Is wet mulch heavier?", "Yes. Moisture can increase weight without increasing usable volume much."),
+      faq("How do I estimate bed coverage?", "Use the mulch calculator after converting tons to cubic yards."),
+    ],
     commonUseCases: ["Convert ton-based quotes to cubic yard coverage"],
     assumptions: ["Uses ~0.55 tons per cubic yard."],
     sourceNotes: ["Mulch density varies by type and moisture content."],
@@ -183,7 +186,10 @@ export const constructionMaterialConverterTools: ToolDefinition[] = [
     examples: [
       { title: "4 tons", input: "4", output: "2", explanation: "4 ÷ 2.0 = 2 cubic yards." },
     ],
-    faqs: [faq("Does reinforcement change volume?", "Rebar and fiber add minimal volume; this estimates plain ready-mix volume.")],
+    faqs: [
+      faq("Does reinforcement change volume?", "Rebar and fiber add minimal volume; this estimates plain ready-mix volume."),
+      faq("How many yards fit on a truck?", "Typical ready-mix trucks carry 8–10 cubic yards; verify with your supplier."),
+    ],
     commonUseCases: ["Convert weight-based hauling limits to pour volume"],
     assumptions: ["Uses ~2.0 tons per cubic yard."],
     sourceNotes: ["Normal-weight concrete ≈ 4,000 lb per cubic yard."],

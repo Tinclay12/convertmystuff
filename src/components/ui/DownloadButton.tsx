@@ -8,6 +8,7 @@ type DownloadButtonProps = {
   filename: string;
   label?: string;
   mimeType?: string;
+  onDownloaded?: () => void;
 };
 
 export const DownloadButton = ({
@@ -15,12 +16,14 @@ export const DownloadButton = ({
   filename,
   label = "Download",
   mimeType = "text/plain;charset=utf-8",
+  onDownloaded,
 }: DownloadButtonProps) => {
   const handleDownload = () => {
     if (!content) {
       return;
     }
 
+    onDownloaded?.();
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");

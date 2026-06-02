@@ -1,5 +1,10 @@
+export type ResultLine = {
+  label: string;
+  value: string;
+};
+
 export type LogicResult =
-  | { ok: true; output: string; meta?: Record<string, string | number> }
+  | { ok: true; output: string; meta?: Record<string, string | number>; resultLines?: ResultLine[] }
   | { ok: false; error: string };
 
 export type NumericResult =

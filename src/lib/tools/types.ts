@@ -23,6 +23,8 @@ export type ToolExample = {
   explanation?: string;
   /** Numeric value for ?value= query prefill on converter tools */
   prefillValue?: string;
+  /** Query string without leading ? for multi-field tool prefill and share links */
+  prefillQuery?: string;
 };
 
 export type ToolFaq = {

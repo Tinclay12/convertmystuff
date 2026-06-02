@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Input } from "@/components/ui/Input";
@@ -18,9 +18,7 @@ import {
   textToPdfBytes,
 } from "@/lib/tools/logic/document-tools";
 
-type GenericDocumentToolProps = {
-  toolId: string;
-};
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
 
 const downloadBytes = (bytes: Uint8Array, filename: string) => {
   const blob = new Blob([Uint8Array.from(bytes)], { type: "application/pdf" });
@@ -32,14 +30,20 @@ const downloadBytes = (bytes: Uint8Array, filename: string) => {
   URL.revokeObjectURL(url);
 };
 
-export const GenericDocumentTool = ({ toolId }: GenericDocumentToolProps) => {
+export const GenericDocumentTool = ({ toolId, initialPrefill }: GenericToolProps) => {
   const config = documentToolConfigs[toolId];
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(initialPrefill ?? "");
   const [files, setFiles] = useState<File[]>([]);
   const [pageRanges, setPageRanges] = useState("all");
   const [mergeProgress, setMergeProgress] = useState("");
   const [error, setError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
+    if (initialPrefill !== undefined) {
+      setInput(initialPrefill);
+    }
+  }, [initialPrefill]);
 
   const result = useMemo(() => {
     if (!config || config.kind !== "textarea") {

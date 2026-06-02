@@ -1,28 +1,50 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { CopyButton } from "@/components/ui/CopyButton";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
+import { ToolActionBar } from "@/components/tools/ToolActionBar";
 import { ToolErrorAlert } from "@/components/tools/ToolErrorAlert";
+import { ToolExampleLoader } from "@/components/tools/ToolExampleLoader";
 import { ToolInputPanel } from "@/components/tools/ToolInputPanel";
+import { ToolOutputActions } from "@/components/tools/ToolOutputActions";
 import { ToolOutputPanel } from "@/components/tools/ToolOutputPanel";
+import { getToolById } from "@/lib/tools/access";
 import { kitchenToolConfigs } from "@/lib/tools/logic/kitchen-recipe-tools";
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
+import { buildToolShareSearch, buildToolShareUrl } from "@/lib/tools/tool-prefill";
 
-type GenericKitchenToolProps = {
-  toolId: string;
+const COMPONENT_KEY = "GenericKitchenTool";
+
+const defaultKitchenValues = {
+  ingredient: "flour",
+  from: "fahrenheit",
+  fromUnit: "cup",
+  toUnit: "tbsp",
 };
 
-export const GenericKitchenTool = ({ toolId }: GenericKitchenToolProps) => {
+export const GenericKitchenTool = ({
+  toolId,
+  initialPrefill,
+  initialFields,
+}: GenericToolProps) => {
   const config = kitchenToolConfigs[toolId];
-  const [input, setInput] = useState("");
+  const tool = getToolById(toolId);
+  const [input, setInput] = useState(initialPrefill ?? "");
   const [values, setValues] = useState<Record<string, string>>({
-    ingredient: "flour",
-    from: "fahrenheit",
-    fromUnit: "cup",
-    toUnit: "tbsp",
+    ...defaultKitchenValues,
+    ...initialFields,
   });
+
+  useEffect(() => {
+    if (initialPrefill !== undefined) {
+      setInput(initialPrefill);
+    }
+    if (initialFields && Object.keys(initialFields).length > 0) {
+      setValues((current) => ({ ...current, ...initialFields }));
+    }
+  }, [initialFields, initialPrefill]);
 
   const result = useMemo(() => {
     if (!config) {
@@ -46,9 +68,24 @@ export const GenericKitchenTool = ({ toolId }: GenericKitchenToolProps) => {
     input.trim() ||
     config.fields.some((field) => values[field.key]?.trim());
 
+  const shareParams = { ...values, ...(input.trim() ? { value: input } : {}) };
+  const shareUrl =
+    tool?.path && buildToolShareSearch(shareParams)
+      ? buildToolShareUrl(tool.path, shareParams)
+      : "";
+
   return (
     <div className="space-y-4">
       <ToolInputPanel title="Recipe inputs">
+        <ToolExampleLoader
+          toolId={toolId}
+          componentKey={COMPONENT_KEY}
+          fieldKeys={config.fields.map((field) => field.key)}
+          onLoadValue={setInput}
+          onLoadFields={setValues}
+          onLoadText={setInput}
+          className="mb-4 flex flex-wrap items-center gap-2"
+        />
         {config.kind === "textarea" && (
           <Textarea
             label={config.inputLabel}
@@ -94,32 +131,43 @@ export const GenericKitchenTool = ({ toolId }: GenericKitchenToolProps) => {
             ),
           )}
         </div>
-        <div className="mt-4">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => {
-              setInput("");
-              setValues({
-                ingredient: "flour",
-                from: "fahrenheit",
-                fromUnit: "cup",
-                toUnit: "tbsp",
-              });
-            }}
-          >
-            Reset
-          </Button>
-        </div>
+        <ToolActionBar
+          secondary={
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                setInput("");
+                setValues({ ...defaultKitchenValues });
+              }}
+            >
+              Reset
+            </Button>
+          }
+        />
       </ToolInputPanel>
       {!result.ok && hasInput && <ToolErrorAlert message={result.error} />}
-      <ToolOutputPanel actions={<CopyButton value={result.ok ? result.output : ""} />}>
+      <ToolOutputPanel
+        actions={
+          <ToolOutputActions
+            toolId={toolId}
+            componentKey={COMPONENT_KEY}
+            copyValue={result.ok ? result.output : ""}
+            download={{
+              content: result.ok ? result.output : "",
+              filename: `${toolId}.txt`,
+            }}
+            shareUrl={shareUrl}
+            shareDisabled={!hasInput}
+          />
+        }
+      >
         <Textarea
           label="Result"
           value={result.ok ? result.output : ""}
           readOnly
           isOutput
-          placeholder="Output will appear here."
+          placeholder={tool?.shortDescription ?? "Output will appear here."}
         />
       </ToolOutputPanel>
     </div>

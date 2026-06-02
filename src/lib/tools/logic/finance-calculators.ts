@@ -26,6 +26,7 @@ export const calculatePercentage = (values: FinanceInput): LogicResult => {
   return {
     ok: true,
     output: `${formatNumber(values.percent, 2)}% of ${formatNumber(values.value, 2)} = ${formatNumber(result, 2)}`,
+    resultLines: [{ label: "Calculated amount", value: formatNumber(result, 2) }],
     meta: { result },
   };
 };
@@ -44,6 +45,11 @@ export const calculateTip = (values: FinanceInput): LogicResult => {
   return {
     ok: true,
     output: `Tip: $${formatNumber(tipAmount, 2)} | Total: $${formatNumber(total, 2)} | Per person: $${formatNumber(perPerson, 2)}`,
+    resultLines: [
+      { label: "Tip amount", value: `$${formatNumber(tipAmount, 2)}` },
+      { label: "Bill total", value: `$${formatNumber(total, 2)}` },
+      { label: "Per person", value: `$${formatNumber(perPerson, 2)}` },
+    ],
     meta: { tipAmount, total, perPerson },
   };
 };
@@ -61,6 +67,10 @@ export const calculateDiscount = (values: FinanceInput): LogicResult => {
   return {
     ok: true,
     output: `Discount: $${formatNumber(discountAmount, 2)} | Sale price: $${formatNumber(finalPrice, 2)}`,
+    resultLines: [
+      { label: "Discount amount", value: `$${formatNumber(discountAmount, 2)}` },
+      { label: "Sale price", value: `$${formatNumber(finalPrice, 2)}` },
+    ],
     meta: { discountAmount, finalPrice },
   };
 };
@@ -78,6 +88,10 @@ export const calculateMargin = (values: FinanceInput): LogicResult => {
   return {
     ok: true,
     output: `Profit: $${formatNumber(profit, 2)} | Margin: ${formatNumber(margin, 2)}%`,
+    resultLines: [
+      { label: "Profit", value: `$${formatNumber(profit, 2)}` },
+      { label: "Margin", value: `${formatNumber(margin, 2)}%` },
+    ],
     meta: { margin, profit },
   };
 };
@@ -95,6 +109,10 @@ export const calculateMarkup = (values: FinanceInput): LogicResult => {
   return {
     ok: true,
     output: `Markup amount: $${formatNumber(markupAmount, 2)} | Selling price: $${formatNumber(price, 2)}`,
+    resultLines: [
+      { label: "Markup amount", value: `$${formatNumber(markupAmount, 2)}` },
+      { label: "Selling price", value: `$${formatNumber(price, 2)}` },
+    ],
     meta: { price, markupAmount },
   };
 };
@@ -115,6 +133,10 @@ export const calculateCompoundInterest = (values: FinanceInput): LogicResult => 
   return {
     ok: true,
     output: `Future value: $${formatNumber(amount, 2)} | Interest earned: $${formatNumber(interest, 2)}`,
+    resultLines: [
+      { label: "Future value", value: `$${formatNumber(amount, 2)}` },
+      { label: "Interest earned", value: `$${formatNumber(interest, 2)}` },
+    ],
     meta: { amount, interest },
   };
 };
@@ -137,6 +159,10 @@ export const calculateLoanPayment = (values: FinanceInput): LogicResult => {
   return {
     ok: true,
     output: `Monthly payment: $${formatNumber(payment, 2)} | Total paid: $${formatNumber(totalPaid, 2)}`,
+    resultLines: [
+      { label: "Monthly payment", value: `$${formatNumber(payment, 2)}` },
+      { label: "Total paid", value: `$${formatNumber(totalPaid, 2)}` },
+    ],
     meta: { payment, totalPaid },
   };
 };
@@ -157,6 +183,7 @@ export const calculateBreakEven = (values: FinanceInput): LogicResult => {
   return {
     ok: true,
     output: `Break-even units: ${formatNumber(units, 2)}`,
+    resultLines: [{ label: "Break-even units", value: formatNumber(units, 2) }],
     meta: { units },
   };
 };

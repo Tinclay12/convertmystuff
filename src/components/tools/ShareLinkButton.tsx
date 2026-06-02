@@ -1,29 +1,38 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy } from "@phosphor-icons/react/dist/ssr";
+import { Check, LinkSimple } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
+import { trackToolEvent } from "@/lib/analytics/tool-events";
 import { cn } from "@/lib/utils/cn";
 
-type CopyButtonProps = {
-  value: string;
+type ShareLinkButtonProps = {
+  shareUrl: string;
+  toolId: string;
+  componentKey?: string;
   label?: string;
-  onCopied?: () => void;
+  disabled?: boolean;
 };
 
-export const CopyButton = ({ value, label = "Copy", onCopied }: CopyButtonProps) => {
+export const ShareLinkButton = ({
+  shareUrl,
+  toolId,
+  componentKey,
+  label = "Copy link",
+  disabled = false,
+}: ShareLinkButtonProps) => {
   const [copied, setCopied] = useState(false);
   const [announcement, setAnnouncement] = useState("");
 
-  const handleCopy = async () => {
-    if (!value) {
+  const handleShare = async () => {
+    if (!shareUrl || disabled) {
       return;
     }
 
-    await navigator.clipboard.writeText(value);
-    onCopied?.();
+    await navigator.clipboard.writeText(shareUrl);
+    trackToolEvent("tool_share", { tool_id: toolId, component_key: componentKey });
     setCopied(true);
-    setAnnouncement("Copied to clipboard");
+    setAnnouncement("Share link copied");
     window.setTimeout(() => {
       setCopied(false);
       setAnnouncement("");
@@ -38,19 +47,19 @@ export const CopyButton = ({ value, label = "Copy", onCopied }: CopyButtonProps)
       <Button
         type="button"
         variant="secondary"
-        onClick={handleCopy}
-        disabled={!value}
+        onClick={handleShare}
+        disabled={disabled || !shareUrl}
         aria-label={label}
         icon={
           copied ? (
             <Check size={16} weight="bold" aria-hidden="true" />
           ) : (
-            <Copy size={16} weight="bold" aria-hidden="true" />
+            <LinkSimple size={16} weight="bold" aria-hidden="true" />
           )
         }
         className={cn(copied && "animate-result-flash border-success/40 bg-success-bg text-success")}
       >
-        {copied ? "Copied" : label}
+        {copied ? "Link copied" : label}
       </Button>
     </>
   );

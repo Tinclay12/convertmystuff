@@ -1,28 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { CopyButton } from "@/components/ui/CopyButton";
 import { Input } from "@/components/ui/Input";
 import { ToolActionBar } from "@/components/tools/ToolActionBar";
 import { ToolErrorAlert } from "@/components/tools/ToolErrorAlert";
+import { ToolExampleLoader } from "@/components/tools/ToolExampleLoader";
 import { ToolInputPanel } from "@/components/tools/ToolInputPanel";
+import { ToolOutputActions } from "@/components/tools/ToolOutputActions";
 import { ToolOutputPanel } from "@/components/tools/ToolOutputPanel";
+import { getToolById } from "@/lib/tools/access";
 import {
   formatNumber,
   parseNumericInput,
   unitConverterConfigs,
 } from "@/lib/tools/logic/unit-conversions";
+import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
+import { buildToolShareUrl } from "@/lib/tools/tool-prefill";
 
-type GenericUnitConverterToolProps = {
-  toolId: string;
-  initialPrefill?: string;
-};
+const COMPONENT_KEY = "GenericUnitConverterTool";
+const PRESETS = ["1", "10", "100"];
 
-export const GenericUnitConverterTool = ({ toolId, initialPrefill }: GenericUnitConverterToolProps) => {
+export const GenericUnitConverterTool = ({ toolId, initialPrefill }: GenericToolProps) => {
   const config = unitConverterConfigs[toolId];
+  const tool = getToolById(toolId);
   const [input, setInput] = useState(initialPrefill ?? "");
+
+  useEffect(() => {
+    if (initialPrefill !== undefined) {
+      setInput(initialPrefill);
+    }
+  }, [initialPrefill]);
 
   const result = useMemo(() => {
     if (!config) {
@@ -42,10 +51,22 @@ export const GenericUnitConverterTool = ({ toolId, initialPrefill }: GenericUnit
   }
 
   const output = result.ok ? formatNumber(result.value) : "";
+  const formulaLine =
+    result.ok && input.trim()
+      ? `${input.trim()} ${config.inputLabel.toLowerCase()} = ${output} ${config.outputLabel.toLowerCase()}`
+      : "";
+  const shareUrl =
+    tool?.path && input.trim() ? buildToolShareUrl(tool.path, { value: input.trim() }) : "";
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <ToolInputPanel title={`${config.inputLabel}`}>
+      <ToolInputPanel title={config.inputLabel}>
+        <ToolExampleLoader
+          toolId={toolId}
+          componentKey={COMPONENT_KEY}
+          onLoadValue={setInput}
+          className="mb-4 flex flex-wrap items-center gap-2"
+        />
         <Input
           label={config.inputLabel}
           type="number"
@@ -55,6 +76,19 @@ export const GenericUnitConverterTool = ({ toolId, initialPrefill }: GenericUnit
           onChange={(event) => setInput(event.target.value)}
           placeholder={config.inputPlaceholder}
         />
+        <div className="mt-3 flex flex-wrap gap-2">
+          {PRESETS.map((preset) => (
+            <Button
+              key={preset}
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={() => setInput(preset)}
+            >
+              {preset}
+            </Button>
+          ))}
+        </div>
         <ToolActionBar
           secondary={
             <Button type="button" variant="ghost" onClick={() => setInput("")}>
@@ -68,9 +102,27 @@ export const GenericUnitConverterTool = ({ toolId, initialPrefill }: GenericUnit
         {!result.ok && input.trim() && <ToolErrorAlert message={result.error} />}
         <ToolOutputPanel
           title={config.outputLabel}
-          actions={<CopyButton value={output} />}
+          actions={
+            <ToolOutputActions
+              toolId={toolId}
+              componentKey={COMPONENT_KEY}
+              copyValue={formulaLine || output}
+              copyLabel={formulaLine ? "Copy result line" : "Copy"}
+              shareUrl={shareUrl}
+              shareDisabled={!input.trim() || !result.ok}
+            />
+          }
         >
-          <p className="font-mono text-3xl font-semibold text-foreground">{output || "—"}</p>
+          {result.ok && output ? (
+            <>
+              <p className="font-mono text-3xl font-semibold text-foreground">{output}</p>
+              <p className="mt-2 text-sm text-muted">{config.outputLabel}</p>
+            </>
+          ) : (
+            <p className="text-sm text-muted">
+              {tool?.shortDescription ?? "Enter a value to convert."}
+            </p>
+          )}
         </ToolOutputPanel>
       </div>
 
