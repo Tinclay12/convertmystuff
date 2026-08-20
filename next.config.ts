@@ -17,6 +17,16 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   trailingSlash: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.convertmystuff.com" }],
+        destination: "https://convertmystuff.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

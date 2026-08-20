@@ -42,12 +42,16 @@ export const designLiveTools: ToolDefinition[] = [
     howToUse: ["Enter text (foreground) color.", "Enter background color.", "View contrast ratio and WCAG pass/fail."],
     examples: [{ title: "Black on white", input: "text #000000, bg #FFFFFF", output: "21:1 ratio, passes AAA", explanation: "Maximum contrast for body text." }],
     faqs: [
-      faq("What ratio is required for AA?", "4.5:1 for normal text, 3:1 for large text (18pt+ or 14pt bold)."),
-      faq("What about AAA?", "7:1 for normal text, 4.5:1 for large text."),
-      faq("Does it check UI components?", "Enter colors for text and background; non-text UI needs 3:1 for AA."),
+      faq("What ratio is required for AA?", "WCAG 2.2 Success Criterion 1.4.3 requires 4.5:1 for normal text and 3:1 for large text (18pt+ or 14pt bold)."),
+      faq("What about AAA?", "WCAG 2.2 AAA is 7:1 for normal text and 4.5:1 for large text."),
+      faq("Does it check UI components?", "WCAG 2.2 SC 1.4.11 requires 3:1 for non-text UI against adjacent colors. Enter those color pairs here."),
     ],
     commonUseCases: ["Validate accessible text colors", "Check button label contrast", "Audit design system palettes"],
-    sourceNotes: ["WCAG 2.1 contrast requirements (W3C).", "Large text: 18pt+ regular or 14pt+ bold."],
+    sourceNotes: [
+      "W3C WCAG 2.2 Success Criterion 1.4.3 Contrast (Minimum).",
+      "W3C WCAG 2.2 Success Criterion 1.4.11 Non-text Contrast.",
+      "Large text: 18pt+ regular or 14pt+ bold.",
+    ],
   }),
   buildLiveTool({
     id: "gradient-generator",

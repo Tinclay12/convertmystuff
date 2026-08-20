@@ -98,16 +98,28 @@ export const GenericDesignTool = ({ toolId, initialFields }: GenericToolProps) =
         />
       )}
       {config.preview === "contrast" && values.foreground && values.background && (
-        <div
-          className="rounded-xl border border-border p-4 text-lg font-medium"
-          style={{
-            color: values.foreground.startsWith("#") ? values.foreground : `#${values.foreground}`,
-            backgroundColor: values.background.startsWith("#")
-              ? values.background
-              : `#${values.background}`,
-          }}
-        >
-          Sample text preview
+        <div className="space-y-3">
+          <div
+            className="rounded-xl border border-border p-4 text-lg font-medium"
+            style={{
+              color: values.foreground.startsWith("#") ? values.foreground : `#${values.foreground}`,
+              backgroundColor: values.background.startsWith("#")
+                ? values.background
+                : `#${values.background}`,
+            }}
+          >
+            Sample text preview
+          </div>
+          {result.ok && (
+            <ul className="grid gap-2 text-sm text-foreground sm:grid-cols-2">
+              {(result.resultLines ?? []).map((line) => (
+                <li key={line.label}>
+                  <span className="text-muted">{line.label}: </span>
+                  <span className="font-medium">{line.value}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
       <ToolOutputPanel
@@ -115,7 +127,14 @@ export const GenericDesignTool = ({ toolId, initialFields }: GenericToolProps) =
           <ToolOutputActions
             toolId={toolId}
             componentKey={COMPONENT_KEY}
-            copyValue={result.ok ? result.output : ""}
+            copyValue={
+              result.ok && config.preview === "contrast" && typeof result.meta?.ratio === "number"
+                ? `${result.meta.ratio.toFixed(2)}:1`
+                : result.ok
+                  ? result.output
+                  : ""
+            }
+            copyLabel={config.preview === "contrast" ? "Copy ratio" : "Copy"}
             shareUrl={shareUrl}
             shareDisabled={!hasInput}
           />

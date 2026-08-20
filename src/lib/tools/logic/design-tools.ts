@@ -98,10 +98,19 @@ export const checkContrast = (values: DesignInput): LogicResult => {
   const ratio = (lighter + 0.05) / (darker + 0.05);
   const aaNormal = ratio >= 4.5;
   const aaLarge = ratio >= 3;
+  const aaaNormal = ratio >= 7;
+  const aaaLarge = ratio >= 4.5;
+  const ratioLabel = `${formatNumber(ratio, 2)}:1`;
 
   return {
     ok: true,
-    output: `Contrast ratio: ${formatNumber(ratio, 2)}:1\nWCAG AA normal text: ${aaNormal ? "Pass" : "Fail"}\nWCAG AA large text: ${aaLarge ? "Pass" : "Fail"}`,
+    output: `Contrast ratio: ${ratioLabel}\nWCAG AA normal text: ${aaNormal ? "Pass" : "Fail"}\nWCAG AA large text: ${aaLarge ? "Pass" : "Fail"}\nWCAG AAA normal text: ${aaaNormal ? "Pass" : "Fail"}\nWCAG AAA large text: ${aaaLarge ? "Pass" : "Fail"}`,
+    resultLines: [
+      { label: "Contrast ratio", value: ratioLabel },
+      { label: "AA normal", value: aaNormal ? "Pass" : "Fail" },
+      { label: "AA large", value: aaLarge ? "Pass" : "Fail" },
+      { label: "AAA normal", value: aaaNormal ? "Pass" : "Fail" },
+    ],
     meta: { ratio },
   };
 };

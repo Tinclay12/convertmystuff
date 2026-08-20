@@ -21,6 +21,12 @@ const buildStaticEntries = (): MetadataRoute.Sitemap => {
       priority: 0.9,
     },
     {
+      url: toAbsoluteUrl("/converters/"),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: toAbsoluteUrl("/guides/"),
       lastModified: now,
       changeFrequency: "weekly",

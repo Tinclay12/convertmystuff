@@ -6,7 +6,10 @@ import {
   calculateLoanPayment,
   calculateMargin,
   calculateMarkup,
+  calculatePercentDecrease,
+  calculatePercentIncrease,
   calculatePercentage,
+  calculatePercentageChange,
   calculateTip,
 } from "@/lib/tools/logic/finance-calculators";
 
@@ -17,6 +20,28 @@ describe("finance-calculators", () => {
     if (result.ok) {
       expect(result.meta?.result).toBe(30);
     }
+  });
+
+  it("calculates percent increase and decrease", () => {
+    const up = calculatePercentIncrease({ value: 200, percent: 10 });
+    const down = calculatePercentDecrease({ value: 200, percent: 10 });
+    expect(up.ok).toBe(true);
+    expect(down.ok).toBe(true);
+    if (up.ok && down.ok) {
+      expect(up.meta?.result).toBe(220);
+      expect(down.meta?.result).toBe(180);
+    }
+  });
+
+  it("calculates percentage change and rejects a zero baseline", () => {
+    const result = calculatePercentageChange({ oldValue: 40, newValue: 50 });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.meta?.result).toBe(25);
+    }
+
+    const zero = calculatePercentageChange({ oldValue: 0, newValue: 10 });
+    expect(zero.ok).toBe(false);
   });
 
   it("calculates tip, total, and per-person split", () => {

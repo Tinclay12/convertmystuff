@@ -31,6 +31,62 @@ export const calculatePercentage = (values: FinanceInput): LogicResult => {
   };
 };
 
+export const calculatePercentIncrease = (values: FinanceInput): LogicResult => {
+  const error = requireFields(values, ["value", "percent"]);
+  if (error) return error;
+
+  const added = values.value * (values.percent / 100);
+  const result = values.value + added;
+  return {
+    ok: true,
+    output: `${formatNumber(values.value, 2)} increased by ${formatNumber(values.percent, 2)}% = ${formatNumber(result, 2)}`,
+    resultLines: [
+      { label: "Increase amount", value: formatNumber(added, 2) },
+      { label: "New value", value: formatNumber(result, 2) },
+    ],
+    meta: { added, result },
+  };
+};
+
+export const calculatePercentDecrease = (values: FinanceInput): LogicResult => {
+  const error = requireFields(values, ["value", "percent"]);
+  if (error) return error;
+
+  const subtracted = values.value * (values.percent / 100);
+  const result = values.value - subtracted;
+  return {
+    ok: true,
+    output: `${formatNumber(values.value, 2)} decreased by ${formatNumber(values.percent, 2)}% = ${formatNumber(result, 2)}`,
+    resultLines: [
+      { label: "Decrease amount", value: formatNumber(subtracted, 2) },
+      { label: "New value", value: formatNumber(result, 2) },
+    ],
+    meta: { subtracted, result },
+  };
+};
+
+export const calculatePercentageChange = (values: FinanceInput): LogicResult => {
+  if (!Number.isFinite(values.oldValue) || !Number.isFinite(values.newValue)) {
+    return { ok: false, error: "Enter valid old and new values." };
+  }
+  if (values.oldValue === 0) {
+    return { ok: false, error: "Percentage change from zero is undefined. Use absolute change instead." };
+  }
+
+  const difference = values.newValue - values.oldValue;
+  const result = (difference / values.oldValue) * 100;
+  const direction = result > 0 ? "increase" : result < 0 ? "decrease" : "no change";
+  return {
+    ok: true,
+    output: `Change from ${formatNumber(values.oldValue, 2)} to ${formatNumber(values.newValue, 2)} = ${formatNumber(result, 2)}% (${direction})`,
+    resultLines: [
+      { label: "Absolute change", value: formatNumber(difference, 2) },
+      { label: "Percentage change", value: `${formatNumber(result, 2)}%` },
+    ],
+    meta: { difference, result },
+  };
+};
+
 export const calculateTip = (values: FinanceInput): LogicResult => {
   const error = requireFields(values, ["billAmount", "tipPercent", "people"]);
   if (error) return error;

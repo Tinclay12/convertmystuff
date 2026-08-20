@@ -27,5 +27,6 @@ describe("image-tools config", () => {
     const { imageToolConfigs } = await import("@/lib/tools/logic/image-tools");
     expect(imageToolConfigs["png-to-ico"]).toBeDefined();
     expect(imageToolConfigs["favicon-generator"]).toBeDefined();
+    expect(imageToolConfigs["ico-to-png"]).toBeDefined();
   });
 });

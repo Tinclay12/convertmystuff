@@ -206,6 +206,19 @@ export const cubicFeetToBoardFeet = (cubicFeet: number) =>
 
 export type UnitConverterFn = (value: number) => NumericResult;
 
+export type RelatedUnitLink = {
+  label: string;
+  path: string;
+};
+
+export type DimensionModeConfig = {
+  lengthLabel: string;
+  widthLabel: string;
+  areaLabel: string;
+  convertedAreaLabel: string;
+  convertArea: UnitConverterFn;
+};
+
 export type UnitConverterConfig = {
   inputLabel: string;
   outputLabel: string;
@@ -215,6 +228,33 @@ export type UnitConverterConfig = {
   reverseLabel?: string;
   allowNegative?: boolean;
   convert: UnitConverterFn;
+  tableValues?: number[];
+  presets?: string[];
+  relatedUnitLinks?: RelatedUnitLink[];
+  dimensionMode?: DimensionModeConfig;
+};
+
+export const DEFAULT_CONVERSION_TABLE_VALUES = [1, 5, 10, 20, 50, 100];
+
+export const formatPlainNumber = (value: number, maxFractionDigits = 8): string => {
+  if (!Number.isFinite(value)) {
+    return "";
+  }
+  const rounded = Number(value.toPrecision(10));
+  if (Number.isInteger(rounded)) {
+    return String(rounded);
+  }
+  return rounded.toFixed(Math.min(maxFractionDigits, 8)).replace(/\.?0+$/, "");
+};
+
+export const buildConversionTableRows = (
+  convert: UnitConverterFn,
+  values: number[] = DEFAULT_CONVERSION_TABLE_VALUES,
+): Array<{ input: number; output: number }> => {
+  return values.flatMap((value) => {
+    const result = convert(value);
+    return result.ok ? [{ input: value, output: result.value }] : [];
+  });
 };
 
 export const unitConverterConfigs: Record<string, UnitConverterConfig> = {
@@ -226,6 +266,19 @@ export const unitConverterConfigs: Record<string, UnitConverterConfig> = {
     reversePath: "/unit-converters/area/square-feet-to-acres/",
     reverseLabel: "Square Feet to Acres",
     convert: acresToSquareFeet,
+    tableValues: [0.25, 0.5, 1, 2, 5, 10],
+    presets: ["0.25", "0.5", "1", "5", "10"],
+    relatedUnitLinks: [
+      { label: "Square meters", path: "/unit-converters/area/square-meters-to-square-feet/" },
+      { label: "Hectares", path: "/unit-converters/area/hectares-to-acres/" },
+    ],
+    dimensionMode: {
+      lengthLabel: "Length (ft)",
+      widthLabel: "Width (ft)",
+      areaLabel: "Square feet",
+      convertedAreaLabel: "Acres",
+      convertArea: squareFeetToAcres,
+    },
   },
   "square-feet-to-acres": {
     inputLabel: "Square feet",
@@ -235,6 +288,19 @@ export const unitConverterConfigs: Record<string, UnitConverterConfig> = {
     reversePath: "/unit-converters/area/acres-to-square-feet/",
     reverseLabel: "Acres to Square Feet",
     convert: squareFeetToAcres,
+    tableValues: [10890, 21780, 43560, 87120, 217800, 435600],
+    presets: ["10890", "21780", "43560", "87120"],
+    relatedUnitLinks: [
+      { label: "Square meters", path: "/unit-converters/area/square-feet-to-square-meters/" },
+      { label: "Hectares", path: "/unit-converters/area/acres-to-hectares/" },
+    ],
+    dimensionMode: {
+      lengthLabel: "Length (ft)",
+      widthLabel: "Width (ft)",
+      areaLabel: "Square feet",
+      convertedAreaLabel: "Acres",
+      convertArea: squareFeetToAcres,
+    },
   },
   "hectares-to-acres": {
     inputLabel: "Hectares",
@@ -390,6 +456,19 @@ export const unitConverterConfigs: Record<string, UnitConverterConfig> = {
     reversePath: "/unit-converters/area/square-feet-to-square-meters/",
     reverseLabel: "Square Feet to Square Meters",
     convert: squareMetersToSquareFeet,
+    tableValues: [1, 5, 10, 20, 50, 100, 250, 500, 1000],
+    presets: ["1", "10", "50", "100"],
+    relatedUnitLinks: [
+      { label: "Acres", path: "/unit-converters/area/square-meters-to-acres/" },
+      { label: "Hectares", path: "/unit-converters/area/hectares-to-acres/" },
+    ],
+    dimensionMode: {
+      lengthLabel: "Length (m)",
+      widthLabel: "Width (m)",
+      areaLabel: "Square meters",
+      convertedAreaLabel: "Square feet",
+      convertArea: squareMetersToSquareFeet,
+    },
   },
   "square-feet-to-square-meters": {
     inputLabel: "Square feet",
@@ -399,6 +478,19 @@ export const unitConverterConfigs: Record<string, UnitConverterConfig> = {
     reversePath: "/unit-converters/area/square-meters-to-square-feet/",
     reverseLabel: "Square Meters to Square Feet",
     convert: squareFeetToSquareMeters,
+    tableValues: [10.7639, 53.8195, 107.639, 538.196, 1076.39],
+    presets: ["100", "1000", "5000"],
+    relatedUnitLinks: [
+      { label: "Acres", path: "/unit-converters/area/square-feet-to-acres/" },
+      { label: "Hectares", path: "/unit-converters/area/acres-to-hectares/" },
+    ],
+    dimensionMode: {
+      lengthLabel: "Length (ft)",
+      widthLabel: "Width (ft)",
+      areaLabel: "Square feet",
+      convertedAreaLabel: "Square meters",
+      convertArea: squareFeetToSquareMeters,
+    },
   },
   "mm-to-inches": {
     inputLabel: "Millimeters",

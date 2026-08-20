@@ -43,6 +43,81 @@ export const howToMergePdfGuide: GuideDefinition = {
   ],
 };
 
+export const howToAddFaviconGuide: GuideDefinition = {
+  slug: "how-to-add-a-favicon",
+  title: "How to Add a Favicon in HTML",
+  summary:
+    "Generate favicon.ico and PNG icons, then add link tags in the document head so browsers, iOS, and search results show your icon.",
+  metaTitle: "How to Add a Favicon in HTML (link tags + favicon.ico)",
+  metaDescription:
+    "Add a favicon with root favicon.ico, PNG sizes, and apple-touch-icon link tags. Includes copy-ready HTML and cache tips.",
+  keywords: ["how to add a favicon", "favicon html", "link rel icon", "apple-touch-icon"],
+  intro:
+    "A favicon is the small icon in browser tabs, bookmarks, and some search results. You need two pieces: the image files, and HTML that points to them. Place favicon.ico at the site root for older clients, then add explicit link tags for PNG and Apple touch icons so modern browsers do not guess.",
+  primaryToolId: "favicon-generator",
+  relatedToolIds: ["png-to-ico", "ico-to-png", "svg-to-png"],
+  relatedGuideSlugs: ["resize-images-for-web"],
+  relatedResourceSlugs: ["what-is-an-ico-file", "standard-favicon-sizes"],
+  categorySlug: "image-tools",
+  subcategoryId: "icons-favicons",
+  lastReviewed: "2026-08-19",
+  sections: [
+    {
+      id: "generate",
+      heading: "Generate the files",
+      paragraphs: [
+        "Start with a square logo at 512×512 or larger. Simple shapes read better at 16×16 than photographs or thin text.",
+        "Use a favicon generator to export favicon.ico (multiple sizes), favicon-32x32.png, and apple-touch-icon.png (180×180). Keep filenames stable so bookmarks survive a rebrand.",
+      ],
+      linkedToolIds: ["favicon-generator", "png-to-ico"],
+    },
+    {
+      id: "root-ico",
+      heading: "Put favicon.ico at the site root",
+      paragraphs: [
+        "Many browsers still request /favicon.ico automatically even if you never add a link tag. Upload favicon.ico next to index.html or your app root so that request succeeds.",
+        "If your site lives in a subdirectory, still prefer a root favicon.ico when you control the domain. Some Windows shortcuts and older CMS themes ignore HTML and only look at that path.",
+      ],
+      linkedToolIds: ["png-to-ico"],
+    },
+    {
+      id: "html",
+      heading: "Add HTML link tags",
+      paragraphs: [
+        "In the document head, declare the ICO, a PNG for high-DPI tabs, and an Apple touch icon. Example: link rel=\"icon\" href=\"/favicon.ico\" sizes=\"any\", link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/favicon-32x32.png\", and link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon.png\".",
+        "Copy the same tags from the favicon generator after you process an image. Do not put UTM parameters or cache-busting query strings on icon URLs unless you also update every bookmark later.",
+      ],
+      linkedToolIds: ["favicon-generator"],
+    },
+    {
+      id: "cache",
+      heading: "Cache and verification",
+      paragraphs: [
+        "Browsers cache favicons aggressively. After replacing files, hard-refresh, clear the CDN cache, and check Chrome DevTools Application → Images. iOS home-screen icons may keep the old asset until the user removes and re-adds the site.",
+        "If the tab icon is missing, confirm the files are publicly reachable, the HTML is in the head (not the body), and you are not blocking /favicon.ico in robots.txt.",
+      ],
+      linkedToolIds: ["ico-to-png"],
+    },
+  ],
+  faqs: [
+    {
+      question: "Do I still need favicon.ico if I have PNG link tags?",
+      answer:
+        "Yes for compatibility. Keep favicon.ico at the root and add PNG plus apple-touch-icon tags for modern clients.",
+    },
+    {
+      question: "Why is my new favicon not showing?",
+      answer:
+        "Usually cache. Confirm the file URL loads, then hard-refresh or wait for CDN cache headers to expire. Changing the filename also works but breaks old bookmarks.",
+    },
+    {
+      question: "Where should the tags go in a Next.js or WordPress site?",
+      answer:
+        "In the shared document head: the root layout in Next.js, or the theme header in WordPress. One set of tags is enough for every page.",
+    },
+  ],
+};
+
 export const howToSplitPdfGuide: GuideDefinition = {
   slug: "how-to-split-pdf-pages",
   title: "How to Split PDF Pages by Range",
@@ -424,6 +499,7 @@ export const textDiffGuide: GuideDefinition = {
 export const phase2Guides = [
   howToMergePdfGuide,
   howToSplitPdfGuide,
+  howToAddFaviconGuide,
   compoundInterestFormulaGuide,
   sqlFormattingGuide,
   imageResizeWebGuide,

@@ -19,7 +19,7 @@ import {
   rentalDealAnalyzerContent,
 } from "./flagship-snippets";
 import { jsonToCsvContent } from "./json-to-csv";
-import { noiCalculatorContent, pngToIcoContent, utmParserContent } from "./resource-links";
+import { icoToPngContent, faviconGeneratorContent, noiCalculatorContent, pngToIcoContent, utmParserContent } from "./resource-links";
 import { wave2ToolEnrichment } from "./wave2-tool-enrichment";
 import {
   compoundInterestCalculatorContent,
@@ -43,6 +43,8 @@ const dedicatedContent: Record<string, ToolContentEnrichment> = {
   "nested-json-to-csv": nestedJsonToCsvContent,
   "csv-to-html-table": csvToHtmlTableContent,
   "png-to-ico": pngToIcoContent,
+  "favicon-generator": faviconGeneratorContent,
+  "ico-to-png": icoToPngContent,
   "utm-parser": utmParserContent,
   "noi-calculator": noiCalculatorContent,
   "compound-interest-calculator": compoundInterestCalculatorContent,

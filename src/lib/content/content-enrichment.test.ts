@@ -59,6 +59,11 @@ describe("content enrichment", () => {
     const resizer = getEnrichedTool("image-resizer");
     const imageGroups = getResolvedToolLinkGroups(resizer!);
     expect(imageGroups.some((g) => g.tools.some((t) => t.id === "image-compressor"))).toBe(true);
+
+    const favicon = getEnrichedTool("favicon-generator");
+    const faviconGroups = getResolvedToolLinkGroups(favicon!);
+    expect(faviconGroups.some((g) => g.tools.some((t) => t.id === "png-to-ico"))).toBe(true);
+    expect(getEnrichedTool("ico-to-png")?.id).toBe("ico-to-png");
   });
 
   it("enriches compound interest with guide and resources", () => {

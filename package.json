@@ -13,7 +13,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "content:quality": "npx tsx scripts/content-quality-report.ts",
-    "gsc:urls": "npx tsx scripts/gsc-indexing-urls.ts"
+    "seo:qa": "npx tsx scripts/seo-qa.ts",
+    "gsc:urls": "npx tsx scripts/gsc-indexing-urls.ts",
+    "gsc:opportunity": "npx tsx scripts/gsc-opportunity.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

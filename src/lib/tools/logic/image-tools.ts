@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import { buildIcoFromPngEntries, pngBlobToUint8Array } from "./ico-encoder";
+import { buildIcoFromPngEntries, extractPngFramesFromIco, pngBlobToUint8Array } from "./ico-encoder";
 
 export type ImageProcessResult =
   | {
@@ -8,6 +8,7 @@ export type ImageProcessResult =
       filename: string;
       previewUrl?: string;
       mimeType?: string;
+      htmlSnippet?: string;
     }
   | { ok: false; error: string };
 
@@ -17,6 +18,7 @@ export type ImageToolOptions = {
   quality?: number;
   format?: "png" | "jpeg" | "webp";
   sizes?: number[];
+  cropSquare?: boolean;
 };
 
 const loadImageFromFile = (file: File): Promise<HTMLImageElement> => {
@@ -82,6 +84,7 @@ const drawToCanvas = (
   image: HTMLImageElement,
   width: number,
   height: number,
+  cropSquare = false,
 ): HTMLCanvasElement => {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -90,7 +93,16 @@ const drawToCanvas = (
   if (!context) {
     throw new Error("Canvas is not supported.");
   }
-  context.drawImage(image, 0, 0, width, height);
+
+  if (!cropSquare) {
+    context.drawImage(image, 0, 0, width, height);
+    return canvas;
+  }
+
+  const sourceSize = Math.min(image.naturalWidth, image.naturalHeight);
+  const sourceX = (image.naturalWidth - sourceSize) / 2;
+  const sourceY = (image.naturalHeight - sourceSize) / 2;
+  context.drawImage(image, sourceX, sourceY, sourceSize, sourceSize, 0, 0, width, height);
   return canvas;
 };
 
@@ -152,27 +164,36 @@ export const compressImage = async (
 const renderPngAtSize = async (
   image: HTMLImageElement,
   size: number,
+  cropSquare = false,
 ): Promise<{ name: string; blob: Blob; pngData: Uint8Array }> => {
-  const canvas = drawToCanvas(image, size, size);
+  const canvas = drawToCanvas(image, size, size, cropSquare);
   const blob = await canvasToBlob(canvas, "image/png");
   const pngData = await pngBlobToUint8Array(blob);
   return { name: `favicon-${size}x${size}.png`, blob, pngData };
 };
 
-export const convertPngToIco = async (file: File): Promise<ImageProcessResult> => {
+export const FAVICON_HTML_SNIPPET = `<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />`;
+
+export const convertPngToIco = async (
+  file: File,
+  options: ImageToolOptions = {},
+): Promise<ImageProcessResult> => {
   try {
     const normalized = await normalizeImageFile(file);
     const image = await loadImageFromFile(normalized);
-    const sizes = [16, 32, 48];
+    const sizes = options.sizes ?? [16, 32, 48, 64, 256];
+    const cropSquare = options.cropSquare ?? true;
     const entries = await Promise.all(
       sizes.map(async (size) => {
-        const rendered = await renderPngAtSize(image, size);
+        const rendered = await renderPngAtSize(image, size, cropSquare);
         return { width: size, height: size, pngData: rendered.pngData };
       }),
     );
 
     const icoBlob = buildIcoFromPngEntries(entries);
-    const preview32 = await renderPngAtSize(image, 32);
+    const preview32 = await renderPngAtSize(image, 32, cropSquare);
     const baseName = file.name.replace(/\.[^.]+$/, "");
 
     return {
@@ -190,12 +211,17 @@ export const convertPngToIco = async (file: File): Promise<ImageProcessResult> =
   }
 };
 
-export const generateFaviconZip = async (file: File): Promise<ImageProcessResult> => {
-  const sizes = [16, 32, 48, 64, 128, 256];
+export const generateFaviconZip = async (
+  file: File,
+  options: ImageToolOptions = {},
+): Promise<ImageProcessResult> => {
+  const sizes = options.sizes ?? [16, 32, 48, 64, 128, 256];
+  const cropSquare = options.cropSquare ?? true;
   try {
     const normalized = await normalizeImageFile(file);
     const image = await loadImageFromFile(normalized);
-    const pngEntries = await Promise.all(sizes.map((size) => renderPngAtSize(image, size)));
+    const pngEntries = await Promise.all(sizes.map((size) => renderPngAtSize(image, size, cropSquare)));
+    const appleTouch = await renderPngAtSize(image, 180, cropSquare);
     const icoEntries = pngEntries.map((entry) => {
       const sizeMatch = entry.name.match(/(\d+)x/);
       const size = sizeMatch ? Number(sizeMatch[1]) : 32;
@@ -207,7 +233,10 @@ export const generateFaviconZip = async (file: File): Promise<ImageProcessResult
     pngEntries.forEach((entry) => {
       zip.file(entry.name, entry.blob);
     });
+    zip.file("favicon-32x32.png", pngEntries.find((entry) => entry.name.includes("32x32"))?.blob ?? pngEntries[0]?.blob);
+    zip.file("apple-touch-icon.png", appleTouch.blob);
     zip.file("favicon.ico", icoBlob);
+    zip.file("favicon-html.txt", FAVICON_HTML_SNIPPET);
 
     const zipBlob = await zip.generateAsync({ type: "blob" });
     const preview32 = pngEntries.find((entry) => entry.name.includes("32x32")) ?? pngEntries[0];
@@ -219,6 +248,7 @@ export const generateFaviconZip = async (file: File): Promise<ImageProcessResult
       filename: `${baseName}-favicons.zip`,
       mimeType: "application/zip",
       previewUrl: URL.createObjectURL(preview32.blob),
+      htmlSnippet: FAVICON_HTML_SNIPPET,
     };
   } catch (error) {
     return {
@@ -228,11 +258,62 @@ export const generateFaviconZip = async (file: File): Promise<ImageProcessResult
   }
 };
 
+export const convertIcoToPng = async (file: File): Promise<ImageProcessResult> => {
+  try {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const frames = extractPngFramesFromIco(bytes);
+    const baseName = file.name.replace(/\.[^.]+$/, "");
+
+    if (frames.length === 0) {
+      const fallback = await loadImageFromFile(file);
+      const canvas = drawToCanvas(fallback, fallback.naturalWidth || 32, fallback.naturalHeight || 32);
+      const blob = await canvasToBlob(canvas, "image/png");
+      return {
+        ok: true,
+        blob,
+        filename: `${baseName}.png`,
+        mimeType: "image/png",
+        previewUrl: URL.createObjectURL(blob),
+      };
+    }
+
+    if (frames.length === 1) {
+      const frame = frames[0]!;
+      return {
+        ok: true,
+        blob: frame.blob,
+        filename: `${baseName}-${frame.width}x${frame.height}.png`,
+        mimeType: "image/png",
+        previewUrl: URL.createObjectURL(frame.blob),
+      };
+    }
+
+    const zip = new JSZip();
+    frames.forEach((frame, index) => {
+      zip.file(`${baseName}-${frame.width}x${frame.height}-${index + 1}.png`, frame.blob);
+    });
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    return {
+      ok: true,
+      blob: zipBlob,
+      filename: `${baseName}-png-frames.zip`,
+      mimeType: "application/zip",
+      previewUrl: URL.createObjectURL(frames[0]!.blob),
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "ICO to PNG conversion failed.",
+    };
+  }
+};
+
 export type ImageToolConfig = {
   label: string;
   accept: string;
   showDimensions?: boolean;
   showQuality?: boolean;
+  showCrop?: boolean;
   process: (file: File, options: ImageToolOptions) => Promise<ImageProcessResult>;
   defaultFormat?: ImageToolOptions["format"];
 };
@@ -251,9 +332,10 @@ export const imageToolConfigs: Record<string, ImageToolConfig> = {
     defaultFormat: "png",
   },
   "png-to-ico": {
-    label: "PNG file",
-    accept: "image/png,.png",
-    process: convertPngToIco,
+    label: "PNG, JPG, or WebP file",
+    accept: "image/png,.png,image/jpeg,.jpg,.jpeg,image/webp,.webp",
+    showCrop: true,
+    process: (file, options) => convertPngToIco(file, options),
   },
   "svg-to-png": {
     label: "SVG file",
@@ -280,7 +362,13 @@ export const imageToolConfigs: Record<string, ImageToolConfig> = {
   },
   "favicon-generator": {
     label: "Source image",
-    accept: "image/*,.heic,.heif",
-    process: generateFaviconZip,
+    accept: "image/png,.png,image/jpeg,.jpg,.jpeg,image/webp,.webp,image/*,.heic,.heif",
+    showCrop: true,
+    process: (file, options) => generateFaviconZip(file, options),
+  },
+  "ico-to-png": {
+    label: "ICO file",
+    accept: "image/x-icon,.ico,image/vnd.microsoft.icon",
+    process: convertIcoToPng,
   },
 };

@@ -37,6 +37,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Local Search Console exports (never commit)
+/tmp/gsc/
+/tmp-gsc/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

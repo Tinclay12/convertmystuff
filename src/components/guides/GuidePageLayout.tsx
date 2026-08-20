@@ -10,7 +10,8 @@ import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { Card } from "@/components/ui/Card";
 import { trackContentEvent } from "@/lib/analytics/content-events";
 import { getGuidePath } from "@/lib/content/merge-tool-content";
-import type { GuideDefinition } from "@/lib/content/types";
+import { getResourcePath, resolveResourceReference } from "@/lib/content/resources";
+import type { GuideDefinition, ResourceDefinition } from "@/lib/content/types";
 import {
   buildBreadcrumbSchema,
   buildFaqSchema,
@@ -35,6 +36,9 @@ export const GuidePageLayout = ({ guide }: GuidePageLayoutProps) => {
   const relatedGuides = (guide.relatedGuideSlugs ?? [])
     .map((slug) => getGuideBySlug(slug))
     .filter((item): item is GuideDefinition => Boolean(item));
+  const relatedResources = (guide.relatedResourceSlugs ?? [])
+    .map((slug) => resolveResourceReference(slug))
+    .filter((item): item is ResourceDefinition => Boolean(item));
 
   const breadcrumbs = buildGuideBreadcrumbs(guide);
   const faqSchema = buildFaqSchema(guide.faqs);
@@ -145,6 +149,32 @@ export const GuidePageLayout = ({ guide }: GuidePageLayoutProps) => {
                   <span className="font-medium text-foreground">{relatedGuide.title}</span>
                   <span className="mt-1 block text-sm text-muted line-clamp-2">
                     {relatedGuide.intro}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {relatedResources.length > 0 && (
+        <Section title="Related resources">
+          <ul className="rule-list border border-border bg-card">
+            {relatedResources.map((relatedResource) => (
+              <li key={relatedResource.slug}>
+                <Link
+                  href={getResourcePath(relatedResource.categorySlug, relatedResource.slug)}
+                  onClick={() =>
+                    trackContentEvent("resource_click", {
+                      guide_slug: guide.slug,
+                      link_target: relatedResource.slug,
+                    })
+                  }
+                  className="rule-row block px-5"
+                >
+                  <span className="font-medium text-foreground">{relatedResource.title}</span>
+                  <span className="mt-1 block text-sm text-muted line-clamp-2">
+                    {relatedResource.summary}
                   </span>
                 </Link>
               </li>

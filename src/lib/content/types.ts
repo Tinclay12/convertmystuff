@@ -30,9 +30,13 @@ export type ResourceDefinition = {
   sections: ResourceSection[];
   examples?: ResourceExample[];
   commonMistakes?: string[];
+  faqs?: GuideFaq[];
   primaryToolId: string;
+  /** Query string appended to the primary tool CTA, without a leading `?`. */
+  primaryToolSearch?: string;
   relatedToolIds?: string[];
   relatedResourceSlugs?: string[];
+  relatedGuideSlugs?: string[];
   lastReviewed: string;
   author?: string;
   reviewer?: string;
@@ -69,6 +73,7 @@ export type GuideDefinition = {
   primaryToolId: string;
   relatedToolIds?: string[];
   relatedGuideSlugs?: string[];
+  relatedResourceSlugs?: string[];
   lastReviewed: string;
   /** Category slug for hub discovery */
   categorySlug?: string;

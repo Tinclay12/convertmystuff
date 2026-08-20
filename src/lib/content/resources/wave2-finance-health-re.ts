@@ -369,7 +369,7 @@ export const howToCalculatePercentageChangeResource: ResourceDefinition = {
     "Percentage change measures relative increase or decrease from an original value to a new value.",
   metaTitle: "How to Calculate Percentage Change - Formula & Examples",
   metaDescription:
-    "Learn the percentage change formula, difference between increase and decrease, and common pitfalls when analyzing prices, returns, and metrics.",
+    "Percentage change = ((new − old) ÷ old) × 100. Worked examples, the 50% drop trap, and a calculator for increase, decrease, and change.",
   keywords: [
     "percentage change formula",
     "how to calculate percent change",
@@ -381,9 +381,10 @@ export const howToCalculatePercentageChangeResource: ResourceDefinition = {
   intro:
     "Percentage change appears everywhere in personal finance and business analysis: stock and portfolio returns, sale prices, inflation comparisons, revenue growth, and fitness progress photos translated into scale numbers. Using the correct baseline prevents misleading headlines—a drop from $100 to $80 is a 20% decrease, but recovering from $80 back to $100 is a 25% increase because the denominator changed. Mastering the formula and its edge cases keeps dashboards, spreadsheets, and mental math honest when communicating movement between two points in time.",
   primaryToolId: "percentage-calculator",
+  primaryToolSearch: "mode=change",
   relatedToolIds: ["compound-interest-calculator", "break-even-calculator"],
   relatedResourceSlugs: ["what-is-compound-interest", "simple-vs-compound-interest"],
-  lastReviewed: "2026-05-23",
+  lastReviewed: "2026-08-19",
   sections: [
     {
       id: "basic-formula",
@@ -453,6 +454,23 @@ export const howToCalculatePercentageChangeResource: ResourceDefinition = {
     "Assuming a 20% drop and 20% rise return to the same number.",
     "Averaging multiple percentage changes arithmetically across years instead of using CAGR.",
     "Quoting huge percentage gains from a negligible starting baseline without context.",
+  ],
+  faqs: [
+    {
+      question: "What is the percentage change formula?",
+      answer:
+        "((New value − Old value) ÷ Old value) × 100. A positive result is an increase; a negative result is a decrease.",
+    },
+    {
+      question: "Why doesn't a 50% decrease plus a 50% increase get you back to the start?",
+      answer:
+        "After a 50% drop the baseline is half as large, so a 50% rise only recovers to 75% of the original. You need a 100% increase to break even.",
+    },
+    {
+      question: "What if the old value is zero?",
+      answer:
+        "The formula is undefined because you cannot divide by zero. Report the absolute change instead.",
+    },
   ],
 };
 

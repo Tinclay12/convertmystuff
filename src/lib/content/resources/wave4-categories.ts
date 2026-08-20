@@ -424,18 +424,18 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
   title: "QR Code URL Best Practices",
   summary:
     "QR codes encode URLs for print and physical marketing—use HTTPS, short stable links, and test scan size and contrast.",
-  metaTitle: "QR Code URL Best Practices - Marketing Guide",
+  metaTitle: "QR Code URL Best Practices for Print and Scans",
   metaDescription:
-    "Best practices for QR code URLs: shortening, UTM tracking, error correction, print sizing, and generator tool tips.",
+    "Choose a short HTTPS URL, add UTM tags before you generate the code, and test print size, contrast, and quiet zone before a print run.",
   keywords: ["qr code url best practices", "qr code marketing", "qr code link", "qr generator tips"],
   quickAnswer:
     "Encode HTTPS URLs with minimal length—shorter URLs produce simpler QR modules scannable at smaller print sizes. Use stable redirects for campaigns you may reprint. Test contrast (dark on light), quiet zone margin, and minimum print size (~2 cm) before mass printing. Add UTM parameters before encoding for analytics.",
   intro:
     "QR codes bridge offline to online: posters, packaging, event badges, restaurant menus. A QR is not magic tracking by itself—it merely encodes whatever string you provide, almost always a URL. Long URLs increase QR density, requiring larger print or higher error correction that still may fail on low-end cameras. Marketing teams shorten links, attach UTM parameters for campaign analytics, and host redirect rules so reprints survive destination changes. Design choices—logo in center, brand colors—affect scannability; test on multiple phones under realistic lighting before committing to ten thousand flyers.",
   primaryToolId: "qr-code-generator",
-  relatedToolIds: ["utm-parser", "open-graph-preview"],
+  relatedToolIds: ["utm-builder", "utm-parser", "open-graph-preview"],
   relatedResourceSlugs: ["open-graph-tags-explained", "meta-description-best-practices"],
-  lastReviewed: "2026-05-23",
+  lastReviewed: "2026-08-19",
   sections: [
     {
       id: "url-choice",
@@ -453,7 +453,7 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
         "Append utm_source, utm_medium, utm_campaign before generating QR so analytics attribute offline scans—e.g., utm_source=poster&utm_medium=qr&utm_campaign=spring2026.",
         "URL-encode parameters correctly; test scan resolves full query string without truncation. Document naming conventions so reports stay clean.",
       ],
-      linkedToolIds: ["qr-code-generator", "utm-parser"],
+      linkedToolIds: ["qr-code-generator", "utm-builder", "utm-parser"],
     },
     {
       id: "design",
@@ -487,11 +487,17 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
     {
       title: "Event poster QR",
       description:
-        "https://brand.co/e2026?utm_source=poster&utm_medium=qr encodes short redirect https://br.co/e26 for simpler modules.",
+        "Do not encode https://brand.example/events/2026-spring-launch?utm_source=poster&utm_medium=qr&utm_campaign=spring2026. Shorten to a stable redirect such as https://brand.example/e26 that 301s to the tagged URL. Fewer characters means larger modules at the same print size.",
     },
     {
       title: "Menu order link",
-      description: "HTTPS mobile order page, high contrast black QR on white, 3 cm print, error correction M.",
+      description:
+        "Encode https://cafe.example/order (HTTPS, mobile page, no session token). Print black on white at 3 cm with a quiet zone, error correction M. Skip UTM on a permanent table tent if you only need destination traffic.",
+    },
+    {
+      title: "What not to encode",
+      description:
+        "Avoid http:// (mixed content and browser warnings), login-gated dashboards, and one-time discount URLs that expire while the poster is still on the wall.",
     },
   ],
   commonMistakes: [
@@ -499,6 +505,28 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
     "Printing low-contrast brand pastel QR on white.",
     "Omitting quiet zone margin in graphic design crop.",
     "Using expiring discount URLs on permanent packaging.",
+  ],
+  faqs: [
+    {
+      question: "Should I put UTM parameters in the QR URL?",
+      answer:
+        "Yes, if you need campaign attribution. Build the tagged URL first, then encode a short redirect that points at it so the printed code stays simple.",
+    },
+    {
+      question: "How small can I print a QR code?",
+      answer:
+        "About 2 cm square is a practical floor for close scans such as menus. Larger print or longer scan distance needs larger modules. Always test on a phone before a print run.",
+    },
+    {
+      question: "Why did my QR stop working after a website redesign?",
+      answer:
+        "The encoded string never changes once printed. Use a redirect you control so the destination can move without reprinting.",
+    },
+    {
+      question: "Do I need a logo in the QR code?",
+      answer:
+        "No. A logo requires higher error correction and denser modules. If you add one, leave a quiet zone and test older cameras.",
+    },
   ],
 };
 
@@ -1089,18 +1117,18 @@ export const wcagContrastBasicsResource: ResourceDefinition = {
   title: "WCAG Contrast Basics",
   summary:
     "WCAG contrast ratio compares foreground and background luminance—4.5:1 minimum for normal text, 3:1 for large text.",
-  metaTitle: "WCAG Contrast Basics - Accessible Color Guide",
+  metaTitle: "WCAG Contrast Basics - AA and AAA Color Ratios",
   metaDescription:
-    "Learn WCAG AA contrast ratios, testing text on backgrounds, and fixing failures with contrast checker tools.",
+    "WCAG 2.2 needs 4.5:1 for normal text and 3:1 for large text (AA). Check foreground and background hex pairs with a contrast checker.",
   keywords: ["wcag contrast", "color contrast ratio", "accessibility contrast", "aa contrast"],
   quickAnswer:
     "WCAG 2.x contrast ratio ranges 1:1 to 21:1. Level AA requires 4.5:1 for normal text (<18pt or <14pt bold) and 3:1 for large text. UI components and graphics need 3:1 against adjacent colors. Use contrast checker on final hex pairs including alpha composited over background.",
   intro:
-    "Low-contrast gray-on-gray body copy excludes readers with low vision and fails WCAG audits for public sector and conscientious product teams. Contrast ratio computes from relative luminance of sRGB colors—not hue preference—so thin mint on white may fail while navy on white passes easily. Designers test primary text, secondary muted text, button labels, focus rings, and placeholder text against actual backgrounds, not isolated swatches. Dark mode reverses assumptions: white text on near-black may pass, but secondary #888 on #121212 often fails. Automated checkers sample computed CSS after alpha blend; manual review catches gradient text and image overlays.",
+    "Low-contrast gray-on-gray body copy excludes readers with low vision and fails WCAG audits for public sector and conscientious product teams. Contrast ratio computes from relative luminance of sRGB colors—not hue preference—so thin mint on white may fail while navy on white passes easily. Designers test primary text, secondary muted text, button labels, focus rings, and placeholder text against actual backgrounds, not isolated swatches. Dark mode reverses assumptions: white text on near-black may pass, but secondary #888 on #121212 often fails. Automated checkers sample computed CSS after alpha blend; manual review catches gradient text and image overlays. Thresholds below follow WCAG 2.2 Success Criterion 1.4.3 (text) and 1.4.11 (non-text contrast), published by the W3C.",
   primaryToolId: "contrast-checker",
   relatedToolIds: ["color-converter"],
   relatedResourceSlugs: ["hex-vs-rgb-color", "aspect-ratio-reference"],
-  lastReviewed: "2026-05-23",
+  lastReviewed: "2026-08-19",
   sections: [
     {
       id: "ratio-math",
@@ -1115,8 +1143,8 @@ export const wcagContrastBasicsResource: ResourceDefinition = {
       id: "levels",
       heading: "AA vs AAA thresholds",
       paragraphs: [
-        "AA normal text 4.5:1 industry common compliance target. AAA 7:1 stricter optional body text. Large text AA 3:1—18pt+ regular or 14pt+ bold approximations.",
-        "Non-text UI graphical objects 3:1 minimum under WCAG 2.2 SC 1.4.11—icons, form borders, chart lines.",
+        "AA normal text 4.5:1 is the common compliance target under WCAG 2.2 SC 1.4.3. AAA 7:1 is stricter and optional for body text. Large text AA is 3:1—approximately 18pt+ regular or 14pt+ bold.",
+        "Non-text UI graphical objects need 3:1 against adjacent colors under WCAG 2.2 SC 1.4.11—icons, form borders, and chart lines.",
       ],
       linkedToolIds: ["contrast-checker"],
     },
@@ -1157,12 +1185,34 @@ export const wcagContrastBasicsResource: ResourceDefinition = {
       title: "Muted fail fix",
       description: "#999 on #fff ≈ 2.85:1 fails—darken to #767676 ≈ 4.54:1 for AA normal.",
     },
+    {
+      title: "Large text vs normal text",
+      description:
+        "#767676 on #FFFFFF is about 4.54:1: it passes AA for normal text. A lighter #8A8A8A at about 3.5:1 can pass AA large text (18pt+ or 14pt bold) but fails AA normal body copy—do not reuse the large-text pair for 16px UI labels.",
+    },
   ],
   commonMistakes: [
     "Testing hex on checker without alpha compositing over photo background.",
     "Assuming brand color pass applies to all derived tints without retest.",
     "Ignoring disabled button contrast—WCAG still expects readable or distinct pattern.",
     "Using color alone to convey error state without icon or text label.",
+  ],
+  faqs: [
+    {
+      question: "What contrast ratio does WCAG AA require?",
+      answer:
+        "WCAG 2.2 SC 1.4.3 requires 4.5:1 for normal text and 3:1 for large text. Non-text UI needs 3:1 under SC 1.4.11.",
+    },
+    {
+      question: "What counts as large text?",
+      answer:
+        "About 18 point regular or 14 point bold and larger. Below that, use the 4.5:1 normal-text threshold.",
+    },
+    {
+      question: "Does a pass on white mean the color is always accessible?",
+      answer:
+        "No. Retest every background, including dark mode, hover states, and images behind text.",
+    },
   ],
 };
 

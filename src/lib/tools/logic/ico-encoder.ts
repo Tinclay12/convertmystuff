@@ -59,6 +59,54 @@ export const buildIcoFromPngEntries = (entries: IcoImageEntry[]): Blob => {
   return new Blob([icoBytes], { type: "image/x-icon" });
 };
 
+const PNG_SIGNATURE = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+
+export type ExtractedIcoFrame = {
+  width: number;
+  height: number;
+  blob: Blob;
+};
+
+export const extractPngFramesFromIco = (bytes: Uint8Array): ExtractedIcoFrame[] => {
+  if (bytes.byteLength < 6) {
+    throw new Error("File is too small to be an ICO.");
+  }
+
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const type = view.getUint16(2, true);
+  const count = view.getUint16(4, true);
+  if (type !== 1 || count < 1) {
+    throw new Error("Not a valid ICO file.");
+  }
+
+  const frames: ExtractedIcoFrame[] = [];
+  for (let index = 0; index < count; index += 1) {
+    const entry = 6 + index * 16;
+    if (entry + 16 > bytes.byteLength) {
+      throw new Error("ICO directory is truncated.");
+    }
+    const widthByte = view.getUint8(entry);
+    const heightByte = view.getUint8(entry + 1);
+    const size = view.getUint32(entry + 8, true);
+    const offset = view.getUint32(entry + 12, true);
+    if (offset + size > bytes.byteLength) {
+      throw new Error("ICO image data is truncated.");
+    }
+    const chunk = bytes.subarray(offset, offset + size);
+    const isPng = PNG_SIGNATURE.every((byte, sigIndex) => chunk[sigIndex] === byte);
+    if (!isPng) {
+      continue;
+    }
+    frames.push({
+      width: widthByte === 0 ? 256 : widthByte,
+      height: heightByte === 0 ? 256 : heightByte,
+      blob: new Blob([new Uint8Array(chunk)], { type: "image/png" }),
+    });
+  }
+
+  return frames;
+};
+
 export const pngBlobToUint8Array = async (blob: Blob): Promise<Uint8Array> => {
   const buffer = await blob.arrayBuffer();
   return new Uint8Array(buffer);

@@ -9,17 +9,19 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { trackContentEvent } from "@/lib/analytics/content-events";
+import { getGuidePath } from "@/lib/content/merge-tool-content";
 import {
   getRelatedResources,
   getResourcePath,
 } from "@/lib/content/resources";
-import type { ResourceDefinition } from "@/lib/content/types";
+import type { GuideDefinition, ResourceDefinition } from "@/lib/content/types";
 import {
   buildBreadcrumbSchema,
+  buildFaqSchema,
   buildResourceArticleSchema,
   buildResourceBreadcrumbs,
 } from "@/lib/seo/schema";
-import { getCategoryBySlug, getToolById } from "@/lib/tools/access";
+import { getCategoryBySlug, getGuideBySlug, getToolById } from "@/lib/tools/access";
 import type { ToolDefinition } from "@/lib/tools/types";
 
 type ResourcePageLayoutProps = {
@@ -34,11 +36,21 @@ export const ResourcePageLayout = ({ resource }: ResourcePageLayoutProps) => {
     .filter((tool): tool is ToolDefinition => Boolean(tool));
 
   const relatedResources = getRelatedResources(resource);
+  const relatedGuides = (resource.relatedGuideSlugs ?? [])
+    .map((slug) => getGuideBySlug(slug))
+    .filter((item): item is GuideDefinition => Boolean(item));
   const breadcrumbs = buildResourceBreadcrumbs(resource);
+  const faqSchema = buildFaqSchema(resource.faqs);
   const schema = [
     buildResourceArticleSchema(resource, primaryTool),
     buildBreadcrumbSchema(breadcrumbs),
+    ...(faqSchema ? [faqSchema] : []),
   ];
+  const primaryToolHref = primaryTool
+    ? resource.primaryToolSearch
+      ? `${primaryTool.path}?${resource.primaryToolSearch.replace(/^\?/, "")}`
+      : primaryTool.path
+    : "";
 
   const handleToolClick = (toolId: string) => {
     trackContentEvent("content_tool_link_click", {
@@ -88,7 +100,7 @@ export const ResourcePageLayout = ({ resource }: ResourcePageLayoutProps) => {
               Convert or calculate with our free {primaryTool.title.toLowerCase()}.
             </p>
           </div>
-          <Link href={primaryTool.path} onClick={() => handleToolClick(primaryTool.id)}>
+          <Link href={primaryToolHref} onClick={() => handleToolClick(primaryTool.id)}>
             <Button>Open {primaryTool.title}</Button>
           </Link>
         </div>
@@ -159,6 +171,24 @@ export const ResourcePageLayout = ({ resource }: ResourcePageLayoutProps) => {
           </section>
         )}
 
+        {resource.faqs && resource.faqs.length > 0 && (
+          <section aria-labelledby="resource-faqs">
+            <h2 id="resource-faqs" className="font-display text-xl font-semibold text-foreground">
+              Frequently asked questions
+            </h2>
+            <ul className="mt-4 space-y-3">
+              {resource.faqs.map((faq) => (
+                <li key={faq.question}>
+                  <Card className="p-5">
+                    <h3 className="font-medium text-foreground">{faq.question}</h3>
+                    <p className="mt-2 text-sm text-muted">{faq.answer}</p>
+                  </Card>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {resource.commonMistakes && resource.commonMistakes.length > 0 && (
           <section aria-labelledby="resource-mistakes">
             <h2
@@ -175,6 +205,32 @@ export const ResourcePageLayout = ({ resource }: ResourcePageLayoutProps) => {
           </section>
         )}
       </div>
+
+      {relatedGuides.length > 0 && (
+        <Section title="Related guides">
+          <ul className="rule-list border border-border bg-card">
+            {relatedGuides.map((relatedGuide) => (
+              <li key={relatedGuide.slug}>
+                <Link
+                  href={getGuidePath(relatedGuide.slug)}
+                  onClick={() =>
+                    trackContentEvent("guide_click", {
+                      resource_slug: resource.slug,
+                      link_target: relatedGuide.slug,
+                    })
+                  }
+                  className="rule-row block px-5"
+                >
+                  <span className="font-medium text-foreground">{relatedGuide.title}</span>
+                  <span className="mt-1 block text-sm text-muted line-clamp-2">
+                    {relatedGuide.intro}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
 
       {relatedResources.length > 0 && (
         <Section title="Related resources">

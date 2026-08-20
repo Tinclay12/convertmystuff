@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { Input } from "@/components/ui/Input";
 import { BrowserPrivacyNote } from "@/components/tools/BrowserPrivacyNote";
 import { FileDropZone } from "@/components/tools/FileDropZone";
@@ -24,7 +25,9 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
   const [height, setHeight] = useState("512");
   const [quality, setQuality] = useState("0.8");
   const [lockAspect, setLockAspect] = useState(true);
+  const [cropSquare, setCropSquare] = useState(true);
   const [previewUrl, setPreviewUrl] = useState("");
+  const [htmlSnippet, setHtmlSnippet] = useState("");
   const [downloadName, setDownloadName] = useState("");
   const [downloadBlob, setDownloadBlob] = useState<Blob | null>(null);
   const [error, setError] = useState("");
@@ -52,6 +55,7 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
     setDownloadBlob(null);
     setDownloadName("");
     setPreviewUrl("");
+    setHtmlSnippet("");
     setError("");
   };
 
@@ -83,6 +87,7 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
       width: Number(width),
       height: Number(height),
       quality: Number(quality),
+      cropSquare: config.showCrop ? cropSquare : undefined,
     });
 
     if (!result.ok) {
@@ -93,6 +98,7 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
 
     setDownloadBlob(result.blob);
     setDownloadName(result.filename);
+    setHtmlSnippet(result.htmlSnippet ?? "");
     if (result.previewUrl) {
       setPreviewUrl(result.previewUrl);
     } else if (result.mimeType?.startsWith("image/")) {
@@ -183,6 +189,17 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
             Lock aspect ratio
           </label>
         )}
+        {config.showCrop && (
+          <label className="mt-3 flex items-center gap-2 text-sm text-foreground">
+            <input
+              type="checkbox"
+              checked={cropSquare}
+              onChange={(event) => setCropSquare(event.target.checked)}
+              className="size-4 rounded border-border"
+            />
+            Center-crop to a square
+          </label>
+        )}
         {config.showQuality && (
           <div className="mt-4">
             <Input
@@ -207,6 +224,7 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
               setFiles([]);
               setSourcePreviewUrl("");
               setPreviewUrl("");
+              setHtmlSnippet("");
               setDownloadBlob(null);
               setDownloadName("");
               setError("");
@@ -233,6 +251,17 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
           ) : (
             <p className="text-sm text-muted">File ready: {downloadName}</p>
           )}
+          {htmlSnippet && (
+            <div className="mt-4 space-y-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-sm font-medium text-foreground">HTML link tags</p>
+                <CopyButton value={htmlSnippet} label="Copy HTML" />
+              </div>
+              <pre className="overflow-x-auto rounded-xl border border-border bg-background-subtle p-3 text-xs text-foreground">
+                {htmlSnippet}
+              </pre>
+            </div>
+          )}
         </ToolOutputPanel>
       )}
     </div>
@@ -246,3 +275,4 @@ export const JpgToPngTool = () => <ImageToolShell toolId="jpg-to-png" />;
 export const SvgToPngTool = () => <ImageToolShell toolId="svg-to-png" />;
 export const PngToIcoTool = () => <ImageToolShell toolId="png-to-ico" />;
 export const FaviconGeneratorTool = () => <ImageToolShell toolId="favicon-generator" />;
+export const IcoToPngTool = () => <ImageToolShell toolId="ico-to-png" />;

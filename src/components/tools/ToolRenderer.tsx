@@ -21,6 +21,7 @@ import { GenericRealEstateCalculatorTool } from "@/tools/generic/GenericRealEsta
 import { GenericTextTool } from "@/tools/generic/GenericTextTool";
 import { GenericUnitConverterTool } from "@/tools/generic/GenericUnitConverterTool";
 import { GenericValidatorTool } from "@/tools/generic/GenericValidatorTool";
+import { PercentageCalculatorTool } from "@/tools/PercentageCalculatorTool";
 
 type ToolRendererProps = {
   componentKey: string;
@@ -44,6 +45,7 @@ const genericComponentMap: Record<string, ComponentType<GenericToolProps>> = {
   GenericDocumentTool,
   GenericImageTool,
   GenericValidatorTool,
+  PercentageCalculatorTool,
 };
 
 export const ToolRenderer = ({ componentKey, toolId }: ToolRendererProps) => {

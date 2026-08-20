@@ -15,9 +15,10 @@ export const whatIsAnIcoFileResource: ResourceDefinition = {
   intro:
     "If you are preparing a website favicon or Windows shortcut icon, you will encounter the .ico extension. Unlike a single PNG, an ICO file can bundle several resolutions so the icon looks sharp on browser tabs, bookmarks, desktop shortcuts, and pinned taskbar items. Understanding how ICO works helps you choose the right export settings, size embedded frames correctly, and avoid blurry or cropped icons across platforms. Whether you maintain a marketing site, ship an internal portal, or publish a desktop app installer, ICO remains the most reliable single-file fallback for environments that expect favicon.ico at the domain root.",
   primaryToolId: "png-to-ico",
-  relatedToolIds: ["svg-to-png"],
+  relatedToolIds: ["favicon-generator", "svg-to-png", "ico-to-png"],
   relatedResourceSlugs: ["standard-favicon-sizes"],
-  lastReviewed: "2026-05-23",
+  relatedGuideSlugs: ["how-to-add-a-favicon"],
+  lastReviewed: "2026-08-19",
   sections: [
     {
       id: "format-basics",
@@ -62,6 +63,24 @@ export const whatIsAnIcoFileResource: ResourceDefinition = {
       ],
     },
     {
+      id: "ico-vs-svg",
+      heading: "ICO vs SVG favicons",
+      paragraphs: [
+        "SVG favicons scale cleanly and can follow prefers-color-scheme with CSS, but support is still uneven on older Windows shell views and some CMS templates that only look for favicon.ico. ICO remains the single-file fallback at the site root.",
+        "A practical production setup is both: generate favicon.ico for compatibility, keep an SVG or large PNG for modern browsers, and add apple-touch-icon for iOS. ConvertMyStuff can build the ICO bundle; you still author the SVG in a design tool.",
+      ],
+      linkedToolIds: ["favicon-generator", "svg-to-png"],
+    },
+    {
+      id: "open-and-convert",
+      heading: "How to open or convert an ICO",
+      paragraphs: [
+        "Windows opens ICO files natively in File Explorer and Paint. On macOS and Linux, extract the embedded PNG frames instead of relying on Preview. If you only need one size for a design mock, convert ICO to PNG and pick the 32×32 or 256×256 frame.",
+        "To create an ICO, start from a square PNG, JPG, or WebP and generate multiple sizes. To recover artwork from an existing favicon.ico, extract PNG frames, edit, then rebuild the ICO.",
+      ],
+      linkedToolIds: ["ico-to-png", "png-to-ico", "favicon-generator"],
+    },
+    {
       id: "file-size",
       heading: "File size and performance considerations",
       paragraphs: [
@@ -94,6 +113,23 @@ export const whatIsAnIcoFileResource: ResourceDefinition = {
     "Embedding a 1024×1024 single frame without smaller sizes, bloating every page load while tabs still render a poorly scaled down version.",
     "Placing fine text or thin strokes in the mark without testing at 16×16, where details become an unreadable smear.",
   ],
+  faqs: [
+    {
+      question: "Is ICO the same as PNG?",
+      answer:
+        "No. PNG is one raster image. ICO is a container that can hold several PNG or BMP images at different sizes.",
+    },
+    {
+      question: "Do modern browsers still need favicon.ico?",
+      answer:
+        "They accept PNG and SVG via link tags, but many templates and Windows shortcuts still expect favicon.ico at the site root.",
+    },
+    {
+      question: "How do I convert PNG to ICO?",
+      answer:
+        "Use a converter that embeds multiple sizes (16, 32, 48, and optionally 256). A favicon generator can also emit HTML link tags and an Apple touch icon.",
+    },
+  ],
 };
 
 export const standardFaviconSizesResource: ResourceDefinition = {
@@ -110,10 +146,11 @@ export const standardFaviconSizesResource: ResourceDefinition = {
     "Most sites include 16×16 and 32×32 px for browser tabs, plus 48×48 px for Windows shortcuts. Many teams also prepare 180×180 for Apple touch icons and 192×192 or 512×512 for PWA manifests—often as separate PNG files rather than inside ICO.",
   intro:
     "Favicon requirements vary by browser, operating system, and install context. Bundling the most common sizes in an ICO covers classic desktop tabs and Windows shell integration; modern sites add PNG link tags and manifest entries for high-DPI displays, iOS home screens, and Android install prompts. This reference lists the sizes teams actually ship, explains which belong inside ICO versus standalone PNG files, and shows the HTML patterns that wire them together. Treat favicon sizing as a small accessibility and brand touchpoint—users may not comment on a crisp tab icon, but they notice when yours is missing or blurry next to competitors.",
-  primaryToolId: "png-to-ico",
-  relatedToolIds: ["svg-to-png"],
+  primaryToolId: "favicon-generator",
+  relatedToolIds: ["png-to-ico", "svg-to-png", "ico-to-png"],
   relatedResourceSlugs: ["what-is-an-ico-file"],
-  lastReviewed: "2026-05-23",
+  relatedGuideSlugs: ["how-to-add-a-favicon"],
+  lastReviewed: "2026-08-19",
   sections: [
     {
       id: "common-sizes",
@@ -122,7 +159,7 @@ export const standardFaviconSizesResource: ResourceDefinition = {
         "16×16 pixels remains the baseline browser tab size on standard-density displays. 32×32 serves high-DPI tabs, bookmark bars, and some extension UI slots where the browser doubles the logical size. 48×48 supports Windows site shortcuts, certain pinned-tab contexts, and legacy shell views that request a mid-size icon.",
         "Many generators also embed 64×64, 128×128, or 256×256 for larger Windows icon views and taskbar pinning. You do not need every size—covering 16, 32, and 48 is a solid minimum, and adding 256×256 future-proofs Windows shell rendering. Each additional embedded frame increases file weight slightly, but a well-compressed multi-size ICO under 50 KB is typical for simple logos.",
       ],
-      linkedToolIds: ["png-to-ico"],
+      linkedToolIds: ["favicon-generator", "png-to-ico"],
     },
     {
       id: "desktop-platforms",
@@ -147,6 +184,7 @@ export const standardFaviconSizesResource: ResourceDefinition = {
         "A minimal modern head might include: link rel=\"icon\" href=\"/favicon.ico\" sizes=\"any\" for the ICO bundle, link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/favicon-32x32.png\" for explicit PNG tabs, and link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon.png\" for iOS. Each tag should live in the document head before body content.",
         "For PWAs, the manifest.json icons array lists src, sizes, type, and purpose (any, maskable). Example entry: { \"src\": \"/icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"any maskable\" }. Browsers pick the closest manifest icon when users install the app; missing 512×512 entries produce soft or cropped install icons.",
       ],
+      linkedToolIds: ["favicon-generator"],
     },
     {
       id: "workflow",
@@ -155,7 +193,7 @@ export const standardFaviconSizesResource: ResourceDefinition = {
         "Design one square master at 512×512 or export from SVG at that resolution. Generate favicon.ico with 16, 32, 48, and 256 px frames. Export standalone PNGs at 32×32, 180×180, 192×192, and 512×512 from the same master so colors and padding stay consistent.",
         "Place favicon.ico at the domain root, put PNG variants in /icons or /assets, wire link tags in your layout template, and reference manifest icons in site metadata. After deploy, verify in Chrome DevTools Application panel, Safari Responsive Design Mode, and an actual iOS home-screen add to confirm each size resolves. Clear CDN caches when replacing favicons—browsers cache them heavily.",
       ],
-      linkedToolIds: ["png-to-ico", "svg-to-png"],
+      linkedToolIds: ["favicon-generator", "png-to-ico", "svg-to-png"],
     },
     {
       id: "pwa-maskable",
@@ -189,6 +227,23 @@ export const standardFaviconSizesResource: ResourceDefinition = {
     "Omitting sizes=\"any\" or explicit sizes attributes, causing browsers to guess and occasionally fetch the wrong asset.",
     "Using different artwork across ICO and PNG variants so tabs and home-screen icons look like different brands.",
     "Forgetting to invalidate CDN caches after a favicon update, making production appear stuck on an old icon for days.",
+  ],
+  faqs: [
+    {
+      question: "Which favicon sizes should I ship?",
+      answer:
+        "Include 16×16, 32×32, and 48×48 in favicon.ico. Add 180×180 for Apple touch icons and 192/512 PNG files if you have a PWA manifest.",
+    },
+    {
+      question: "Should Apple touch icons go inside the ICO?",
+      answer:
+        "No. Use a separate apple-touch-icon.png referenced with a link tag. ICO is for desktop tabs and Windows shortcuts.",
+    },
+    {
+      question: "Where do I put favicon.ico?",
+      answer:
+        "Place it at the site root so browsers that request /favicon.ico automatically still find it, and also add explicit link tags.",
+    },
   ],
 };
 

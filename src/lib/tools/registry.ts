@@ -479,9 +479,9 @@ const coreLiveTools: ToolDefinition[] = [
     path: "/unit-converters/area/square-feet-to-acres/",
     shortDescription:
       "Convert square feet to acres using the standard 43,560 conversion factor.",
-    metaTitle: "Square Feet to Acres Converter - Free Area Conversion",
+    metaTitle: "Square Feet to Acres Converter - Instant Area Conversion",
     metaDescription:
-      "Convert square feet to acres instantly. Uses acres = square feet ÷ 43,560 with examples and reverse conversion link.",
+      "Convert square feet to acres instantly. Includes a conversion table, reverse conversion, and length × width area mode. 1 acre = 43,560 square feet.",
     keywords: ["square feet to acres", "sq ft to acres", "sf to acres", "convert square feet to acres"],
     relatedTools: ["acres-to-square-feet", "hectares-to-acres", "acres-to-hectares"],
     componentKey: "GenericUnitConverterTool",

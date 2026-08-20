@@ -31,6 +31,7 @@ import {
 } from "@/tools/construction/ConstructionWizard";
 import {
   FaviconGeneratorTool,
+  IcoToPngTool,
   ImageCompressorTool,
   ImageResizerTool,
   JpgToPngTool,
@@ -78,6 +79,7 @@ export const toolComponentMap: Record<string, ComponentType> = {
   SvgToPngTool,
   PngToIcoTool,
   FaviconGeneratorTool,
+  IcoToPngTool,
   SerpPreviewTool,
   WordCounterProTool,
   TextDiffTool,
@@ -100,6 +102,7 @@ export const genericComponentKeys = new Set([
   "GenericDocumentTool",
   "GenericImageTool",
   "GenericValidatorTool",
+  "PercentageCalculatorTool",
 ]);
 
 export const getToolComponent = (componentKey: string): ComponentType | undefined => {
