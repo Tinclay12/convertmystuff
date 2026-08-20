@@ -198,6 +198,28 @@ export const buildToolsIndexMetadata = (): Metadata => {
   };
 };
 
+export const buildConvertersIndexMetadata = (): Metadata => {
+  const title = "All Converters - Convert Data, Units, Files & Text | ConvertMyStuff";
+  const description =
+    "Browse free online converters for JSON, CSV, YAML, TOML, XML, units, images, PDFs, and more. Fast, private, browser-based tools with no login.";
+
+  return {
+    title,
+    description,
+    alternates: buildCanonicalAlternates("/converters/"),
+    robots: INDEXABLE_ROBOTS,
+    ...buildSocialMetadata({
+      title,
+      description,
+      url: toAbsoluteUrl("/converters/"),
+      ogTitle: "All Converters",
+      ogDescription:
+        "JSON, CSV, units, images, PDFs, and more—free converters that run in your browser.",
+      ogEyebrow: "Converters",
+    }),
+  };
+};
+
 export const buildSubcategoryMetadata = (
   categoryTitle: string,
   subcategoryTitle: string,
