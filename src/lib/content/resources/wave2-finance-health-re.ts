@@ -384,7 +384,7 @@ export const howToCalculatePercentageChangeResource: ResourceDefinition = {
   primaryToolSearch: "mode=change",
   relatedToolIds: ["compound-interest-calculator", "break-even-calculator"],
   relatedResourceSlugs: ["what-is-compound-interest", "simple-vs-compound-interest"],
-  lastReviewed: "2026-08-19",
+  lastReviewed: "2026-09-04",
   sections: [
     {
       id: "basic-formula",
@@ -447,6 +447,16 @@ export const howToCalculatePercentageChangeResource: ResourceDefinition = {
       title: "Budget category spike",
       description:
         "Dining spend goes from $320 to $416 monthly: 30% increase signals a lifestyle or pricing shift worth investigating in absolute dollars ($96) as well as percent.",
+    },
+    {
+      title: "Sale price",
+      description:
+        "A jacket drops from $80 to $60: (($60 − $80) ÷ $80) × 100 = −25%. The sale is a 25% decrease, not 20%. Put $80 as old value and $60 as new value in the percentage calculator.",
+    },
+    {
+      title: "Recovering from a 50% drop",
+      description:
+        "A $100 holding falls to $50 (−50%). Getting back to $100 requires (($100 − $50) ÷ $50) × 100 = +100%, not +50%. The calculator shows why percent-down and percent-up are not symmetric.",
     },
   ],
   commonMistakes: [

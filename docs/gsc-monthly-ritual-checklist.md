@@ -57,3 +57,16 @@ npm run content:quality
 ```
 
 Address published tools flagged as thin before adding any new indexed pages.
+
+## 9. Cluster A success gate (favicon / ICO)
+
+Run on the next 28-day export after the favicon destination upgrade. Do **not** start the developer cluster (JSON↔CSV / cron) until at least one of these is true:
+
+- [ ] Daily impressions for the last complete 5 days are back near 300+ (Sep 1–2 drop was lag)
+- [ ] `/resources/image-tools/what-is-an-ico-file/` or `/image-tools/format-converters/ico-to-png/` moved toward position 20 (from ~62 / ~44)
+- [ ] First organic click on any ICO/favicon URL
+- [ ] Apex share of page impressions is rising vs www
+
+Watch these URLs together: favicon generator, PNG→ICO, ICO→PNG, ICO article, how-to-add-a-favicon.
+
+If none of those move after 2–3 weeks, improve the same cluster again before expanding to JSON/CSV.

@@ -13,9 +13,19 @@ export const converterSnippets: Record<string, ToolContentEnrichment> = {
       variant: "info",
       paragraphs: [
         "Building footprint and lot area in US listings are often quoted in square feet. Converting to acres helps compare urban lots with rural parcels.",
-        "43,560 square feet equals one US survey acre.",
+        "43,560 square feet equals one US survey acre. 10,000 sq ft is about 0.23 acres; 87,120 sq ft is 2 acres.",
       ],
       linkedToolIds: ["price-per-square-foot", "acres-to-square-feet"],
+    },
+    {
+      id: "quick-table",
+      title: "Use the table, then reverse",
+      variant: "tip",
+      paragraphs: [
+        "The converter includes common lot sizes and a length × width mode if you measured a rectangle in feet.",
+        "Need the other direction? Open acres to square feet without retyping the factor.",
+      ],
+      linkedToolIds: ["acres-to-square-feet"],
     },
   ]),
   "hectares-to-acres": tierA([

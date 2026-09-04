@@ -18,7 +18,7 @@ export const categoryFlagshipIds: Record<string, string[]> = {
   "health-fitness-calculators": ["bmi-calculator", "calorie-calculator", "macro-calculator"],
   "unit-converters": ["acres-to-square-feet", "meters-to-feet", "kg-to-lbs"],
   "document-tools": ["pdf-merge", "pdf-split", "text-to-pdf"],
-  "image-tools": ["image-resizer", "image-compressor", "png-to-ico"],
+  "image-tools": ["favicon-generator", "png-to-ico", "ico-to-png"],
   "construction-calculators": ["concrete-calculator", "lumber-calculator", "roofing-calculator"],
   "text-tools": ["case-converter", "remove-duplicate-lines", "word-counter"],
   "marketing-tools": ["utm-builder", "open-graph-preview", "qr-code-generator"],

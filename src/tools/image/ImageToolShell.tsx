@@ -5,12 +5,17 @@ import { Button } from "@/components/ui/Button";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Input } from "@/components/ui/Input";
 import { BrowserPrivacyNote } from "@/components/tools/BrowserPrivacyNote";
+import { FaviconChromePreviews } from "@/components/tools/FaviconChromePreviews";
 import { FileDropZone } from "@/components/tools/FileDropZone";
 import { ToolErrorAlert } from "@/components/tools/ToolErrorAlert";
 import { ToolInputPanel } from "@/components/tools/ToolInputPanel";
 import { ToolOutputPanel } from "@/components/tools/ToolOutputPanel";
 import { trackFlagshipEvent } from "@/lib/analytics/flagship-events";
-import { imageToolConfigs } from "@/lib/tools/logic/image-tools";
+import {
+  FAVICON_ZIP_CONTENTS,
+  imageToolConfigs,
+  type FaviconBackground,
+} from "@/lib/tools/logic/image-tools";
 import { formatFileSize } from "@/lib/utils/format-file-size";
 
 type ImageToolShellProps = {
@@ -26,6 +31,7 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
   const [quality, setQuality] = useState("0.8");
   const [lockAspect, setLockAspect] = useState(true);
   const [cropSquare, setCropSquare] = useState(true);
+  const [background, setBackground] = useState<FaviconBackground>("transparent");
   const [previewUrl, setPreviewUrl] = useState("");
   const [htmlSnippet, setHtmlSnippet] = useState("");
   const [downloadName, setDownloadName] = useState("");
@@ -88,6 +94,7 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
       height: Number(height),
       quality: Number(quality),
       cropSquare: config.showCrop ? cropSquare : undefined,
+      background: config.showBackground ? background : undefined,
     });
 
     if (!result.ok) {
@@ -200,6 +207,26 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
             Center-crop to a square
           </label>
         )}
+        {config.showBackground && (
+          <div className="mt-4">
+            <label
+              htmlFor="favicon-background"
+              className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted"
+            >
+              Icon background
+            </label>
+            <select
+              id="favicon-background"
+              value={background}
+              onChange={(event) => setBackground(event.target.value as FaviconBackground)}
+              className="w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-[15px] text-foreground focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/15"
+            >
+              <option value="transparent">Transparent</option>
+              <option value="white">White</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        )}
         {config.showQuality && (
           <div className="mt-4">
             <Input
@@ -250,6 +277,14 @@ export const ImageToolShell = ({ toolId }: ImageToolShellProps) => {
             </div>
           ) : (
             <p className="text-sm text-muted">File ready: {downloadName}</p>
+          )}
+          {toolId === "favicon-generator" && previewUrl && <FaviconChromePreviews previewUrl={previewUrl} />}
+          {toolId === "favicon-generator" && (
+            <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-muted">
+              {FAVICON_ZIP_CONTENTS.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           )}
           {htmlSnippet && (
             <div className="mt-4 space-y-2">

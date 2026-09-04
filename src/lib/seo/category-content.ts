@@ -67,8 +67,8 @@ const categoryEditorial: Record<string, CategoryEditorial> = {
     intro:
       "Free image tools to convert PNG, JPG, and SVG formats; resize and compress images; and generate favicon bundles with ICO files — processed entirely in your browser.",
     useCases: [
-      "Convert PNG to JPG for smaller file sizes",
-      "Generate favicon.ico and PNG size bundles",
+      "Generate favicon.ico, PNG sizes, and HTML tags",
+      "Convert ICO files to PNG and PNG to ICO",
       "Resize images for web and social media",
       "Compress photos before upload",
     ],

@@ -28,5 +28,34 @@ describe("image-tools config", () => {
     expect(imageToolConfigs["png-to-ico"]).toBeDefined();
     expect(imageToolConfigs["favicon-generator"]).toBeDefined();
     expect(imageToolConfigs["ico-to-png"]).toBeDefined();
+    expect(imageToolConfigs["favicon-generator"]?.showBackground).toBe(true);
+  });
+});
+
+describe("favicon bundle metadata", () => {
+  it("includes PWA sizes, manifest, and HTML link tags", async () => {
+    const {
+      FAVICON_HTML_SNIPPET,
+      FAVICON_PNG_SIZES,
+      FAVICON_ICO_SIZES,
+      FAVICON_ZIP_CONTENTS,
+      buildSiteWebmanifest,
+    } = await import("@/lib/tools/logic/image-tools");
+
+    expect([...FAVICON_PNG_SIZES]).toEqual(expect.arrayContaining([192, 512]));
+    expect([...FAVICON_ICO_SIZES]).not.toContain(512);
+    expect(FAVICON_HTML_SNIPPET).toContain('rel="manifest"');
+    expect(FAVICON_HTML_SNIPPET).toContain("/site.webmanifest");
+    expect(FAVICON_ZIP_CONTENTS.some((item) => item.includes("site.webmanifest"))).toBe(true);
+
+    const manifest = JSON.parse(buildSiteWebmanifest()) as {
+      icons: Array<{ src: string; sizes: string }>;
+    };
+    expect(manifest.icons).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ src: "/android-chrome-192x192.png", sizes: "192x192" }),
+        expect.objectContaining({ src: "/android-chrome-512x512.png", sizes: "512x512" }),
+      ]),
+    );
   });
 });

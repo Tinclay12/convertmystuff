@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getToolContentEnrichment } from "@/lib/content/tools";
 import { enrichToolDefinition } from "@/lib/content/merge-tool-content";
+import { getResourceBySlug } from "@/lib/content/resources";
 import {
   getEnrichedTool,
   getGuideBySlug,
@@ -8,6 +9,7 @@ import {
   getResolvedToolLinkGroups,
   hasContentEnrichment,
 } from "@/lib/tools/access";
+import { getCategoryFlagships } from "@/lib/tools/featured-tools";
 
 describe("content enrichment", () => {
   it("enriches BMI calculator with tier C content and guide", () => {
@@ -81,6 +83,36 @@ describe("content enrichment", () => {
     const faviconGroups = getResolvedToolLinkGroups(favicon!);
     expect(faviconGroups.some((g) => g.tools.some((t) => t.id === "png-to-ico"))).toBe(true);
     expect(getEnrichedTool("ico-to-png")?.id).toBe("ico-to-png");
+    expect(getEnrichedTool("favicon-generator")?.metaTitle.toLowerCase()).toContain("manifest");
+    expect(getEnrichedTool("ico-to-png")?.metaTitle.toLowerCase()).toContain("ico to png");
+  });
+
+  it("retargets the ICO article at icon-file queries and the favicon generator", () => {
+    const resource = getResourceBySlug("image-tools", "what-is-an-ico-file");
+    expect(resource?.primaryToolId).toBe("favicon-generator");
+    expect(resource?.metaTitle.toLowerCase()).toContain("ico file format");
+    expect(resource?.keywords).toEqual(expect.arrayContaining(["ico file", "icon file", "ico files"]));
+    expect(resource?.sections.some((section) => section.heading.toLowerCase().includes("ico file format"))).toBe(
+      true,
+    );
+    expect(resource?.faqs?.some((faq) => faq.question.toLowerCase() === "what is an ico file?")).toBe(true);
+  });
+
+  it("keeps near-page-one resources pointed at their tools", () => {
+    expect(getResourceBySlug("design-tools", "wcag-contrast-basics")?.primaryToolId).toBe("contrast-checker");
+    expect(getResourceBySlug("design-tools", "wcag-contrast-basics")?.metaTitle.toLowerCase()).toContain("4.5:1");
+    expect(getResourceBySlug("marketing-tools", "qr-code-url-best-practices")?.primaryToolId).toBe(
+      "qr-code-generator",
+    );
+    expect(
+      getResourceBySlug("finance-calculators", "how-to-calculate-percentage-change")?.examples?.length,
+    ).toBeGreaterThanOrEqual(5);
+    expect(getEnrichedTool("square-feet-to-acres")?.metaTitle.toLowerCase()).toContain("43,560");
+  });
+
+  it("spotlights the favicon cluster on the image tools hub", () => {
+    const flagships = getCategoryFlagships("image-tools");
+    expect(flagships.map((tool) => tool.id)).toEqual(["favicon-generator", "png-to-ico", "ico-to-png"]);
   });
 
   it("enriches compound interest with guide and resources", () => {

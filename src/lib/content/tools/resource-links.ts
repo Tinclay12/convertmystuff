@@ -17,7 +17,7 @@ export const faviconGeneratorContent: ToolContentEnrichment = {
 };
 
 export const icoToPngContent: ToolContentEnrichment = {
-  resourceSlugs: ["image-tools/what-is-an-ico-file"],
+  resourceSlugs: ["image-tools/what-is-an-ico-file", "image-tools/standard-favicon-sizes"],
   guideSlug: "how-to-add-a-favicon",
 };
 

@@ -5,28 +5,36 @@ export const whatIsAnIcoFileResource: ResourceDefinition = {
   categorySlug: "image-tools",
   title: "What Is an ICO File?",
   summary:
-    "ICO is a Windows icon format that can store multiple sizes in one file—commonly used for website favicons and app shortcuts.",
-  metaTitle: "What Is an ICO File? Favicon Format Explained",
+    "An ICO file is a Windows icon format that stores multiple sizes in one file—used for favicons and desktop shortcuts.",
+  metaTitle: "ICO File Format - What Is an ICO / Icon File?",
   metaDescription:
-    "Learn what ICO files are, how they differ from PNG, common favicon sizes, and when to convert PNG to ICO for browsers.",
-  keywords: ["what is ico file", "ico format", "favicon ico", "png to ico"],
+    "An ICO file is a Windows icon format that stores several sizes in one file. See the ICO file format, how icon files differ from PNG, and how to convert them.",
+  keywords: [
+    "ico file",
+    "ico files",
+    "icon file",
+    "ico file format",
+    "ico format",
+    "what is an ico file",
+  ],
   quickAnswer:
     "An ICO file is a container image format that stores one or more icon sizes (often 16×16, 32×32, and 48×48 pixels) in a single file. Browsers and operating systems use ICO files for favicons and shortcut icons.",
   intro:
     "If you are preparing a website favicon or Windows shortcut icon, you will encounter the .ico extension. Unlike a single PNG, an ICO file can bundle several resolutions so the icon looks sharp on browser tabs, bookmarks, desktop shortcuts, and pinned taskbar items. Understanding how ICO works helps you choose the right export settings, size embedded frames correctly, and avoid blurry or cropped icons across platforms. Whether you maintain a marketing site, ship an internal portal, or publish a desktop app installer, ICO remains the most reliable single-file fallback for environments that expect favicon.ico at the domain root.",
-  primaryToolId: "png-to-ico",
-  relatedToolIds: ["favicon-generator", "svg-to-png", "ico-to-png"],
+  primaryToolId: "favicon-generator",
+  relatedToolIds: ["png-to-ico", "ico-to-png", "svg-to-png"],
   relatedResourceSlugs: ["standard-favicon-sizes"],
   relatedGuideSlugs: ["how-to-add-a-favicon"],
-  lastReviewed: "2026-08-19",
+  lastReviewed: "2026-09-04",
   sections: [
     {
       id: "format-basics",
-      heading: "How ICO files work",
+      heading: "ICO file format basics",
       paragraphs: [
         "ICO (icon) is a bitmap container format originally designed for Microsoft Windows. Each file can include multiple embedded images at different dimensions and color depths, along with metadata that tells the operating system which image to render at a given display context. A single favicon.ico might contain 16×16, 32×32, 48×48, and even 256×256 pixel versions of the same logo, all packaged together.",
         "The format supports both BMP and PNG compression inside the container. Modern ICO files often store PNG-encoded frames because PNG achieves smaller file sizes at larger dimensions while preserving transparency. When a browser or shell requests an icon, it selects the closest matching size rather than scaling a tiny image up, which is why multi-size ICO files look noticeably sharper than a lone 16×16 graphic stretched to fit.",
       ],
+      linkedToolIds: ["favicon-generator", "png-to-ico"],
     },
     {
       id: "png-vs-ico",
@@ -115,6 +123,21 @@ export const whatIsAnIcoFileResource: ResourceDefinition = {
   ],
   faqs: [
     {
+      question: "What is an ICO file?",
+      answer:
+        "An ICO file is a Windows icon file that can store several PNG or BMP images at different sizes in one container. Websites use it as favicon.ico; Windows uses it for shortcuts.",
+    },
+    {
+      question: "What is an icon file (.ico)?",
+      answer:
+        "Icon file usually means an .ico on Windows or a favicon for a website. It is not a single PNG—it is a file format that can hold 16×16, 32×32, 48×48, and larger frames together.",
+    },
+    {
+      question: "What is the ICO file format?",
+      answer:
+        "ICO is a container format: a short header, a directory of image entries, then the image bytes (BMP or PNG). Browsers and Windows pick the closest matching size from that directory.",
+    },
+    {
       question: "Is ICO the same as PNG?",
       answer:
         "No. PNG is one raster image. ICO is a container that can hold several PNG or BMP images at different sizes.",
@@ -127,7 +150,12 @@ export const whatIsAnIcoFileResource: ResourceDefinition = {
     {
       question: "How do I convert PNG to ICO?",
       answer:
-        "Use a converter that embeds multiple sizes (16, 32, 48, and optionally 256). A favicon generator can also emit HTML link tags and an Apple touch icon.",
+        "Use a converter that embeds multiple sizes (16, 32, 48, and optionally 256). A favicon generator can also emit HTML link tags, an Apple touch icon, and a web manifest.",
+    },
+    {
+      question: "How do I convert an ICO file to PNG?",
+      answer:
+        "Extract the embedded frames. A single-size ICO downloads as one PNG; a multi-size favicon.ico downloads as a ZIP of PNGs.",
     },
   ],
 };

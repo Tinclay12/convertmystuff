@@ -73,11 +73,13 @@ export const faqSupplements: Record<string, ToolContentEnrichment> = {
   "png-to-ico": {
     additionalFaqs: [
       faq("Will ICO work in all browsers?", "Modern browsers prefer PNG favicons; ICO remains useful for legacy Windows shortcuts."),
+      faq("Is this the same as a full favicon bundle?", "This tool outputs a multi-size .ico. Use the favicon generator if you also need PNG sizes, apple-touch-icon, site.webmanifest, and HTML tags."),
     ],
   },
   "favicon-generator": {
     additionalFaqs: [
-      faq("Which size should I use for PWA icons?", "512×512 is common for manifest icons; include multiple sizes in the ZIP for best coverage."),
+      faq("Which size should I use for PWA icons?", "Include android-chrome-192x192.png and android-chrome-512x512.png from the ZIP, then reference them in site.webmanifest."),
+      faq("Does the ZIP include a web manifest?", "Yes. site.webmanifest lists the 192 and 512 PNG names. Copy it to your site root next to the HTML link tags."),
     ],
   },
   "tbsp-to-ml": {

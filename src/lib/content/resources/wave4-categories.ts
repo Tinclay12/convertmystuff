@@ -424,9 +424,9 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
   title: "QR Code URL Best Practices",
   summary:
     "QR codes encode URLs for print and physical marketing—use HTTPS, short stable links, and test scan size and contrast.",
-  metaTitle: "QR Code URL Best Practices for Print and Scans",
+  metaTitle: "QR Code URL Best Practices - Short HTTPS Links That Scan",
   metaDescription:
-    "Choose a short HTTPS URL, add UTM tags before you generate the code, and test print size, contrast, and quiet zone before a print run.",
+    "Encode a short HTTPS URL, add UTM tags, then generate the QR. Test print size, contrast, and quiet zone before a print run.",
   keywords: ["qr code url best practices", "qr code marketing", "qr code link", "qr generator tips"],
   quickAnswer:
     "Encode HTTPS URLs with minimal length—shorter URLs produce simpler QR modules scannable at smaller print sizes. Use stable redirects for campaigns you may reprint. Test contrast (dark on light), quiet zone margin, and minimum print size (~2 cm) before mass printing. Add UTM parameters before encoding for analytics.",
@@ -435,7 +435,7 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
   primaryToolId: "qr-code-generator",
   relatedToolIds: ["utm-builder", "utm-parser", "open-graph-preview"],
   relatedResourceSlugs: ["open-graph-tags-explained", "meta-description-best-practices"],
-  lastReviewed: "2026-08-19",
+  lastReviewed: "2026-09-04",
   sections: [
     {
       id: "url-choice",
@@ -495,6 +495,11 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
         "Encode https://cafe.example/order (HTTPS, mobile page, no session token). Print black on white at 3 cm with a quiet zone, error correction M. Skip UTM on a permanent table tent if you only need destination traffic.",
     },
     {
+      title: "Generate after the URL is final",
+      description:
+        "Build https://brand.example/e26?utm_source=poster&utm_medium=qr&utm_campaign=spring2026 (or a short redirect that 301s to it), then open the QR generator and encode that exact string. Do not design the code first and paste a different URL later.",
+    },
+    {
       title: "What not to encode",
       description:
         "Avoid http:// (mixed content and browser warnings), login-gated dashboards, and one-time discount URLs that expire while the poster is still on the wall.",
@@ -521,6 +526,11 @@ export const qrCodeUrlBestPracticesResource: ResourceDefinition = {
       question: "Why did my QR stop working after a website redesign?",
       answer:
         "The encoded string never changes once printed. Use a redirect you control so the destination can move without reprinting.",
+    },
+    {
+      question: "How do I generate a QR code after I pick the URL?",
+      answer:
+        "Use the QR code generator with the final HTTPS string (or the short redirect). Keep error correction moderate, then print a test at the real size before a full run.",
     },
     {
       question: "Do I need a logo in the QR code?",
@@ -1114,12 +1124,12 @@ export const hexVsRgbColorResource: ResourceDefinition = {
 export const wcagContrastBasicsResource: ResourceDefinition = {
   slug: "wcag-contrast-basics",
   categorySlug: "design-tools",
-  title: "WCAG Contrast Basics",
+  title: "WCAG Contrast Ratio Basics",
   summary:
     "WCAG contrast ratio compares foreground and background luminance—4.5:1 minimum for normal text, 3:1 for large text.",
-  metaTitle: "WCAG Contrast Basics - AA and AAA Color Ratios",
+  metaTitle: "WCAG Contrast Ratio: 4.5:1 AA and 3:1 Large Text",
   metaDescription:
-    "WCAG 2.2 needs 4.5:1 for normal text and 3:1 for large text (AA). Check foreground and background hex pairs with a contrast checker.",
+    "WCAG 2.2 needs 4.5:1 for normal text and 3:1 for large text (AA). Check your hex pairs with the free contrast checker.",
   keywords: ["wcag contrast", "color contrast ratio", "accessibility contrast", "aa contrast"],
   quickAnswer:
     "WCAG 2.x contrast ratio ranges 1:1 to 21:1. Level AA requires 4.5:1 for normal text (<18pt or <14pt bold) and 3:1 for large text. UI components and graphics need 3:1 against adjacent colors. Use contrast checker on final hex pairs including alpha composited over background.",
@@ -1128,7 +1138,7 @@ export const wcagContrastBasicsResource: ResourceDefinition = {
   primaryToolId: "contrast-checker",
   relatedToolIds: ["color-converter"],
   relatedResourceSlugs: ["hex-vs-rgb-color", "aspect-ratio-reference"],
-  lastReviewed: "2026-08-19",
+  lastReviewed: "2026-09-04",
   sections: [
     {
       id: "ratio-math",
@@ -1207,6 +1217,11 @@ export const wcagContrastBasicsResource: ResourceDefinition = {
       question: "What counts as large text?",
       answer:
         "About 18 point regular or 14 point bold and larger. Below that, use the 4.5:1 normal-text threshold.",
+    },
+    {
+      question: "How do I check WCAG contrast on my colors?",
+      answer:
+        "Paste the foreground and background hex values into the contrast checker. It reports the ratio and whether the pair meets AA or AAA for normal and large text.",
     },
     {
       question: "Does a pass on white mean the color is always accessible?",

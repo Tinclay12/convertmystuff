@@ -1,6 +1,8 @@
 import JSZip from "jszip";
 import { buildIcoFromPngEntries, extractPngFramesFromIco, pngBlobToUint8Array } from "./ico-encoder";
 
+export type FaviconBackground = "transparent" | "white" | "dark";
+
 export type ImageProcessResult =
   | {
       ok: true;
@@ -19,6 +21,7 @@ export type ImageToolOptions = {
   format?: "png" | "jpeg" | "webp";
   sizes?: number[];
   cropSquare?: boolean;
+  background?: FaviconBackground;
 };
 
 const loadImageFromFile = (file: File): Promise<HTMLImageElement> => {
@@ -80,11 +83,17 @@ const canvasToBlob = (
   });
 };
 
+const FAVICON_BACKGROUND_FILL: Record<Exclude<FaviconBackground, "transparent">, string> = {
+  white: "#ffffff",
+  dark: "#111827",
+};
+
 const drawToCanvas = (
   image: HTMLImageElement,
   width: number,
   height: number,
   cropSquare = false,
+  background: FaviconBackground = "transparent",
 ): HTMLCanvasElement => {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -92,6 +101,11 @@ const drawToCanvas = (
   const context = canvas.getContext("2d");
   if (!context) {
     throw new Error("Canvas is not supported.");
+  }
+
+  if (background !== "transparent") {
+    context.fillStyle = FAVICON_BACKGROUND_FILL[background];
+    context.fillRect(0, 0, width, height);
   }
 
   if (!cropSquare) {
@@ -105,6 +119,48 @@ const drawToCanvas = (
   context.drawImage(image, sourceX, sourceY, sourceSize, sourceSize, 0, 0, width, height);
   return canvas;
 };
+
+export const FAVICON_PNG_SIZES = [16, 32, 48, 64, 128, 192, 256, 512] as const;
+export const FAVICON_ICO_SIZES = [16, 32, 48, 64, 256] as const;
+
+export const FAVICON_HTML_SNIPPET = `<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />`;
+
+export const FAVICON_ZIP_CONTENTS = [
+  "favicon.ico (16, 32, 48, 64, 256 px)",
+  "PNG sizes 16–512 px",
+  "apple-touch-icon.png (180×180)",
+  "android-chrome-192x192.png and android-chrome-512x512.png",
+  "site.webmanifest",
+  "favicon-html.txt with copy-ready link tags",
+] as const;
+
+export const buildSiteWebmanifest = (name = "App"): string =>
+  `${JSON.stringify(
+    {
+      name,
+      short_name: name,
+      icons: [
+        {
+          src: "/android-chrome-192x192.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "/android-chrome-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+        },
+      ],
+      theme_color: "#ffffff",
+      background_color: "#ffffff",
+      display: "standalone",
+    },
+    null,
+    2,
+  )}\n`;
 
 export const convertImageFormat = async (
   file: File,
@@ -165,16 +221,13 @@ const renderPngAtSize = async (
   image: HTMLImageElement,
   size: number,
   cropSquare = false,
+  background: FaviconBackground = "transparent",
 ): Promise<{ name: string; blob: Blob; pngData: Uint8Array }> => {
-  const canvas = drawToCanvas(image, size, size, cropSquare);
+  const canvas = drawToCanvas(image, size, size, cropSquare, background);
   const blob = await canvasToBlob(canvas, "image/png");
   const pngData = await pngBlobToUint8Array(blob);
   return { name: `favicon-${size}x${size}.png`, blob, pngData };
 };
-
-export const FAVICON_HTML_SNIPPET = `<link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />`;
 
 export const convertPngToIco = async (
   file: File,
@@ -183,17 +236,18 @@ export const convertPngToIco = async (
   try {
     const normalized = await normalizeImageFile(file);
     const image = await loadImageFromFile(normalized);
-    const sizes = options.sizes ?? [16, 32, 48, 64, 256];
+    const sizes = options.sizes ?? [...FAVICON_ICO_SIZES];
     const cropSquare = options.cropSquare ?? true;
+    const background = options.background ?? "transparent";
     const entries = await Promise.all(
       sizes.map(async (size) => {
-        const rendered = await renderPngAtSize(image, size, cropSquare);
+        const rendered = await renderPngAtSize(image, size, cropSquare, background);
         return { width: size, height: size, pngData: rendered.pngData };
       }),
     );
 
     const icoBlob = buildIcoFromPngEntries(entries);
-    const preview32 = await renderPngAtSize(image, 32, cropSquare);
+    const preview32 = await renderPngAtSize(image, 32, cropSquare, background);
     const baseName = file.name.replace(/\.[^.]+$/, "");
 
     return {
@@ -215,31 +269,54 @@ export const generateFaviconZip = async (
   file: File,
   options: ImageToolOptions = {},
 ): Promise<ImageProcessResult> => {
-  const sizes = options.sizes ?? [16, 32, 48, 64, 128, 256];
+  const sizes = options.sizes ?? [...FAVICON_PNG_SIZES];
   const cropSquare = options.cropSquare ?? true;
+  const background = options.background ?? "transparent";
   try {
     const normalized = await normalizeImageFile(file);
     const image = await loadImageFromFile(normalized);
-    const pngEntries = await Promise.all(sizes.map((size) => renderPngAtSize(image, size, cropSquare)));
-    const appleTouch = await renderPngAtSize(image, 180, cropSquare);
-    const icoEntries = pngEntries.map((entry) => {
+    const pngEntries = await Promise.all(
+      sizes.map((size) => renderPngAtSize(image, size, cropSquare, background)),
+    );
+    const appleTouch = await renderPngAtSize(image, 180, cropSquare, background);
+    const icoSizeSet = new Set<number>(FAVICON_ICO_SIZES);
+    const icoEntries = pngEntries.flatMap((entry) => {
       const sizeMatch = entry.name.match(/(\d+)x/);
       const size = sizeMatch ? Number(sizeMatch[1]) : 32;
-      return { width: size, height: size, pngData: entry.pngData };
+      if (!icoSizeSet.has(size)) {
+        return [];
+      }
+      return [{ width: size, height: size, pngData: entry.pngData }];
     });
+    const icoSource = icoEntries.length > 0
+      ? icoEntries
+      : pngEntries.map((entry) => {
+          const sizeMatch = entry.name.match(/(\d+)x/);
+          const size = sizeMatch ? Number(sizeMatch[1]) : 32;
+          return { width: size, height: size, pngData: entry.pngData };
+        });
 
-    const icoBlob = buildIcoFromPngEntries(icoEntries);
+    const icoBlob = buildIcoFromPngEntries(icoSource);
+    const png32 = pngEntries.find((entry) => entry.name.includes("32x32")) ?? pngEntries[0];
+    const png192 = pngEntries.find((entry) => entry.name.includes("192x192"));
+    const png512 = pngEntries.find((entry) => entry.name.includes("512x512"));
     const zip = new JSZip();
     pngEntries.forEach((entry) => {
       zip.file(entry.name, entry.blob);
     });
-    zip.file("favicon-32x32.png", pngEntries.find((entry) => entry.name.includes("32x32"))?.blob ?? pngEntries[0]?.blob);
+    zip.file("favicon-32x32.png", png32?.blob);
     zip.file("apple-touch-icon.png", appleTouch.blob);
+    if (png192) {
+      zip.file("android-chrome-192x192.png", png192.blob);
+    }
+    if (png512) {
+      zip.file("android-chrome-512x512.png", png512.blob);
+    }
     zip.file("favicon.ico", icoBlob);
+    zip.file("site.webmanifest", buildSiteWebmanifest());
     zip.file("favicon-html.txt", FAVICON_HTML_SNIPPET);
 
     const zipBlob = await zip.generateAsync({ type: "blob" });
-    const preview32 = pngEntries.find((entry) => entry.name.includes("32x32")) ?? pngEntries[0];
     const baseName = file.name.replace(/\.[^.]+$/, "");
 
     return {
@@ -247,7 +324,7 @@ export const generateFaviconZip = async (
       blob: zipBlob,
       filename: `${baseName}-favicons.zip`,
       mimeType: "application/zip",
-      previewUrl: URL.createObjectURL(preview32.blob),
+      previewUrl: png32 ? URL.createObjectURL(png32.blob) : undefined,
       htmlSnippet: FAVICON_HTML_SNIPPET,
     };
   } catch (error) {
@@ -314,6 +391,7 @@ export type ImageToolConfig = {
   showDimensions?: boolean;
   showQuality?: boolean;
   showCrop?: boolean;
+  showBackground?: boolean;
   process: (file: File, options: ImageToolOptions) => Promise<ImageProcessResult>;
   defaultFormat?: ImageToolOptions["format"];
 };
@@ -364,6 +442,7 @@ export const imageToolConfigs: Record<string, ImageToolConfig> = {
     label: "Source image",
     accept: "image/png,.png,image/jpeg,.jpg,.jpeg,image/webp,.webp,image/*,.heic,.heif",
     showCrop: true,
+    showBackground: true,
     process: (file, options) => generateFaviconZip(file, options),
   },
   "ico-to-png": {
