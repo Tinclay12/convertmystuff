@@ -20,6 +20,10 @@ export type UnitPairMeta = {
   relatedTools: string[];
   sourceNote: string;
   priority?: number;
+  lastReviewed?: string;
+  howToUse?: string[];
+  faqs?: ToolDefinition["faqs"];
+  extraExamples?: ToolDefinition["examples"];
 };
 
 export const buildUnitConverterTool = (meta: UnitPairMeta): ToolDefinition =>
@@ -39,7 +43,8 @@ export const buildUnitConverterTool = (meta: UnitPairMeta): ToolDefinition =>
     formula: meta.formula,
     explanation: meta.explanation,
     priority: meta.priority,
-    howToUse: [
+    lastReviewed: meta.lastReviewed,
+    howToUse: meta.howToUse ?? [
       `Enter the value in ${meta.title.split(" to ")[0]?.toLowerCase() ?? "source units"}.`,
       "View the converted result instantly.",
       "Use the reverse converter link for the opposite conversion.",
@@ -52,8 +57,9 @@ export const buildUnitConverterTool = (meta: UnitPairMeta): ToolDefinition =>
         explanation: meta.exampleExplanation,
         prefillValue: meta.exampleInput,
       },
+      ...(meta.extraExamples ?? []),
     ],
-    faqs: [
+    faqs: meta.faqs ?? [
       faq("Can I convert back to the original unit?", `Yes. Use the reverse ${meta.title.includes("Converter") ? meta.title.replace(meta.slug.split("-to-")[0] ?? "", meta.reverseId.split("-to-")[0] ?? "") : "converter"}.`),
       faq("Does this support decimal values?", "Yes. Decimal inputs are supported."),
       faq("Is this conversion exact?", "This tool uses standard published conversion factors."),
@@ -72,19 +78,57 @@ export const expandedUnitPairTools: ToolDefinition[] = [
     slug: "square-meters-to-square-feet",
     title: "Square Meters to Square Feet Converter",
     subcategory: "area",
-    shortDescription: "Convert square meters to square feet for floor area and property size.",
-    metaTitle: "Square Meters to Square Feet Converter - Free Area Conversion",
-    metaDescription: "Convert square meters to square feet instantly. Uses 1 m² = 10.7639 ft² with formula and reverse link.",
-    keywords: ["square meters to square feet", "sq m to sq ft", "m2 to ft2"],
+    shortDescription: "Convert square meters to square feet for floor plans, listings, and room size.",
+    metaTitle: "Square Meters to Square Feet Converter (m² to ft²)",
+    metaDescription:
+      "Convert square meters to square feet instantly. 1 m² = 10.7639 ft². Includes a conversion table, room length × width, and reverse calculator.",
+    keywords: [
+      "square meters to square feet",
+      "square meters to square feet converter",
+      "convert square meters to square feet",
+      "sq m to sq ft",
+      "m2 to sq ft",
+      "1 square meter to square feet",
+    ],
     formula: "square feet = square meters × 10.7639104167",
-    explanation: "Convert metric floor area from square meters to US customary square feet.",
+    explanation:
+      "Convert metric floor area to US square feet. One square meter is 10.7639 square feet because 1 m ≈ 3.28084 ft and area scales by that factor squared—not the linear factor.",
     exampleTitle: "100 square meters",
     exampleInput: "100",
-    exampleOutput: "1,076.391042",
+    exampleOutput: "1076.391042",
     exampleExplanation: "100 × 10.7639104167 ≈ 1,076.39 square feet.",
+    extraExamples: [
+      {
+        title: "1 square meter",
+        input: "1",
+        output: "10.7639104167",
+        explanation: "1 × 10.7639104167 = 10.7639 square feet.",
+        prefillValue: "1",
+      },
+      {
+        title: "60 m² apartment",
+        input: "60",
+        output: "645.834625",
+        explanation: "60 × 10.7639104167 ≈ 645.83 square feet, a common one-bedroom size.",
+        prefillValue: "60",
+      },
+    ],
+    howToUse: [
+      "Enter square meters, or type the result in square feet to convert the other way.",
+      "Use presets (1, 10, 60, 100) for common listing sizes, or length × width for a room.",
+      "Copy the result, or open the reverse converter for square feet to square meters.",
+    ],
+    faqs: [
+      faq("How many square feet are in 1 square meter?", "1 square meter equals 10.7639104167 square feet (about 10.764 ft²)."),
+      faq("How do I convert square meters to square feet?", "Multiply square meters by 10.7639. Example: 100 m² × 10.7639 ≈ 1,076.39 ft²."),
+      faq("Is 1 meter equal to 10.76 square feet?", "No. 1 meter is a length (about 3.281 feet). 10.764 is the area factor for 1 square meter."),
+      faq("How many square feet is a 60 m² apartment?", "About 646 square feet (60 × 10.7639). A 100 m² unit is about 1,076 square feet."),
+      faq("Can I convert back to square meters?", "Yes. Edit the square-feet field, or use the Square Feet to Square Meters converter."),
+    ],
     reverseId: "square-feet-to-square-meters",
     relatedTools: ["acres-to-square-feet", "square-feet-to-acres", "meters-to-feet"],
-    sourceNote: "1 square meter = 10.7639104167 square feet.",
+    sourceNote: "1 square meter = 10.7639104167 square feet (international foot).",
+    lastReviewed: "2026-09-04",
     priority: 12,
   }),
   buildUnitConverterTool({

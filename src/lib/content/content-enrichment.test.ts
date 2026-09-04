@@ -3,6 +3,7 @@ import { getToolContentEnrichment } from "@/lib/content/tools";
 import { enrichToolDefinition } from "@/lib/content/merge-tool-content";
 import {
   getEnrichedTool,
+  getGuideBySlug,
   getGuidesForCategory,
   getResolvedToolLinkGroups,
   hasContentEnrichment,
@@ -17,6 +18,15 @@ describe("content enrichment", () => {
     expect(tool?.faqs?.length).toBeGreaterThanOrEqual(8);
   });
 
+  it("enriches square meters to square feet for the high-impression converter", () => {
+    const tool = getEnrichedTool("square-meters-to-square-feet");
+    expect(tool?.metaTitle.toLowerCase()).toContain("square meters to square feet");
+    expect(tool?.faqs?.some((faq) => faq.question.toLowerCase().includes("1 square meter"))).toBe(
+      true,
+    );
+    expect(tool?.contentBlocks?.some((block) => block.id === "why-107639")).toBe(true);
+    expect(tool?.contentBlocks?.length).toBeGreaterThanOrEqual(3);
+  });
   it("enriches unit converters with snippets and workflow links", () => {
     const tool = getEnrichedTool("meters-to-feet");
     expect(tool?.contentTier).toBe("A");
@@ -44,6 +54,13 @@ describe("content enrichment", () => {
   it("maps guides to categories", () => {
     const healthGuides = getGuidesForCategory("health-fitness-calculators");
     expect(healthGuides.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("retargets the BMI categories guide at WHO cutoff queries", () => {
+    const guide = getGuideBySlug("bmi-categories-and-limitations");
+    expect(guide?.metaTitle.toLowerCase()).toContain("bmi cutoffs");
+    expect(guide?.referenceTable?.rows.length).toBeGreaterThanOrEqual(6);
+    expect(guide?.faqs?.some((faq) => faq.question.toLowerCase().includes("cut off"))).toBe(true);
   });
 
   it("detects enriched tools", () => {

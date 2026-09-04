@@ -456,8 +456,8 @@ export const unitConverterConfigs: Record<string, UnitConverterConfig> = {
     reversePath: "/unit-converters/area/square-feet-to-square-meters/",
     reverseLabel: "Square Feet to Square Meters",
     convert: squareMetersToSquareFeet,
-    tableValues: [1, 5, 10, 20, 50, 100, 250, 500, 1000],
-    presets: ["1", "10", "50", "100"],
+    tableValues: [1, 10, 20, 50, 60, 80, 100, 120, 150, 200, 1000, 1500],
+    presets: ["1", "10", "60", "100"],
     relatedUnitLinks: [
       { label: "Acres", path: "/unit-converters/area/square-meters-to-acres/" },
       { label: "Hectares", path: "/unit-converters/area/hectares-to-acres/" },
@@ -478,8 +478,8 @@ export const unitConverterConfigs: Record<string, UnitConverterConfig> = {
     reversePath: "/unit-converters/area/square-meters-to-square-feet/",
     reverseLabel: "Square Meters to Square Feet",
     convert: squareFeetToSquareMeters,
-    tableValues: [10.7639, 53.8195, 107.639, 538.196, 1076.39],
-    presets: ["100", "1000", "5000"],
+    tableValues: [100, 500, 646, 1000, 1076, 1500, 2000],
+    presets: ["100", "1000", "1076"],
     relatedUnitLinks: [
       { label: "Acres", path: "/unit-converters/area/square-feet-to-acres/" },
       { label: "Hectares", path: "/unit-converters/area/acres-to-hectares/" },

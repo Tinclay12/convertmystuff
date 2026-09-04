@@ -11,7 +11,7 @@ import { Card } from "@/components/ui/Card";
 import { trackContentEvent } from "@/lib/analytics/content-events";
 import { getGuidePath } from "@/lib/content/merge-tool-content";
 import { getResourcePath, resolveResourceReference } from "@/lib/content/resources";
-import type { GuideDefinition, ResourceDefinition } from "@/lib/content/types";
+import type { ContentTable, GuideDefinition, ResourceDefinition } from "@/lib/content/types";
 import {
   buildBreadcrumbSchema,
   buildFaqSchema,
@@ -23,6 +23,51 @@ import type { ToolDefinition } from "@/lib/tools/types";
 
 type GuidePageLayoutProps = {
   guide: GuideDefinition;
+};
+
+const GuideReferenceTable = ({ table }: { table: ContentTable }) => {
+  return (
+    <div className="mt-8 overflow-x-auto rounded-2xl border border-border">
+      <table className="min-w-full text-left text-sm">
+        <caption className="px-4 py-3 text-left text-sm font-medium text-foreground">
+          {table.caption}
+        </caption>
+        <thead className="bg-panel-muted text-xs uppercase tracking-wide text-muted">
+          <tr>
+            {table.headers.map((header) => (
+              <th key={header} scope="col" className="px-4 py-3 font-semibold">
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((row) => (
+            <tr key={row[0]} className="border-t border-border">
+              {row.map((cell, cellIndex) =>
+                cellIndex === 0 ? (
+                  <th
+                    key={`${row[0]}-${cellIndex}`}
+                    scope="row"
+                    className="px-4 py-2 font-medium text-foreground"
+                  >
+                    {cell}
+                  </th>
+                ) : (
+                  <td key={`${row[0]}-${cellIndex}`} className="px-4 py-2 text-foreground">
+                    {cell}
+                  </td>
+                ),
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {table.footnote && (
+        <p className="border-t border-border px-4 py-3 text-sm text-muted">{table.footnote}</p>
+      )}
+    </div>
+  );
 };
 
 export const GuidePageLayout = ({ guide }: GuidePageLayoutProps) => {
@@ -90,6 +135,8 @@ export const GuidePageLayout = ({ guide }: GuidePageLayoutProps) => {
         </div>
       )}
 
+      {guide.referenceTable && <GuideReferenceTable table={guide.referenceTable} />}
+
       <div className="mt-8 max-w-3xl space-y-8 px-1 sm:px-2">
         {guide.sections.map((section) => {
           const sectionTools = (section.linkedToolIds ?? [])
@@ -111,6 +158,7 @@ export const GuidePageLayout = ({ guide }: GuidePageLayoutProps) => {
                   </p>
                 ))}
               </div>
+              {section.table && <GuideReferenceTable table={section.table} />}
               {sectionTools.length > 0 && (
                 <ul className="mt-3 flex flex-wrap gap-2">
                   {sectionTools.map((tool) => (

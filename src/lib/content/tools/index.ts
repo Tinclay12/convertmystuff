@@ -1,6 +1,7 @@
 import type { ToolContentEnrichment } from "@/lib/content/types";
 import { getToolById } from "@/lib/tools/access";
 import { acresToSquareFeetContent } from "./acres-to-square-feet";
+import { squareMetersToSquareFeetContent } from "./square-meters-to-square-feet";
 import { bmiCalculatorContent } from "./bmi-calculator";
 import { calorieCalculatorContent } from "./calorie-calculator";
 import { capRateCalculatorContent } from "./cap-rate-calculator";
@@ -30,6 +31,7 @@ import {
 
 const dedicatedContent: Record<string, ToolContentEnrichment> = {
   "acres-to-square-feet": acresToSquareFeetContent,
+  "square-meters-to-square-feet": squareMetersToSquareFeetContent,
   "bmi-calculator": bmiCalculatorContent,
   "calorie-calculator": calorieCalculatorContent,
   "cap-rate-calculator": capRateCalculatorContent,

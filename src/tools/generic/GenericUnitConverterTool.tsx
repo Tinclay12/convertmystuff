@@ -253,7 +253,7 @@ export const GenericUnitConverterTool = ({ toolId, initialPrefill }: GenericTool
       {tableRows.length > 0 && (
         <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="min-w-full text-left text-sm">
-            <caption className="sr-only">
+            <caption className="px-4 py-3 text-left text-sm font-medium text-foreground">
               Common {config.inputLabel} to {config.outputLabel} conversions
             </caption>
             <thead className="bg-panel-muted text-xs uppercase tracking-wide text-muted">

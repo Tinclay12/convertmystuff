@@ -1,8 +1,16 @@
+export type ContentTable = {
+  caption: string;
+  headers: string[];
+  rows: string[][];
+  footnote?: string;
+};
+
 export type GuideSection = {
   id: string;
   heading: string;
   paragraphs: string[];
   linkedToolIds?: string[];
+  table?: ContentTable;
 };
 
 export type ResourceExample = {
@@ -66,6 +74,8 @@ export type GuideDefinition = {
   metaDescription: string;
   keywords: string[];
   intro: string;
+  /** Optional cutoff/reference table rendered above the article body */
+  referenceTable?: ContentTable;
   sections: GuideSection[];
   faqs?: GuideFaq[];
   /** YMYL disclaimer rendered at page footer */

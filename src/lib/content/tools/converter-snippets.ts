@@ -210,8 +210,8 @@ export const converterSnippets: Record<string, ToolContentEnrichment> = {
       title: "Floor area in metric listings",
       variant: "info",
       paragraphs: [
-        "International property and floor plans often quote area in square meters.",
-        "Converting to square feet helps compare with US listings and construction estimates.",
+        "International apartments, offices, and floor plans usually quote area in square meters. US listings and material estimates use square feet.",
+        "Convert once from the document's native unit. Do not convert length in meters and treat that number as square feet.",
       ],
       linkedToolIds: ["square-feet-to-square-meters", "price-per-square-foot"],
     },

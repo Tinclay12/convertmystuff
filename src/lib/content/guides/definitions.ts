@@ -135,72 +135,105 @@ export const whatIsBmiGuide: GuideDefinition = {
 
 export const bmiCategoriesGuide: GuideDefinition = {
   slug: "bmi-categories-and-limitations",
-  title: "BMI Categories and Limitations",
+  title: "BMI Cutoffs and WHO Categories",
   summary:
-    "Understand the full range of WHO BMI categories, obesity classes, population-specific cutoffs, and alternative metrics when BMI alone is not enough.",
-  metaTitle: "BMI Categories and Limitations - WHO Ranges Explained",
+    "WHO adult BMI cutoffs, obesity classes I–III, population-specific thresholds, and when BMI misleads—plus a free calculator.",
+  metaTitle: "BMI Cutoffs and WHO Categories - Adult Classification Chart",
   metaDescription:
-    "Understand WHO BMI categories, who should not rely on BMI alone, and alternative metrics to consider alongside body mass index.",
-  keywords: ["bmi categories", "bmi limitations", "who bmi ranges", "bmi for athletes"],
+    "WHO adult BMI cutoffs: underweight below 18.5, overweight from 25, obese from 30, plus Class I–III. See the table, Asian cutoffs, and calculator.",
+  keywords: [
+    "bmi cutoffs",
+    "bmi categories",
+    "who bmi cut off points",
+    "bmi classification",
+    "obesity classes",
+    "who bmi classification",
+  ],
   intro:
-    "BMI categories group adults into weight ranges based on height and weight. They are useful for quick screening but have well-known limitations for certain populations. Knowing the full category table, obesity subclasses, and when to use alternative metrics helps you interpret BMI results with appropriate nuance rather than treating a single number as definitive.",
+    "WHO adult BMI cutoffs split weight-for-height into underweight (below 18.5), normal (18.5–24.9), overweight (25.0–29.9), and obesity (30.0 and above). Obesity is further split into Class I, II, and III. The table below is the screening chart most clinical guidelines cite. Cutoffs are population tools, not diagnoses—use the calculator, then read the limitations before treating a single number as a verdict.",
   primaryToolId: "bmi-calculator",
-  relatedToolIds: ["calorie-calculator"],
+  relatedToolIds: ["calorie-calculator", "macro-calculator"],
   relatedGuideSlugs: ["what-is-bmi", "tdee-and-calorie-deficits"],
   categorySlug: "health-fitness-calculators",
   subcategoryId: "body-metrics",
-  lastReviewed: "2026-05-23",
+  lastReviewed: "2026-09-04",
   disclaimer: HEALTH_DISCLAIMER,
+  referenceTable: {
+    caption: "WHO adult BMI cutoffs and obesity classes",
+    headers: ["Category", "BMI cutoff", "Also called"],
+    rows: [
+      ["Underweight", "Below 18.5", "Thinness (WHO may further grade)"],
+      ["Normal weight", "18.5–24.9", "Healthy weight range"],
+      ["Overweight", "25.0–29.9", "Pre-obesity in some WHO texts"],
+      ["Obesity Class I", "30.0–34.9", "Moderate obesity"],
+      ["Obesity Class II", "35.0–39.9", "Severe obesity"],
+      ["Obesity Class III", "40.0 and above", "Severe / morbid obesity"],
+    ],
+    footnote:
+      "Adults 20+. Children use BMI-for-age percentiles, not these cutoffs. Some Asian populations use overweight from 23.0 and obesity from 27.5 (WHO Western Pacific guidance).",
+  },
   faqs: [
     {
-      question: "What are the four main BMI categories?",
+      question: "What are WHO BMI cut off points for adults?",
       answer:
-        "WHO adult categories are underweight (below 18.5), normal weight (18.5–24.9), overweight (25.0–29.9), and obese (30.0 and above). Obesity is subdivided into Class I, II, and III for clinical context.",
+        "Underweight below 18.5, normal weight 18.5–24.9, overweight 25.0–29.9, and obesity 30.0 or higher. Obesity Class I is 30.0–34.9, Class II is 35.0–39.9, and Class III is 40.0 and above.",
     },
     {
-      question: "What is Class III obesity?",
+      question: "What BMI is considered obese?",
       answer:
-        "Class III obesity, sometimes called severe or morbid obesity, is a BMI of 40.0 or higher. Class I covers 30.0–34.9 and Class II covers 35.0–39.9. Higher classes correlate with increased health risks at the population level.",
+        "A BMI of 30.0 or higher is classified as obese under WHO adult cutoffs. BMI 31 falls in Class I (30.0–34.9). Class II starts at 35.0 and Class III at 40.0.",
     },
     {
-      question: "What metrics are better than BMI for athletes?",
+      question: "What are the BMI obesity classes?",
       answer:
-        "Body fat percentage, waist circumference, waist-to-height ratio, and DEXA scans provide more accurate body composition data for muscular individuals. BMI alone cannot distinguish muscle from fat.",
+        "Class I is 30.0–34.9, Class II is 35.0–39.9, and Class III is 40.0 and above. Higher classes are associated with greater population-level risk of cardiometabolic disease.",
     },
     {
       question: "Do BMI cutoffs differ for Asian populations?",
       answer:
-        "Yes. WHO Western Pacific Region guidance suggests overweight begins at BMI 23.0 and obesity at 27.5 for some Asian populations, reflecting earlier onset of metabolic risk at lower BMI values.",
+        "Yes. WHO Western Pacific Region guidance suggests overweight from BMI 23.0 and obesity from 27.5 for some Asian populations, because metabolic risk can appear at lower BMI values.",
+    },
+    {
+      question: "Should children use adult BMI cutoffs?",
+      answer:
+        "No. Children and adolescents need age- and sex-specific BMI-for-age percentiles. Adult cutoffs do not apply during growth or pregnancy.",
+    },
+    {
+      question: "What metrics are better than BMI for athletes?",
+      answer:
+        "Body fat percentage, waist circumference, waist-to-height ratio, and DEXA scans describe composition better. BMI cannot tell muscle from fat.",
     },
   ],
   sections: [
     {
       id: "who-ranges",
-      heading: "Standard adult BMI ranges at a glance",
+      heading: "WHO adult BMI cutoffs at a glance",
       paragraphs: [
-        "The WHO ranges most commonly cited for adults divide the BMI scale into four primary bands: underweight below 18.5, normal weight from 18.5 to 24.9, overweight from 25.0 to 29.9, and obese at 30.0 or higher. These cutoffs were chosen because epidemiological data show inflection points in mortality and disease prevalence near these thresholds.",
-        "Each category represents a range, not a precise target. A BMI of 24.9 and a BMI of 18.5 both fall within normal weight, yet an individual at either boundary may have very different body compositions, fitness levels, and health profiles.",
-        "National health surveys report the distribution of BMI across populations using these categories, which is why they remain the standard reference in clinical guidelines, research papers, and public health communications worldwide.",
+        "The World Health Organization adult cutoffs are the numbers most searchers mean by “BMI categories”: underweight below 18.5, normal from 18.5 to 24.9, overweight from 25.0 to 29.9, and obese at 30.0 or higher. Those thresholds came from reviews of mortality and disease risk across large adult populations—not from a single ideal body.",
+        "A cutoff is a line on a chart, not a personal diagnosis. BMI 24.9 and BMI 18.5 are both “normal,” and BMI 30.0 is the obesity line even though 29.9 is still labeled overweight. Use the table above, then calculate your own value with the BMI calculator.",
+        "Health surveys, insurers, and clinical guidelines still use this classification because it is cheap to measure and reasonably correlated with adiposity at the group level. That is also why it fails for some individuals—see the limitations sections below.",
       ],
+      linkedToolIds: ["bmi-calculator"],
     },
     {
       id: "full-table",
-      heading: "Complete WHO category breakdown",
+      heading: "What each WHO cutoff means",
       paragraphs: [
-        "Underweight: BMI less than 18.5. Associated with increased risk of malnutrition, osteoporosis, and immune dysfunction at the population level, though individual causes vary widely.",
-        "Normal weight: BMI 18.5 to 24.9. Generally associated with the lowest all-cause mortality in large epidemiological studies, though individual outcomes depend on fitness, diet quality, genetics, and other factors.",
-        "Overweight: BMI 25.0 to 29.9. Elevated risk for hypertension, type 2 diabetes, and cardiovascular disease compared to normal weight groups in population studies. Many individuals in this range are metabolically healthy.",
-        "Obese: BMI 30.0 and above. Further divided into subclasses described below. Population-level risk for chronic disease increases with each step up the scale.",
+        "Underweight (BMI less than 18.5) is associated with higher rates of malnutrition, bone loss, and infection risk in population studies. Causes range from illness to inadequate intake—the cutoff flags follow-up, not a single explanation.",
+        "Normal weight (18.5–24.9) is the band with the lowest all-cause mortality in many adult cohorts. Fitness, waist size, and labs still matter inside this range.",
+        "Overweight (25.0–29.9) shows higher average rates of hypertension and type 2 diabetes than the normal band. Many people here remain metabolically healthy; the cutoff is a screening line.",
+        "Obesity (30.0+) is subdivided in the table. Risk of chronic disease rises stepwise from Class I through Class III in group data, which is why clinical pathways often change at 35 and 40.",
       ],
     },
     {
       id: "obesity-classes",
       heading: "Obesity classes I, II, and III",
       paragraphs: [
-        "Class I obesity spans BMI 30.0 to 34.9. This is the most common obesity classification and may be managed through lifestyle changes, medical nutrition therapy, or pharmacotherapy depending on individual circumstances.",
+        "Class I obesity spans BMI 30.0 to 34.9—the band that includes a BMI of 31. This is the most common obesity classification and may be addressed with lifestyle change, nutrition therapy, or medication depending on the person.",
         "Class II obesity covers BMI 35.0 to 39.9, sometimes called severe obesity. Healthcare providers may discuss more intensive interventions, including bariatric surgery eligibility, when lifestyle modifications alone are insufficient.",
         "Class III obesity is BMI 40.0 and above, also referred to as severe or morbid obesity. This classification is associated with the highest population-level rates of comorbid conditions and is a common threshold for surgical weight-loss candidacy discussions.",
       ],
+      linkedToolIds: ["bmi-calculator"],
     },
     {
       id: "population-cutoffs",
