@@ -21,10 +21,6 @@ export const utmParserContent: ToolContentEnrichment = {
   resourceSlugs: ["marketing-tools/what-are-utm-parameters"],
 };
 
-export const concreteCalculatorContent: ToolContentEnrichment = {
-  resourceSlugs: ["construction-calculators/how-to-estimate-concrete-cubic-yards"],
-};
-
 export const noiCalculatorContent: ToolContentEnrichment = {
   resourceSlugs: ["real-estate-calculators/what-is-noi"],
 };

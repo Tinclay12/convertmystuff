@@ -77,27 +77,3 @@ export const imageCompressorContent: ToolContentEnrichment = {
   ],
 };
 
-export const concreteCalculatorEnrichment: ToolContentEnrichment = {
-  contentTier: "B",
-  resourceSlugs: ["construction-calculators/how-to-estimate-concrete-cubic-yards"],
-  contentBlocks: [
-    {
-      id: "concrete-formula",
-      title: "Slab volume formula",
-      variant: "info",
-      paragraphs: [
-        "Rectangular pours: length × width × depth (feet) ÷ 27 = cubic yards. Depth is entered in inches and converted to feet.",
-        "Order 5–10% extra concrete for waste, uneven subgrade, and pump line loss.",
-      ],
-    },
-    {
-      id: "concrete-workflow",
-      title: "Next steps in your pour plan",
-      variant: "tip",
-      paragraphs: [
-        "Convert cubic yards to bag counts with the cement calculator, or estimate gravel and mulch for adjacent site work.",
-      ],
-      linkedToolIds: ["cement-calculator", "gravel-calculator", "mulch-calculator"],
-    },
-  ],
-};

@@ -17,18 +17,18 @@ import {
   nestedJsonToCsvContent,
   pdfMergeContent,
   pdfSplitContent,
-  rentalDealAnalyzerContent,
 } from "./flagship-snippets";
+import { rentalDealAnalyzerContent } from "./rental-deal-analyzer";
 import { jsonToCsvContent } from "./json-to-csv";
 import { icoToPngContent, noiCalculatorContent, pngToIcoContent, utmParserContent } from "./resource-links";
 import { faviconGeneratorContent } from "./favicon-generator";
 import { wave2ToolEnrichment } from "./wave2-tool-enrichment";
 import {
   compoundInterestCalculatorContent,
-  concreteCalculatorEnrichment,
   imageCompressorContent,
   imageResizerContent,
 } from "./flagship-sprint-enrichment";
+import { concreteCalculatorContent } from "./concrete-calculator";
 
 const dedicatedContent: Record<string, ToolContentEnrichment> = {
   "acres-to-square-feet": acresToSquareFeetContent,
@@ -53,7 +53,7 @@ const dedicatedContent: Record<string, ToolContentEnrichment> = {
   "compound-interest-calculator": compoundInterestCalculatorContent,
   "image-resizer": imageResizerContent,
   "image-compressor": imageCompressorContent,
-  "concrete-calculator": concreteCalculatorEnrichment,
+  "concrete-calculator": concreteCalculatorContent,
 };
 
 const mergeEnrichment = (

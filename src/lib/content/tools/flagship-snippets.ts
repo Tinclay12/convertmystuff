@@ -27,31 +27,6 @@ export const macroCalculatorContent: ToolContentEnrichment = {
   ],
 };
 
-export const rentalDealAnalyzerContent: ToolContentEnrichment = {
-  contentTier: "C",
-  guideSlug: "rental-deal-analysis-basics",
-  contentBlocks: [
-    {
-      id: "vs-single-metric",
-      title: "When to use the full analyzer",
-      variant: "info",
-      paragraphs: [
-        "Single-metric calculators like cap rate or NOI answer one question at a time. This dashboard combines income, expenses, financing, and return metrics so you can screen a rental deal without switching tools.",
-        "Use cap rate for unlevered yield comparisons. Use cash-on-cash and DSCR when financing matters.",
-      ],
-      linkedToolIds: ["cap-rate-calculator", "noi-calculator", "dscr-calculator"],
-    },
-    {
-      id: "share-analysis",
-      title: "Share assumptions with partners",
-      variant: "tip",
-      paragraphs: [
-        "Copy the share link to save your inputs in the URL. Partners can adjust vacancy, rent, or down payment and compare scenarios side by side.",
-      ],
-    },
-  ],
-};
-
 export const mortgageCalculatorProContent: ToolContentEnrichment = {
   contentTier: "C",
   guideSlug: "mortgage-amortization-explained",
