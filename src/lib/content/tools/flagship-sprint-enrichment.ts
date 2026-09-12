@@ -2,7 +2,6 @@ import type { ToolContentEnrichment } from "@/lib/content/types";
 
 export const compoundInterestCalculatorContent: ToolContentEnrichment = {
   contentTier: "B",
-  guideSlug: "compound-interest-formula-explained",
   resourceSlugs: [
     "finance-calculators/what-is-compound-interest",
     "finance-calculators/simple-vs-compound-interest",

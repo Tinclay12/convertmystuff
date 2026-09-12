@@ -1,0 +1,42 @@
+[
+  {
+    "source": "/guides/acres-to-square-feet-guide/",
+    "destination": "/resources/unit-converters/how-many-square-feet-are-in-an-acre/"
+  },
+  {
+    "source": "/guides/cap-rate-vs-cash-on-cash/",
+    "destination": "/guides/understanding-cap-rate/"
+  },
+  {
+    "source": "/guides/compound-interest-formula-explained/",
+    "destination": "/resources/finance-calculators/what-is-compound-interest/"
+  },
+  {
+    "source": "/guides/concrete-yardage-calculation/",
+    "destination": "/resources/construction-calculators/how-to-estimate-concrete-cubic-yards/"
+  },
+  {
+    "source": "/guides/how-to-merge-pdf-files/",
+    "destination": "/document-tools/pdf-tools/pdf-merge/"
+  },
+  {
+    "source": "/guides/how-to-split-pdf-pages/",
+    "destination": "/document-tools/pdf-tools/pdf-split/"
+  },
+  {
+    "source": "/guides/resize-images-for-web/",
+    "destination": "/resources/design-tools/aspect-ratio-reference/"
+  },
+  {
+    "source": "/guides/serp-snippet-preview-tips/",
+    "destination": "/resources/marketing-tools/open-graph-tags-explained/"
+  },
+  {
+    "source": "/guides/when-to-use-json-vs-csv/",
+    "destination": "/resources/developer-tools/json-vs-csv-for-data-exchange/"
+  },
+  {
+    "source": "/guides/word-count-for-seo-and-social/",
+    "destination": "/resources/text-tools/word-count-vs-character-count/"
+  }
+]

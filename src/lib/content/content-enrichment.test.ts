@@ -115,9 +115,9 @@ describe("content enrichment", () => {
     expect(flagships.map((tool) => tool.id)).toEqual(["favicon-generator", "png-to-ico", "ico-to-png"]);
   });
 
-  it("enriches compound interest with guide and resources", () => {
+  it("enriches compound interest with resources after the stub guide was retired", () => {
     const tool = getEnrichedTool("compound-interest-calculator");
-    expect(tool?.guideSlug).toBe("compound-interest-formula-explained");
+    expect(tool?.guideSlug).toBeUndefined();
     expect(tool?.resourceSlugs?.length).toBeGreaterThanOrEqual(2);
   });
 });
