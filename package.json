@@ -15,7 +15,8 @@
     "content:quality": "npx tsx scripts/content-quality-report.ts",
     "seo:qa": "npx tsx scripts/seo-qa.ts",
     "gsc:urls": "npx tsx scripts/gsc-indexing-urls.ts",
-    "gsc:opportunity": "npx tsx scripts/gsc-opportunity.ts"
+    "gsc:opportunity": "npx tsx scripts/gsc-opportunity.ts",
+    "seo:redirects": "npx tsx scripts/generate-legacy-redirects.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

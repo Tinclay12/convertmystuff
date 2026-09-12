@@ -1,0 +1,526 @@
+[
+  {
+    "source": "/construction-calculators/cement-calculator/",
+    "destination": "/construction-calculators/concrete-cement/cement-calculator/"
+  },
+  {
+    "source": "/construction-calculators/concrete-calculator/",
+    "destination": "/construction-calculators/concrete-cement/concrete-calculator/"
+  },
+  {
+    "source": "/construction-calculators/concrete-cubic-yards-to-tons/",
+    "destination": "/construction-calculators/concrete-cement/concrete-cubic-yards-to-tons/"
+  },
+  {
+    "source": "/construction-calculators/concrete-tons-to-cubic-yards/",
+    "destination": "/construction-calculators/concrete-cement/concrete-tons-to-cubic-yards/"
+  },
+  {
+    "source": "/construction-calculators/drywall-calculator/",
+    "destination": "/construction-calculators/materials/drywall-calculator/"
+  },
+  {
+    "source": "/construction-calculators/flooring-calculator/",
+    "destination": "/construction-calculators/flooring-walls/flooring-calculator/"
+  },
+  {
+    "source": "/construction-calculators/gravel-calculator/",
+    "destination": "/construction-calculators/landscaping/gravel-calculator/"
+  },
+  {
+    "source": "/construction-calculators/gravel-cubic-yards-to-tons/",
+    "destination": "/construction-calculators/landscaping/gravel-cubic-yards-to-tons/"
+  },
+  {
+    "source": "/construction-calculators/gravel-tons-to-cubic-yards/",
+    "destination": "/construction-calculators/landscaping/gravel-tons-to-cubic-yards/"
+  },
+  {
+    "source": "/construction-calculators/lumber-calculator/",
+    "destination": "/construction-calculators/materials/lumber-calculator/"
+  },
+  {
+    "source": "/construction-calculators/mulch-calculator/",
+    "destination": "/construction-calculators/landscaping/mulch-calculator/"
+  },
+  {
+    "source": "/construction-calculators/mulch-cubic-yards-to-tons/",
+    "destination": "/construction-calculators/landscaping/mulch-cubic-yards-to-tons/"
+  },
+  {
+    "source": "/construction-calculators/mulch-tons-to-cubic-yards/",
+    "destination": "/construction-calculators/landscaping/mulch-tons-to-cubic-yards/"
+  },
+  {
+    "source": "/construction-calculators/roofing-calculator/",
+    "destination": "/construction-calculators/roofing/roofing-calculator/"
+  },
+  {
+    "source": "/construction-calculators/shingles-calculator/",
+    "destination": "/construction-calculators/roofing/shingles-calculator/"
+  },
+  {
+    "source": "/construction-calculators/tile-calculator/",
+    "destination": "/construction-calculators/flooring-walls/tile-calculator/"
+  },
+  {
+    "source": "/design-tools/color-converter/",
+    "destination": "/design-tools/color-tools/color-converter/"
+  },
+  {
+    "source": "/design-tools/contrast-checker/",
+    "destination": "/design-tools/color-tools/contrast-checker/"
+  },
+  {
+    "source": "/design-tools/gradient-generator/",
+    "destination": "/design-tools/generators/gradient-generator/"
+  },
+  {
+    "source": "/design-tools/px-to-rem/",
+    "destination": "/design-tools/layout-tools/px-to-rem/"
+  },
+  {
+    "source": "/design-tools/rem-to-px/",
+    "destination": "/design-tools/layout-tools/rem-to-px/"
+  },
+  {
+    "source": "/design-tools/spacing-scale-generator/",
+    "destination": "/design-tools/layout-tools/spacing-scale-generator/"
+  },
+  {
+    "source": "/document-tools/html-to-markdown/",
+    "destination": "/document-tools/markup-converters/html-to-markdown/"
+  },
+  {
+    "source": "/document-tools/markdown-to-html/",
+    "destination": "/document-tools/markup-converters/markdown-to-html/"
+  },
+  {
+    "source": "/document-tools/pdf-merge/",
+    "destination": "/document-tools/pdf-tools/pdf-merge/"
+  },
+  {
+    "source": "/document-tools/pdf-split/",
+    "destination": "/document-tools/pdf-tools/pdf-split/"
+  },
+  {
+    "source": "/document-tools/text-to-pdf/",
+    "destination": "/document-tools/document-utilities/text-to-pdf/"
+  },
+  {
+    "source": "/document-tools/word-count-document/",
+    "destination": "/document-tools/document-utilities/word-count-document/"
+  },
+  {
+    "source": "/finance-calculators/break-even-calculator/",
+    "destination": "/finance-calculators/investment-basics/break-even-calculator/"
+  },
+  {
+    "source": "/finance-calculators/compound-interest-calculator/",
+    "destination": "/finance-calculators/investment-basics/compound-interest-calculator/"
+  },
+  {
+    "source": "/finance-calculators/discount-calculator/",
+    "destination": "/finance-calculators/percentages/discount-calculator/"
+  },
+  {
+    "source": "/finance-calculators/loan-payment-calculator/",
+    "destination": "/finance-calculators/loans-payments/loan-payment-calculator/"
+  },
+  {
+    "source": "/finance-calculators/margin-calculator/",
+    "destination": "/finance-calculators/percentages/margin-calculator/"
+  },
+  {
+    "source": "/finance-calculators/markup-calculator/",
+    "destination": "/finance-calculators/percentages/markup-calculator/"
+  },
+  {
+    "source": "/finance-calculators/mortgage-calculator-pro/",
+    "destination": "/finance-calculators/loans-payments/mortgage-calculator-pro/"
+  },
+  {
+    "source": "/finance-calculators/percentage-calculator/",
+    "destination": "/finance-calculators/percentages/percentage-calculator/"
+  },
+  {
+    "source": "/finance-calculators/tip-calculator/",
+    "destination": "/finance-calculators/everyday-finance/tip-calculator/"
+  },
+  {
+    "source": "/health-fitness-calculators/bmi-calculator/",
+    "destination": "/health-fitness-calculators/body-metrics/bmi-calculator/"
+  },
+  {
+    "source": "/health-fitness-calculators/calorie-calculator/",
+    "destination": "/health-fitness-calculators/nutrition/calorie-calculator/"
+  },
+  {
+    "source": "/health-fitness-calculators/macro-calculator/",
+    "destination": "/health-fitness-calculators/nutrition/macro-calculator/"
+  },
+  {
+    "source": "/image-tools/dpi-calculator/",
+    "destination": "/image-tools/print-dpi-tools/dpi-calculator/"
+  },
+  {
+    "source": "/image-tools/favicon-generator/",
+    "destination": "/image-tools/icons-favicons/favicon-generator/"
+  },
+  {
+    "source": "/image-tools/ico-to-png/",
+    "destination": "/image-tools/format-converters/ico-to-png/"
+  },
+  {
+    "source": "/image-tools/image-compressor/",
+    "destination": "/image-tools/resizers-compressors/image-compressor/"
+  },
+  {
+    "source": "/image-tools/image-resizer/",
+    "destination": "/image-tools/resizers-compressors/image-resizer/"
+  },
+  {
+    "source": "/image-tools/jpg-to-png/",
+    "destination": "/image-tools/format-converters/jpg-to-png/"
+  },
+  {
+    "source": "/image-tools/png-to-ico/",
+    "destination": "/image-tools/format-converters/png-to-ico/"
+  },
+  {
+    "source": "/image-tools/png-to-jpg/",
+    "destination": "/image-tools/format-converters/png-to-jpg/"
+  },
+  {
+    "source": "/image-tools/svg-to-png/",
+    "destination": "/image-tools/format-converters/svg-to-png/"
+  },
+  {
+    "source": "/kitchen-recipe-tools/cups-to-grams/",
+    "destination": "/kitchen-recipe-tools/measurement-conversion/cups-to-grams/"
+  },
+  {
+    "source": "/kitchen-recipe-tools/ingredient-converter/",
+    "destination": "/kitchen-recipe-tools/portion-planning/ingredient-converter/"
+  },
+  {
+    "source": "/kitchen-recipe-tools/oven-temp-converter/",
+    "destination": "/kitchen-recipe-tools/measurement-conversion/oven-temp-converter/"
+  },
+  {
+    "source": "/kitchen-recipe-tools/recipe-scaler/",
+    "destination": "/kitchen-recipe-tools/recipe-scaling/recipe-scaler/"
+  },
+  {
+    "source": "/kitchen-recipe-tools/serving-calculator/",
+    "destination": "/kitchen-recipe-tools/portion-planning/serving-calculator/"
+  },
+  {
+    "source": "/kitchen-recipe-tools/tbsp-to-ml/",
+    "destination": "/kitchen-recipe-tools/measurement-conversion/tbsp-to-ml/"
+  },
+  {
+    "source": "/marketing-tools/hashtag-generator/",
+    "destination": "/marketing-tools/social-formatting/hashtag-generator/"
+  },
+  {
+    "source": "/marketing-tools/meta-tag-generator/",
+    "destination": "/marketing-tools/seo-utilities/meta-tag-generator/"
+  },
+  {
+    "source": "/marketing-tools/open-graph-preview/",
+    "destination": "/marketing-tools/seo-utilities/open-graph-preview/"
+  },
+  {
+    "source": "/marketing-tools/qr-code-generator/",
+    "destination": "/marketing-tools/qr-tools/qr-code-generator/"
+  },
+  {
+    "source": "/marketing-tools/robots-txt-generator/",
+    "destination": "/marketing-tools/seo-utilities/robots-txt-generator/"
+  },
+  {
+    "source": "/marketing-tools/slug-generator/",
+    "destination": "/marketing-tools/seo-utilities/slug-generator/"
+  },
+  {
+    "source": "/marketing-tools/twitter-card-generator/",
+    "destination": "/marketing-tools/seo-utilities/twitter-card-generator/"
+  },
+  {
+    "source": "/marketing-tools/utm-parser/",
+    "destination": "/marketing-tools/campaign-urls/utm-parser/"
+  },
+  {
+    "source": "/real-estate-calculators/cash-on-cash-calculator/",
+    "destination": "/real-estate-calculators/investment-metrics/cash-on-cash-calculator/"
+  },
+  {
+    "source": "/real-estate-calculators/dscr-calculator/",
+    "destination": "/real-estate-calculators/lending-metrics/dscr-calculator/"
+  },
+  {
+    "source": "/real-estate-calculators/grm-calculator/",
+    "destination": "/real-estate-calculators/investment-metrics/grm-calculator/"
+  },
+  {
+    "source": "/real-estate-calculators/loan-to-value-calculator/",
+    "destination": "/real-estate-calculators/lending-metrics/loan-to-value-calculator/"
+  },
+  {
+    "source": "/real-estate-calculators/mortgage-calculator/",
+    "destination": "/real-estate-calculators/lending-metrics/mortgage-calculator/"
+  },
+  {
+    "source": "/real-estate-calculators/noi-calculator/",
+    "destination": "/real-estate-calculators/investment-metrics/noi-calculator/"
+  },
+  {
+    "source": "/real-estate-calculators/price-per-square-foot/",
+    "destination": "/real-estate-calculators/property-comparison/price-per-square-foot/"
+  },
+  {
+    "source": "/real-estate-calculators/property-tax-estimator/",
+    "destination": "/real-estate-calculators/tax-ownership/property-tax-estimator/"
+  },
+  {
+    "source": "/real-estate-calculators/rental-deal-analyzer/",
+    "destination": "/real-estate-calculators/investment-metrics/rental-deal-analyzer/"
+  },
+  {
+    "source": "/real-estate-calculators/roi-calculator/",
+    "destination": "/real-estate-calculators/investment-metrics/roi-calculator/"
+  },
+  {
+    "source": "/time-date-tools/age-calculator/",
+    "destination": "/time-date-tools/date-calculators/age-calculator/"
+  },
+  {
+    "source": "/time-date-tools/business-days-calculator/",
+    "destination": "/time-date-tools/date-calculators/business-days-calculator/"
+  },
+  {
+    "source": "/time-date-tools/countdown-calculator/",
+    "destination": "/time-date-tools/countdowns/countdown-calculator/"
+  },
+  {
+    "source": "/time-date-tools/date-difference/",
+    "destination": "/time-date-tools/date-calculators/date-difference/"
+  },
+  {
+    "source": "/time-date-tools/timezone-converter/",
+    "destination": "/time-date-tools/time-zones/timezone-converter/"
+  },
+  {
+    "source": "/time-date-tools/unix-timestamp/",
+    "destination": "/time-date-tools/timestamps/unix-timestamp/"
+  },
+  {
+    "source": "/unit-converters/acres-to-hectares/",
+    "destination": "/unit-converters/area/acres-to-hectares/"
+  },
+  {
+    "source": "/unit-converters/acres-to-square-feet/",
+    "destination": "/unit-converters/area/acres-to-square-feet/"
+  },
+  {
+    "source": "/unit-converters/acres-to-square-meters/",
+    "destination": "/unit-converters/area/acres-to-square-meters/"
+  },
+  {
+    "source": "/unit-converters/bits-to-bytes/",
+    "destination": "/unit-converters/digital-storage/bits-to-bytes/"
+  },
+  {
+    "source": "/unit-converters/board-feet-to-cubic-feet/",
+    "destination": "/unit-converters/volume/board-feet-to-cubic-feet/"
+  },
+  {
+    "source": "/unit-converters/bytes-to-bits/",
+    "destination": "/unit-converters/digital-storage/bytes-to-bits/"
+  },
+  {
+    "source": "/unit-converters/bytes-to-kb/",
+    "destination": "/unit-converters/digital-storage/bytes-to-kb/"
+  },
+  {
+    "source": "/unit-converters/celsius-to-fahrenheit/",
+    "destination": "/unit-converters/temperature/celsius-to-fahrenheit/"
+  },
+  {
+    "source": "/unit-converters/celsius-to-kelvin/",
+    "destination": "/unit-converters/temperature/celsius-to-kelvin/"
+  },
+  {
+    "source": "/unit-converters/cm-to-inches/",
+    "destination": "/unit-converters/length/cm-to-inches/"
+  },
+  {
+    "source": "/unit-converters/cm-to-mm/",
+    "destination": "/unit-converters/length/cm-to-mm/"
+  },
+  {
+    "source": "/unit-converters/cubic-feet-to-board-feet/",
+    "destination": "/unit-converters/volume/cubic-feet-to-board-feet/"
+  },
+  {
+    "source": "/unit-converters/cubic-feet-to-cubic-yards/",
+    "destination": "/unit-converters/volume/cubic-feet-to-cubic-yards/"
+  },
+  {
+    "source": "/unit-converters/cubic-yards-to-cubic-feet/",
+    "destination": "/unit-converters/volume/cubic-yards-to-cubic-feet/"
+  },
+  {
+    "source": "/unit-converters/cups-to-ml/",
+    "destination": "/unit-converters/volume/cups-to-ml/"
+  },
+  {
+    "source": "/unit-converters/fahrenheit-to-celsius/",
+    "destination": "/unit-converters/temperature/fahrenheit-to-celsius/"
+  },
+  {
+    "source": "/unit-converters/fahrenheit-to-kelvin/",
+    "destination": "/unit-converters/temperature/fahrenheit-to-kelvin/"
+  },
+  {
+    "source": "/unit-converters/feet-to-inches/",
+    "destination": "/unit-converters/length/feet-to-inches/"
+  },
+  {
+    "source": "/unit-converters/feet-to-meters/",
+    "destination": "/unit-converters/length/feet-to-meters/"
+  },
+  {
+    "source": "/unit-converters/gallons-to-liters/",
+    "destination": "/unit-converters/volume/gallons-to-liters/"
+  },
+  {
+    "source": "/unit-converters/gb-to-mb/",
+    "destination": "/unit-converters/digital-storage/gb-to-mb/"
+  },
+  {
+    "source": "/unit-converters/gb-to-tb/",
+    "destination": "/unit-converters/digital-storage/gb-to-tb/"
+  },
+  {
+    "source": "/unit-converters/grams-to-ounces/",
+    "destination": "/unit-converters/weight/grams-to-ounces/"
+  },
+  {
+    "source": "/unit-converters/hectares-to-acres/",
+    "destination": "/unit-converters/area/hectares-to-acres/"
+  },
+  {
+    "source": "/unit-converters/inches-to-cm/",
+    "destination": "/unit-converters/length/inches-to-cm/"
+  },
+  {
+    "source": "/unit-converters/inches-to-feet/",
+    "destination": "/unit-converters/length/inches-to-feet/"
+  },
+  {
+    "source": "/unit-converters/inches-to-mm/",
+    "destination": "/unit-converters/length/inches-to-mm/"
+  },
+  {
+    "source": "/unit-converters/kb-to-bytes/",
+    "destination": "/unit-converters/digital-storage/kb-to-bytes/"
+  },
+  {
+    "source": "/unit-converters/kb-to-mb/",
+    "destination": "/unit-converters/digital-storage/kb-to-mb/"
+  },
+  {
+    "source": "/unit-converters/kelvin-to-celsius/",
+    "destination": "/unit-converters/temperature/kelvin-to-celsius/"
+  },
+  {
+    "source": "/unit-converters/kelvin-to-fahrenheit/",
+    "destination": "/unit-converters/temperature/kelvin-to-fahrenheit/"
+  },
+  {
+    "source": "/unit-converters/kg-to-lbs/",
+    "destination": "/unit-converters/weight/kg-to-lbs/"
+  },
+  {
+    "source": "/unit-converters/kg-to-stones/",
+    "destination": "/unit-converters/weight/kg-to-stones/"
+  },
+  {
+    "source": "/unit-converters/km-to-miles/",
+    "destination": "/unit-converters/length/km-to-miles/"
+  },
+  {
+    "source": "/unit-converters/lbs-to-kg/",
+    "destination": "/unit-converters/weight/lbs-to-kg/"
+  },
+  {
+    "source": "/unit-converters/liters-to-gallons/",
+    "destination": "/unit-converters/volume/liters-to-gallons/"
+  },
+  {
+    "source": "/unit-converters/mb-to-gb/",
+    "destination": "/unit-converters/digital-storage/mb-to-gb/"
+  },
+  {
+    "source": "/unit-converters/mb-to-kb/",
+    "destination": "/unit-converters/digital-storage/mb-to-kb/"
+  },
+  {
+    "source": "/unit-converters/meters-to-feet/",
+    "destination": "/unit-converters/length/meters-to-feet/"
+  },
+  {
+    "source": "/unit-converters/meters-to-yards/",
+    "destination": "/unit-converters/length/meters-to-yards/"
+  },
+  {
+    "source": "/unit-converters/miles-to-km/",
+    "destination": "/unit-converters/length/miles-to-km/"
+  },
+  {
+    "source": "/unit-converters/ml-to-cups/",
+    "destination": "/unit-converters/volume/ml-to-cups/"
+  },
+  {
+    "source": "/unit-converters/mm-to-cm/",
+    "destination": "/unit-converters/length/mm-to-cm/"
+  },
+  {
+    "source": "/unit-converters/mm-to-inches/",
+    "destination": "/unit-converters/length/mm-to-inches/"
+  },
+  {
+    "source": "/unit-converters/ounces-to-grams/",
+    "destination": "/unit-converters/weight/ounces-to-grams/"
+  },
+  {
+    "source": "/unit-converters/square-feet-to-acres/",
+    "destination": "/unit-converters/area/square-feet-to-acres/"
+  },
+  {
+    "source": "/unit-converters/square-feet-to-square-meters/",
+    "destination": "/unit-converters/area/square-feet-to-square-meters/"
+  },
+  {
+    "source": "/unit-converters/square-meters-to-acres/",
+    "destination": "/unit-converters/area/square-meters-to-acres/"
+  },
+  {
+    "source": "/unit-converters/square-meters-to-square-feet/",
+    "destination": "/unit-converters/area/square-meters-to-square-feet/"
+  },
+  {
+    "source": "/unit-converters/stones-to-kg/",
+    "destination": "/unit-converters/weight/stones-to-kg/"
+  },
+  {
+    "source": "/unit-converters/tb-to-gb/",
+    "destination": "/unit-converters/digital-storage/tb-to-gb/"
+  },
+  {
+    "source": "/unit-converters/yards-to-meters/",
+    "destination": "/unit-converters/length/yards-to-meters/"
+  }
+]

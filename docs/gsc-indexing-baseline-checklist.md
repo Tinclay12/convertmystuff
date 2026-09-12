@@ -48,17 +48,21 @@ In GSC → URL inspection → **Request indexing** for each URL below (or run `n
 
 **Flagship tools**
 
+> **Tool URLs include their subcategory segment** (`/{category}/{subcategory}/{slug}/`).
+> Run `npm run gsc:urls` to print the canonical list rather than composing URLs by hand;
+> the flat `/{category}/{slug}/` form 404s (it now 308s to the real page, but do not submit it).
+
 - [ ] `/developer-tools/json-to-csv/`
 - [ ] `/developer-tools/csv-to-json/`
-- [ ] `/document-tools/pdf-merge/`
-- [ ] `/document-tools/pdf-split/`
-- [ ] `/finance-calculators/compound-interest-calculator/`
-- [ ] `/finance-calculators/mortgage-calculator-pro/`
-- [ ] `/health-fitness-calculators/bmi-calculator/`
-- [ ] `/real-estate-calculators/rental-deal-analyzer/`
-- [ ] `/construction-calculators/concrete-calculator/`
-- [ ] `/image-tools/image-resizer/`
-- [ ] `/image-tools/image-compressor/`
+- [ ] `/document-tools/pdf-tools/pdf-merge/`
+- [ ] `/document-tools/pdf-tools/pdf-split/`
+- [ ] `/finance-calculators/investment-basics/compound-interest-calculator/`
+- [ ] `/finance-calculators/loans-payments/mortgage-calculator-pro/`
+- [ ] `/health-fitness-calculators/body-metrics/bmi-calculator/`
+- [ ] `/real-estate-calculators/investment-metrics/rental-deal-analyzer/`
+- [ ] `/construction-calculators/concrete-cement/concrete-calculator/`
+- [ ] `/image-tools/resizers-compressors/image-resizer/`
+- [ ] `/image-tools/resizers-compressors/image-compressor/`
 
 ## 7–14 days after requests
 
