@@ -20,7 +20,8 @@ import {
   rentalDealAnalyzerContent,
 } from "./flagship-snippets";
 import { jsonToCsvContent } from "./json-to-csv";
-import { icoToPngContent, faviconGeneratorContent, noiCalculatorContent, pngToIcoContent, utmParserContent } from "./resource-links";
+import { icoToPngContent, noiCalculatorContent, pngToIcoContent, utmParserContent } from "./resource-links";
+import { faviconGeneratorContent } from "./favicon-generator";
 import { wave2ToolEnrichment } from "./wave2-tool-enrichment";
 import {
   compoundInterestCalculatorContent,

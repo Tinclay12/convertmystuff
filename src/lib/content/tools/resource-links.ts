@@ -8,14 +8,6 @@ export const pngToIcoContent: ToolContentEnrichment = {
   guideSlug: "how-to-add-a-favicon",
 };
 
-export const faviconGeneratorContent: ToolContentEnrichment = {
-  resourceSlugs: [
-    "image-tools/standard-favicon-sizes",
-    "image-tools/what-is-an-ico-file",
-  ],
-  guideSlug: "how-to-add-a-favicon",
-};
-
 export const icoToPngContent: ToolContentEnrichment = {
   resourceSlugs: ["image-tools/what-is-an-ico-file", "image-tools/standard-favicon-sizes"],
   guideSlug: "how-to-add-a-favicon",

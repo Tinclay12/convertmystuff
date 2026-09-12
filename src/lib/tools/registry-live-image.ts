@@ -213,7 +213,7 @@ export const imageLiveTools: ToolDefinition[] = [
     keywords: ["favicon generator", "create favicon", "favicon from image", "favicon html", "site.webmanifest"],
     relatedTools: ["png-to-ico", "ico-to-png", "svg-to-png"],
     componentKey: "FaviconGeneratorTool",
-    lastReviewed: "2026-09-04",
+    lastReviewed: "2026-09-11",
     explanation:
       "Upload a source image and download a ZIP with favicon PNGs (16–512 px), android-chrome 192/512 names, apple-touch-icon.png, a multi-size favicon.ico, site.webmanifest, and HTML <link> tags to copy.",
     howToUse: [
