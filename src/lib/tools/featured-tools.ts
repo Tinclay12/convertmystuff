@@ -12,7 +12,7 @@ export const homepageFlagshipIds = [
 ] as const;
 
 export const categoryFlagshipIds: Record<string, string[]> = {
-  "developer-tools": ["json-to-csv", "csv-to-json", "regex-tester", "jwt-decoder"],
+  "developer-tools": ["json-to-csv", "openai-batch-to-spreadsheet", "csv-to-json", "regex-tester", "jwt-decoder"],
   "real-estate-calculators": ["rental-deal-analyzer", "cap-rate-calculator", "noi-calculator"],
   "finance-calculators": ["mortgage-calculator-pro", "compound-interest-calculator", "loan-payment-calculator"],
   "health-fitness-calculators": ["bmi-calculator", "calorie-calculator", "macro-calculator"],

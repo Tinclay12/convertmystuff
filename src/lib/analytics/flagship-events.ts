@@ -38,6 +38,7 @@ export const trackFlagshipEvent = (
 };
 
 export const FLAGSHIP_TOOL_IDS = [
+  "openai-batch-to-spreadsheet",
   "rental-deal-analyzer",
   "mortgage-calculator-pro",
   "json-to-csv",
