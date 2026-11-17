@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { ToolActionBar } from "@/components/tools/ToolActionBar";
@@ -25,23 +25,8 @@ export const GenericTextTool = ({ toolId, initialPrefill, initialFields }: Gener
   const config = textToolConfigs[toolId];
   const tool = getToolById(toolId);
   const [input, setInput] = useState(initialPrefill ?? "");
-  const [left, setLeft] = useState("");
-  const [right, setRight] = useState("");
-
-  useEffect(() => {
-    if (config?.kind === "diff" && initialFields) {
-      if (initialFields.left) {
-        setLeft(initialFields.left);
-      }
-      if (initialFields.right) {
-        setRight(initialFields.right);
-      }
-      return;
-    }
-    if (initialPrefill !== undefined && config?.kind !== "diff") {
-      setInput(initialPrefill);
-    }
-  }, [config?.kind, initialFields, initialPrefill]);
+  const [left, setLeft] = useState(initialFields?.left ?? "");
+  const [right, setRight] = useState(initialFields?.right ?? "");
 
   const result = useMemo(() => {
     if (!config) {
@@ -72,26 +57,11 @@ export const GenericTextTool = ({ toolId, initialPrefill, initialFields }: Gener
     }
   };
 
-  const shareParams = useMemo((): Record<string, string> => {
-    if (config.kind === "diff") {
-      const params: Record<string, string> = {};
-      if (left.trim()) {
-        params.left = left;
-      }
-      if (right.trim()) {
-        params.right = right;
-      }
-      return params;
-    }
-    return input.trim() ? { value: input.trim() } : {};
-  }, [config.kind, input, left, right]);
-
-  const shareUrl = useMemo(() => {
-    if (!tool?.path || !buildToolShareSearch(shareParams)) {
-      return "";
-    }
-    return buildToolShareUrl(tool.path, shareParams);
-  }, [shareParams, tool?.path]);
+  const shareParams: Record<string, string> = config.kind === "diff"
+    ? { ...(left.trim() ? { left } : {}), ...(right.trim() ? { right } : {}) }
+    : input.trim() ? { value: input.trim() } : {};
+  const shareUrl = tool?.path && buildToolShareSearch(shareParams)
+    ? buildToolShareUrl(tool.path, shareParams) : "";
 
   const outputActions = (
     <ToolOutputActions

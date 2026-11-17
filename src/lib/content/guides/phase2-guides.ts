@@ -1,8 +1,5 @@
 import type { GuideDefinition } from "@/lib/content/types";
 
-const FINANCE_DISCLAIMER =
-  "This content is for general educational purposes only and is not financial, tax, or legal advice. Examples are illustrative. Consult qualified professionals before borrowing or investing.";
-
 export const howToAddFaviconGuide: GuideDefinition = {
   slug: "how-to-add-a-favicon",
   title: "How to Add a Favicon in HTML",

@@ -57,7 +57,7 @@ export const ToolRenderer = ({ componentKey, toolId }: ToolRendererProps) => {
   if (GenericComponent && toolId) {
     return (
       <GenericComponent
-        key={["percentage-calculator", "square-meters-to-square-feet", "square-feet-to-square-meters"].includes(toolId) ? `${toolId}:${searchParams.toString()}` : toolId}
+        key={`${toolId}:${searchParams.toString()}`}
         toolId={toolId}
         initialPrefill={initialPrefill}
         initialFields={initialFields}

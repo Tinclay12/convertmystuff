@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Input } from "@/components/ui/Input";
@@ -38,12 +38,6 @@ export const GenericDocumentTool = ({ toolId, initialPrefill }: GenericToolProps
   const [mergeProgress, setMergeProgress] = useState("");
   const [error, setError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-
-  useEffect(() => {
-    if (initialPrefill !== undefined) {
-      setInput(initialPrefill);
-    }
-  }, [initialPrefill]);
 
   const result = useMemo(() => {
     if (!config || config.kind !== "textarea") {

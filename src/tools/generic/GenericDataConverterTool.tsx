@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { BrowserPrivacyNote } from "@/components/tools/BrowserPrivacyNote";
@@ -33,12 +32,6 @@ export const GenericDataConverterTool = ({ toolId, initialPrefill }: GenericTool
   const config = dataConverterConfigs[toolId];
   const tool = getToolById(toolId);
   const [input, setInput] = useState(initialPrefill ?? "");
-
-  useEffect(() => {
-    if (initialPrefill !== undefined) {
-      setInput(initialPrefill);
-    }
-  }, [initialPrefill]);
 
   const result = useMemo(() => {
     if (!config) {

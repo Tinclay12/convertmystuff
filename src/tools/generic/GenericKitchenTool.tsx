@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -36,15 +36,6 @@ export const GenericKitchenTool = ({
     ...defaultKitchenValues,
     ...initialFields,
   });
-
-  useEffect(() => {
-    if (initialPrefill !== undefined) {
-      setInput(initialPrefill);
-    }
-    if (initialFields && Object.keys(initialFields).length > 0) {
-      setValues((current) => ({ ...current, ...initialFields }));
-    }
-  }, [initialFields, initialPrefill]);
 
   const result = useMemo(() => {
     if (!config) {

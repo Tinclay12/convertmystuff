@@ -7,7 +7,6 @@ import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/sections/Section";
 import { Breadcrumbs } from "@/components/tools/Breadcrumbs";
 import { buildCategoryBreadcrumbs } from "@/lib/seo/schema";
-import { ToolGrid } from "@/components/tools/ToolGrid";
 import { ToolSearch, type SerializableTool } from "@/components/tools/ToolSearch";
 import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { FlagshipSpotlight } from "@/components/sections/FlagshipSpotlight";

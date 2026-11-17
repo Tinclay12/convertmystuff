@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -26,15 +26,6 @@ export const GenericGeneratorTool = ({ toolId, initialPrefill, initialFields }: 
   );
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (initialPrefill !== undefined) {
-      setInput(initialPrefill);
-    }
-    if (initialFields?.count) {
-      setCount(initialFields.count);
-    }
-  }, [initialFields?.count, initialPrefill]);
 
   const handleGenerate = async () => {
     if (!config) {
@@ -81,15 +72,8 @@ export const GenericGeneratorTool = ({ toolId, initialPrefill, initialFields }: 
     return <ToolErrorAlert message="This generator is not configured yet." />;
   }
 
-  const shareParams = useMemo((): Record<string, string> => {
-    if (config.kind === "count") {
-      return { count };
-    }
-    if (config.kind === "text" && input.trim()) {
-      return { value: input };
-    }
-    return {};
-  }, [config.kind, count, input]);
+  const shareParams: Record<string, string> = config.kind === "count"
+    ? { count } : config.kind === "text" && input.trim() ? { value: input } : {};
 
   const shareUrl =
     buildToolShareSearch(shareParams) && tool?.path

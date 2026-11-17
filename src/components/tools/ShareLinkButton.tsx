@@ -23,13 +23,20 @@ export const ShareLinkButton = ({
 }: ShareLinkButtonProps) => {
   const [copied, setCopied] = useState(false);
   const [announcement, setAnnouncement] = useState("");
+  const [copyError, setCopyError] = useState(false);
 
   const handleShare = async () => {
     if (!shareUrl || disabled) {
       return;
     }
 
-    await navigator.clipboard.writeText(shareUrl);
+    setCopyError(false);
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+    } catch {
+      setCopyError(true);
+      return;
+    }
     trackToolEvent("tool_share", { tool_id: toolId, component_key: componentKey });
     setCopied(true);
     setAnnouncement("Share link copied");
@@ -61,6 +68,10 @@ export const ShareLinkButton = ({
       >
         {copied ? "Link copied" : label}
       </Button>
+      {copyError && <label className="w-full text-xs text-muted-strong">
+        Select and copy this link:
+        <input aria-label="Share link" readOnly value={shareUrl} onFocus={(event) => event.target.select()} className="mt-1 w-full rounded-lg border border-border bg-card p-2 text-sm text-foreground" />
+      </label>}
     </>
   );
 };

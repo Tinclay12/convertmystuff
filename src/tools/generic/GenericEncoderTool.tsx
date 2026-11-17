@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { ToolActionBar } from "@/components/tools/ToolActionBar";
@@ -21,12 +21,6 @@ export const GenericEncoderTool = ({ toolId, initialPrefill }: GenericToolProps)
   const config = encoderConfigs[toolId];
   const tool = getToolById(toolId);
   const [input, setInput] = useState(initialPrefill ?? "");
-
-  useEffect(() => {
-    if (initialPrefill !== undefined) {
-      setInput(initialPrefill);
-    }
-  }, [initialPrefill]);
 
   const result = useMemo(() => {
     if (!config) {

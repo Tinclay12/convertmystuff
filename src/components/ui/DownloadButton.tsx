@@ -23,14 +23,21 @@ export const DownloadButton = ({
       return;
     }
 
-    onDownloaded?.();
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
     anchor.download = filename;
-    anchor.click();
-    URL.revokeObjectURL(url);
+    anchor.hidden = true;
+    document.body.appendChild(anchor);
+    try {
+      anchor.click();
+      onDownloaded?.();
+    } finally {
+      anchor.remove();
+      // Keep the blob alive until the browser has started reading the download.
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ToolActionBar } from "@/components/tools/ToolActionBar";
@@ -28,12 +28,6 @@ export const GenericTimeDateTool = ({ toolId, initialFields }: GenericToolProps)
     ...defaultTimeDateValues,
     ...initialFields,
   });
-
-  useEffect(() => {
-    if (initialFields && Object.keys(initialFields).length > 0) {
-      setValues((current) => ({ ...current, ...initialFields }));
-    }
-  }, [initialFields]);
 
   const result = useMemo(() => {
     if (!config) {

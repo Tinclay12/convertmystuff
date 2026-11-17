@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { GenericCalculatorOutput } from "@/components/tools/GenericCalculatorOutput";
@@ -42,12 +42,6 @@ export const GenericFieldCalculatorTool = ({
   const tool = getToolById(toolId);
   const [values, setValues] = useState<Record<string, string>>(initialFields ?? {});
 
-  useEffect(() => {
-    if (initialFields && Object.keys(initialFields).length > 0) {
-      setValues(initialFields);
-    }
-  }, [initialFields]);
-
   const fieldLabels = useMemo(
     () =>
       Object.fromEntries(
@@ -74,23 +68,13 @@ export const GenericFieldCalculatorTool = ({
 
   const hasInput = config.fields.some((field) => values[field.key]?.trim());
 
-  const shareParams = useMemo(() => {
-    const params: Record<string, string> = {};
-    for (const field of config.fields) {
-      const value = values[field.key]?.trim();
-      if (value) {
-        params[field.key] = value;
-      }
-    }
-    return params;
-  }, [config.fields, values]);
-
-  const shareUrl = useMemo(() => {
-    if (!tool?.path || !buildToolShareSearch(shareParams)) {
-      return "";
-    }
-    return buildToolShareUrl(tool.path, shareParams);
-  }, [shareParams, tool?.path]);
+  const shareParams: Record<string, string> = {};
+  for (const field of config.fields) {
+    const value = values[field.key]?.trim();
+    if (value) shareParams[field.key] = value;
+  }
+  const shareUrl = tool?.path && buildToolShareSearch(shareParams)
+    ? buildToolShareUrl(tool.path, shareParams) : "";
 
   const copyValue =
     result.ok && hasInput
