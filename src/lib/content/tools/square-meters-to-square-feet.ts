@@ -9,7 +9,7 @@ export const squareMetersToSquareFeetContent: ToolContentEnrichment = {
       variant: "info",
       paragraphs: [
         "One meter is about 3.28084 feet. Area uses both length and width, so the conversion is that factor squared: 3.28084 × 3.28084 ≈ 10.7639. Applying the linear factor to an area (100 m² × 3.28) understates the result by about 70%.",
-        "The exact factor used here is 10.7639104167 square feet per square meter, based on the international foot (0.3048 m exactly).",
+        "The international foot is exactly 0.3048 meters, so 1 ft² is exactly 0.09290304 m². The calculator divides by 0.09290304 to convert m² to ft²; the familiar 10.7639 multiplier is a rounded version of that factor.",
       ],
     },
     {

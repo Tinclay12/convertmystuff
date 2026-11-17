@@ -19,6 +19,16 @@ import {
 import { calculateConcrete, calculateLumber } from "@/lib/tools/logic/construction-calculators";
 import { calculateCashOnCash, calculateLtv } from "@/lib/tools/logic/real-estate-calculators";
 import { generateSlug, generateHashtags } from "@/lib/tools/logic/marketing-tools";
+import type { LogicResult, NumericResult } from "./unit-conversions";
+
+const successful = (result: LogicResult) => {
+  if (!result.ok) throw new Error(result.error);
+  return result;
+};
+const numeric = (result: NumericResult) => {
+  if (!result.ok) throw new Error(result.error);
+  return result.value;
+};
 
 describe("expanded tool logic", () => {
   it("encodes and decodes base64", () => {
@@ -53,8 +63,8 @@ describe("expanded tool logic", () => {
 
   it("processes text utilities", () => {
     expect(removeEmptyLines("a\n\nb").ok).toBe(true);
-    expect(toCamelCase("hello world").output).toBe("helloWorld");
-    expect(countWords("one two three").meta?.words).toBe(3);
+    expect(successful(toCamelCase("hello world")).output).toBe("helloWorld");
+    expect(successful(countWords("one two three")).meta?.words).toBe(3);
   });
 
   it("formats sql", () => {
@@ -63,25 +73,25 @@ describe("expanded tool logic", () => {
   });
 
   it("generates uuid and lorem ipsum", () => {
-    expect(generateUuid().output).toMatch(
+    expect(successful(generateUuid()).output).toMatch(
       /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     );
-    expect(generateLoremIpsum(2).output.split("\n\n").length).toBe(2);
+    expect(successful(generateLoremIpsum(2)).output.split("\n\n").length).toBe(2);
   });
 
   it("converts units", () => {
-    expect(hectaresToAcres(1).value).toBeCloseTo(2.47105, 3);
-    expect(metersToFeet(1).value).toBeCloseTo(3.28084, 3);
-    expect(celsiusToFahrenheit(0).value).toBe(32);
-    expect(mbToGb(1024).value).toBe(1);
+    expect(numeric(hectaresToAcres(1))).toBeCloseTo(2.47105, 3);
+    expect(numeric(metersToFeet(1))).toBeCloseTo(3.28084, 3);
+    expect(numeric(celsiusToFahrenheit(0))).toBe(32);
+    expect(numeric(mbToGb(1024))).toBe(1);
   });
 
   it("converts expanded unit pairs", () => {
-    expect(squareMetersToSquareFeet(1).value).toBeCloseTo(10.7639, 2);
-    expect(ouncesToGrams(1).value).toBeCloseTo(28.3495, 2);
-    expect(celsiusToKelvin(0).value).toBe(273.15);
-    expect(kbToMb(1024).value).toBe(1);
-    expect(gbToTb(1024).value).toBe(1);
+    expect(numeric(squareMetersToSquareFeet(1))).toBeCloseTo(10.7639, 2);
+    expect(numeric(ouncesToGrams(1))).toBeCloseTo(28.3495, 2);
+    expect(numeric(celsiusToKelvin(0))).toBe(273.15);
+    expect(numeric(kbToMb(1024))).toBe(1);
+    expect(numeric(gbToTb(1024))).toBe(1);
   });
 
   it("calculates construction and real estate values", () => {
@@ -92,8 +102,8 @@ describe("expanded tool logic", () => {
   });
 
   it("generates marketing outputs", () => {
-    expect(generateSlug("Hello World Tool").output).toBe("hello-world-tool");
-    expect(generateHashtags("real estate investing").output).toContain("#Real");
+    expect(successful(generateSlug("Hello World Tool")).output).toBe("hello-world-tool");
+    expect(successful(generateHashtags("real estate investing")).output).toContain("#Real");
   });
 });
 

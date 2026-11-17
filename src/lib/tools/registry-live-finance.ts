@@ -73,21 +73,21 @@ export const financeLiveTools: ToolDefinition[] = [
     title: "Percentage Calculator",
     category,
     subcategory: "percentages",
-    shortDescription: "Calculate a percent of a value, percent increase or decrease, and percentage change.",
-    metaTitle: "Percentage Calculator - Percent Of, Increase, Decrease & Change",
+    shortDescription: "Find a percentage, work out a change, or undo a discount. Get an instant answer with the math explained.",
+    metaTitle: "Percentage Calculator — Percent Of, Change & Original Price",
     metaDescription:
-      "Calculate a percentage of a number, percent increase or decrease, and percentage change from an old value to a new value. Instant results in your browser.",
+      "What is X% of Y? X is what percent of Y? Calculate percentages, increases, discounts and original prices with instant answers and step-by-step formulas.",
     keywords: ["percentage calculator", "percent change calculator", "percent increase", "calculate percentage"],
     relatedTools: ["discount-calculator", "margin-calculator", "markup-calculator"],
     componentKey: "PercentageCalculatorTool",
     schemaType: "Calculator",
-    formula: "% of: value × (percent ÷ 100). Change: ((new − old) ÷ old) × 100",
+    formula: "Percent of = number × percent ÷ 100. What percentage = part ÷ whole × 100. Change = (new − original) ÷ original × 100. Original price = discounted price ÷ (1 − discount ÷ 100).",
     explanation:
-      "Find a percentage of a number, apply a percent increase or decrease, or calculate percentage change between two values.",
+      "Choose one of six calculations: find a percent of a number, express a part as a percentage, measure percentage change, add a percentage, take a percentage off, or recover an original price after a discount. Results update as you type, and each answer includes the calculation steps. Inputs must be non-negative; percentage change can return a negative result.",
     howToUse: [
-      "Choose % of, Increase, Decrease, or Change.",
-      "Enter the values for that mode.",
-      "Copy or share the result. Change mode uses old and new values.",
+      "Choose the question that matches what you need to calculate.",
+      "Replace the example numbers with your own. Both fields are needed for an answer.",
+      "Read the result and calculation steps, then copy the answer or a link that restores your numbers.",
     ],
     examples: [
       {
@@ -106,12 +106,16 @@ export const financeLiveTools: ToolDefinition[] = [
       },
     ],
     faqs: [
+      faq("How do I find what percentage one number is of another?", "Choose What percentage? Divide the part by the whole, then multiply by 100. For example, 42 out of 50 is 42 ÷ 50 × 100 = 84%. The whole must be greater than zero."),
+      faq("How do I find the original price before a discount?", "Choose Find the original price. Divide the discounted price by 1 minus the discount as a decimal. An 85 price after 15% off was originally 85 ÷ 0.85 = 100. The discount must be below 100%."),
+      faq("What is the difference between percent and percentage points?", "Moving from 20% to 25% is a 5 percentage-point increase, but a 25% relative increase: (25 − 20) ÷ 20 × 100. Change mode calculates the relative increase."),
       faq("How do I calculate percentage change?", "Use Change mode. Enter the old value and the new value. The formula is ((new − old) ÷ old) × 100."),
       faq("Why is a 50% drop not recovered by a 50% rise?", "After a 50% drop the baseline is smaller, so you need a 100% increase to return to the original value."),
       faq("What if the old value is zero?", "Percentage change from zero is undefined because you cannot divide by zero. Use the absolute difference instead."),
       faq("Is this financial advice?", "No. This is a simple math calculator for estimates."),
     ],
     commonUseCases: ["Calculate sales tax amounts", "Measure percent increase or decrease", "Compute percentage change between two metrics"],
+    lastReviewed: "2026-11-17",
   }),
   buildLiveTool({
     id: "tip-calculator",

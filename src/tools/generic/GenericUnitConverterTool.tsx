@@ -20,11 +20,19 @@ import {
 } from "@/lib/tools/logic/unit-conversions";
 import type { GenericToolProps } from "@/lib/tools/generic-tool-props";
 import { buildToolShareUrl } from "@/lib/tools/tool-prefill";
+import { AreaConverterTool } from "@/tools/AreaConverterTool";
 
 const COMPONENT_KEY = "GenericUnitConverterTool";
 const DEFAULT_PRESETS = ["1", "10", "100"];
 
-export const GenericUnitConverterTool = ({ toolId, initialPrefill }: GenericToolProps) => {
+export const GenericUnitConverterTool = (props: GenericToolProps) => {
+  if (props.toolId === "square-meters-to-square-feet" || props.toolId === "square-feet-to-square-meters") {
+    return <AreaConverterTool {...props} />;
+  }
+  return <StandardUnitConverterTool {...props} />;
+};
+
+const StandardUnitConverterTool = ({ toolId, initialPrefill }: GenericToolProps) => {
   const config = unitConverterConfigs[toolId];
   const tool = getToolById(toolId);
   const reverseConfig = config?.reverseToolId ? unitConverterConfigs[config.reverseToolId] : undefined;
