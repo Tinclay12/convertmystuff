@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { BatchResultsTool } from "@/tools/BatchResultsTool";
 import { RentalDealAnalyzerTool } from "@/tools/RentalDealAnalyzerTool";
 import { MortgageCalculatorProTool } from "@/tools/MortgageCalculatorProTool";
 import { CapRateCalculatorTool } from "@/tools/CapRateCalculatorTool";
@@ -44,6 +45,7 @@ import { TextDiffTool } from "@/tools/TextDiffTool";
 import { WordCounterProTool } from "@/tools/WordCounterProTool";
 
 export const toolComponentMap: Record<string, ComponentType> = {
+  BatchResultsTool,
   JsonToCsvTool,
   CsvToJsonTool,
   NestedJsonToCsvTool,

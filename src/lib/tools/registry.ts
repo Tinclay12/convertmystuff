@@ -1,4 +1,5 @@
 import type { ToolDefinition } from "./types";
+import { batchTools } from "./registry-batch";
 import { plannedTools } from "./registry-planned";
 import { expandedLiveTools as developerLiveTools } from "./registry-live-developer";
 import { expandedLiveTools as textLiveTools } from "./registry-live-text";
@@ -28,7 +29,7 @@ const coreLiveTools: ToolDefinition[] = [
     metaDescription:
       "Convert JSON to CSV online. File drop, NDJSON support, flatten nested objects, reorder columns, Excel BOM, and download.",
     keywords: ["json to csv", "json file to csv", "json to csv for excel", "convert json array to csv", "json to spreadsheet"],
-    relatedTools: ["csv-to-json", "nested-json-to-csv", "json-formatter", "yaml-to-json", "json-validator"],
+    relatedTools: ["openai-batch-to-spreadsheet", "csv-to-json", "nested-json-to-csv", "json-formatter", "yaml-to-json", "json-validator"],
     componentKey: "JsonToCsvTool",
     executionMode: "client",
     monetization: "ads",
@@ -39,7 +40,7 @@ const coreLiveTools: ToolDefinition[] = [
     priority: 10,
     lastReviewed: "2026-06-02",
     explanation:
-      "Convert JSON arrays or NDJSON lines into CSV with optional flattening, column reorder, and Excel-friendly UTF-8 BOM—all in your browser.",
+      "Convert JSON arrays or NDJSON lines into CSV with optional flattening, column reorder, and Excel-friendly UTF-8 BOM-all in your browser.",
     formula: "Each object becomes one row; keys become column headers (dot notation when flattening nested objects).",
     howToUse: [
       "Drop a .json file or paste a JSON array of objects (or NDJSON, one object per line).",
@@ -414,7 +415,7 @@ const coreLiveTools: ToolDefinition[] = [
     status: "published",
     priority: 10,
     lastReviewed: "2026-05-23",
-    formula: "square feet = acres × 43,560",
+    formula: "square feet = acres x 43,560",
     explanation:
       "Convert land area from acres to square feet using the US customary conversion factor.",
     howToUse: [
@@ -427,7 +428,7 @@ const coreLiveTools: ToolDefinition[] = [
         title: "2.5 acres",
         input: "2.5",
         output: "108900",
-        explanation: "2.5 × 43,560 = 108,900 square feet.",
+        explanation: "2.5 x 43,560 = 108,900 square feet.",
         prefillValue: "2.5",
       },
       {
@@ -441,7 +442,7 @@ const coreLiveTools: ToolDefinition[] = [
         title: "10 acres",
         input: "10",
         output: "435600",
-        explanation: "10 × 43,560 = 435,600 square feet.",
+        explanation: "10 x 43,560 = 435,600 square feet.",
         prefillValue: "10",
       },
     ],
@@ -481,7 +482,7 @@ const coreLiveTools: ToolDefinition[] = [
       "Convert square feet to acres using the standard 43,560 conversion factor.",
     metaTitle: "Square Feet to Acres Converter - Divide by 43,560",
     metaDescription:
-      "Convert square feet to acres instantly. 43,560 sq ft = 1 acre. Includes a conversion table, reverse conversion, and length × width mode.",
+      "Convert square feet to acres instantly. 43,560 sq ft = 1 acre. Includes a conversion table, reverse conversion, and length x width mode.",
     keywords: ["square feet to acres", "sq ft to acres", "sf to acres", "convert square feet to acres", "how many acres"],
     relatedTools: ["acres-to-square-feet", "hectares-to-acres", "acres-to-hectares"],
     componentKey: "GenericUnitConverterTool",
@@ -493,7 +494,7 @@ const coreLiveTools: ToolDefinition[] = [
     status: "published",
     priority: 10,
     lastReviewed: "2026-09-04",
-    formula: "acres = square feet ÷ 43,560",
+    formula: "acres = square feet � 43,560",
     explanation:
       "Convert land area from square feet to acres using the US customary conversion factor.",
     howToUse: [
@@ -506,7 +507,7 @@ const coreLiveTools: ToolDefinition[] = [
         title: "87120 square feet",
         input: "87120",
         output: "2",
-        explanation: "87,120 ÷ 43,560 = 2 acres.",
+        explanation: "87,120 � 43,560 = 2 acres.",
         prefillValue: "87120",
       },
       {
@@ -532,11 +533,11 @@ const coreLiveTools: ToolDefinition[] = [
       },
       {
         question: "How many acres is 10,000 square feet?",
-        answer: "10,000 ÷ 43,560 ≈ 0.2296 acres, a typical urban lot. Use the conversion table on this page for other common sizes.",
+        answer: "10,000 � 43,560 � 0.2296 acres, a typical urban lot. Use the conversion table on this page for other common sizes.",
       },
       {
         question: "What is half an acre in square feet?",
-        answer: "Half an acre is 21,780 square feet (43,560 ÷ 2).",
+        answer: "Half an acre is 21,780 square feet (43,560 � 2).",
       },
     ],
     commonUseCases: [
@@ -568,7 +569,7 @@ const coreLiveTools: ToolDefinition[] = [
     status: "published",
     priority: 10,
     lastReviewed: "2026-05-23",
-    formula: "cap rate = net operating income ÷ property value",
+    formula: "cap rate = net operating income � property value",
     assumptions: [
       "Vacancy is applied as a percentage of gross income.",
       "Operating expenses are subtracted after vacancy.",
@@ -598,7 +599,7 @@ const coreLiveTools: ToolDefinition[] = [
     faqs: [
       {
         question: "How do you calculate cap rate?",
-        answer: "Cap rate = Net Operating Income ÷ property value. Enter income, vacancy, expenses, and price to get both NOI and cap rate.",
+        answer: "Cap rate = Net Operating Income � property value. Enter income, vacancy, expenses, and price to get both NOI and cap rate.",
       },
       {
         question: "Is this financial advice?",
@@ -687,6 +688,7 @@ const coreLiveTools: ToolDefinition[] = [
 ];
 
 const liveTools: ToolDefinition[] = [
+  ...batchTools,
   ...coreLiveTools,
   ...developerLiveTools,
   ...textLiveTools,
