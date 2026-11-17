@@ -16,7 +16,7 @@ describe("new category tool logic", () => {
 
   it("converts design values", () => {
     expect(convertColor({ hex: "#ff0000" }).ok).toBe(true);
-    expect(remToPx({ rem: 2, baseFontSize: 16 }).output).toContain("32");
+    expect(remToPx({ rem: 2, baseFontSize: 16 })).toMatchObject({ ok: true, output: expect.stringContaining("32") });
   });
 
   it("calculates time and date values", () => {
@@ -37,7 +37,7 @@ describe("new category tool logic", () => {
 
   it("processes document text", () => {
     expect(markdownToHtml("# Title").ok).toBe(true);
-    expect(countDocumentWords("one two three").meta?.words).toBe(3);
+    expect(countDocumentWords("one two three")).toMatchObject({ ok: true, meta: { words: 3 } });
   });
 
   it("generates open graph preview output", () => {

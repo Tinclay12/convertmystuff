@@ -14,13 +14,20 @@ type CopyButtonProps = {
 export const CopyButton = ({ value, label = "Copy", onCopied }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
   const [announcement, setAnnouncement] = useState("");
+  const [copyError, setCopyError] = useState("");
 
   const handleCopy = async () => {
     if (!value) {
       return;
     }
 
-    await navigator.clipboard.writeText(value);
+    setCopyError("");
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      setCopyError("Copy is unavailable. Select the result text and copy it manually.");
+      return;
+    }
     onCopied?.();
     setCopied(true);
     setAnnouncement("Copied to clipboard");
@@ -52,6 +59,7 @@ export const CopyButton = ({ value, label = "Copy", onCopied }: CopyButtonProps)
       >
         {copied ? "Copied" : label}
       </Button>
+      {copyError && <p role="status" className="w-full text-xs text-muted-strong">{copyError}</p>}
     </>
   );
 };

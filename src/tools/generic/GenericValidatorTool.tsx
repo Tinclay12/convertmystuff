@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { ToolActionBar } from "@/components/tools/ToolActionBar";
@@ -23,12 +23,6 @@ export const GenericValidatorTool = ({ toolId, initialPrefill }: GenericToolProp
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (initialPrefill !== undefined) {
-      setInput(initialPrefill);
-    }
-  }, [initialPrefill]);
-
   if (!config) {
     return <ToolErrorAlert message="This validator is not configured yet." />;
   }
@@ -45,10 +39,7 @@ export const GenericValidatorTool = ({ toolId, initialPrefill }: GenericToolProp
     setOutput(result.output);
   };
 
-  const shareUrl = useMemo(
-    () => (input.trim() && tool?.path ? buildToolShareUrl(tool.path, { value: input }) : ""),
-    [input, tool?.path],
-  );
+  const shareUrl = input.trim() && tool?.path ? buildToolShareUrl(tool.path, { value: input }) : "";
 
   return (
     <div className="space-y-4">

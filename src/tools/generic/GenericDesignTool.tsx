@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ToolActionBar } from "@/components/tools/ToolActionBar";
@@ -20,12 +20,6 @@ export const GenericDesignTool = ({ toolId, initialFields }: GenericToolProps) =
   const config = designToolConfigs[toolId];
   const tool = getToolById(toolId);
   const [values, setValues] = useState<Record<string, string>>(initialFields ?? {});
-
-  useEffect(() => {
-    if (initialFields && Object.keys(initialFields).length > 0) {
-      setValues(initialFields);
-    }
-  }, [initialFields]);
 
   const result = useMemo(() => {
     if (!config) {

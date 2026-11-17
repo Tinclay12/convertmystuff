@@ -38,6 +38,7 @@ export const ToolPageShell = ({
   children,
 }: ToolPageShellProps) => {
   const breadcrumbs = buildToolBreadcrumbs(tool, category);
+  const isQuickCalculator = ["percentage-calculator", "square-meters-to-square-feet", "square-feet-to-square-meters"].includes(tool.id);
   const faqSchema = buildToolFaqSchema(tool);
   const howToSchema = isTierCContent(tool) ? buildHowToSchema(tool) : null;
   const accentSlug = category.accentSlug ?? category.slug;
@@ -67,7 +68,13 @@ export const ToolPageShell = ({
       <JsonLd data={schema} />
       <Breadcrumbs items={breadcrumbs} />
 
-      <PageHeader
+      {isQuickCalculator ? (
+        <header className="mb-6 mt-5 max-w-3xl">
+          <CategoryBadge categorySlug={accentSlug} title={category.title} />
+          <h1 className="mt-3 text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{tool.title}</h1>
+          <p className="mt-3 text-base leading-relaxed text-muted-strong">{tool.shortDescription}</p>
+        </header>
+      ) : <PageHeader
         variant="tool"
         title={tool.title}
         description={tool.shortDescription}
@@ -78,11 +85,11 @@ export const ToolPageShell = ({
             {!isLiveTool(tool) && <ToolStatusBadge status={tool.status} />}
           </>
         }
-      />
+      />}
 
-      <ToolExampleChips tool={tool} categorySlug={accentSlug} className="mt-4" />
+      {!isQuickCalculator && <ToolExampleChips tool={tool} categorySlug={accentSlug} className="mt-4" />}
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1fr)_220px]">
+      <div className={`mt-6 grid gap-10 ${isQuickCalculator ? "" : "lg:grid-cols-[minmax(0,1fr)_220px]"}`}>
         <div>
           <Card variant="default" className="p-5 sm:p-7">
             {children}
@@ -214,9 +221,9 @@ export const ToolPageShell = ({
           <p className="mt-10 text-sm text-muted">Last reviewed: {tool.lastReviewed}</p>
         </div>
 
-        <aside className="hidden lg:block">
+        {!isQuickCalculator && <aside className="hidden lg:block">
           <AdSlot placement="tool-sidebar" />
-        </aside>
+        </aside>}
       </div>
     </article>
   );

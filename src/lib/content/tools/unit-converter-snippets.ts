@@ -6,7 +6,7 @@ const tierA = (blocks: ToolContentEnrichment["contentBlocks"]): ToolContentEnric
   contentBlocks: blocks,
 });
 
-const inferUseCase = (toolId: string, fromLabel: string, toLabel: string): string => {
+const inferUseCase = (toolId: string): string => {
   if (toolId.includes("acre") || toolId.includes("hectare") || toolId.includes("square-feet")) {
     return "land and property listings";
   }
@@ -33,7 +33,7 @@ const buildSnippet = (toolId: string): ToolContentEnrichment => {
 
   const fromLabel = config.inputLabel;
   const toLabel = config.outputLabel;
-  const useCase = inferUseCase(toolId, fromLabel, toLabel);
+  const useCase = inferUseCase(toolId);
   const reverseNote = config.reverseToolId
     ? `Need the reverse conversion? Use ${config.reverseLabel ?? config.reverseToolId.replace(/-/g, " ")}.`
     : "Enter a value above for an instant result, or load Try examples for a sample input.";

@@ -57,6 +57,7 @@ export const ToolRenderer = ({ componentKey, toolId }: ToolRendererProps) => {
   if (GenericComponent && toolId) {
     return (
       <GenericComponent
+        key={`${toolId}:${searchParams.toString()}`}
         toolId={toolId}
         initialPrefill={initialPrefill}
         initialFields={initialFields}

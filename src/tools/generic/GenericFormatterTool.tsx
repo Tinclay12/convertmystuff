@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { ToolActionBar } from "@/components/tools/ToolActionBar";
@@ -22,12 +22,6 @@ export const GenericFormatterTool = ({ toolId, initialPrefill }: GenericToolProp
   const [input, setInput] = useState(initialPrefill ?? "");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (initialPrefill !== undefined) {
-      setInput(initialPrefill);
-    }
-  }, [initialPrefill]);
 
   const prettyResult = useMemo(() => {
     if (!config || !input.trim()) {

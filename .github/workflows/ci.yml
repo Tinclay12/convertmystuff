@@ -20,4 +20,6 @@ jobs:
       - run: npm run lint
       - run: npm run test
       - run: npm run build
-      - run: npm audit --audit-level=high
+      # Approved on 2026-11-17; only the reviewed dev-only advisory is excepted.
+      # The audit script fails closed after 2026-12-17 or for new/production issues.
+      - run: npm run audit:security -- --allow-reviewed-dev-advisory
